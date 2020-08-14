@@ -1,7 +1,7 @@
 @extends('layouts.panel')
 
 @section('title')
-    Edit Producta'a'a'a'aaaaaa
+    Edit Product
 @endsection
 
 @section('content')
