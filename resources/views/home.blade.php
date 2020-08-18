@@ -85,7 +85,7 @@
     <div class="col-md-6">
       <div class="card-body w-50 mx-auto text-center mt-5">
         <div class="card-title display-1">Office Area</div>
-        <p class="card-text">The best family bonding experience starts with having the best living space.</p>
+        <p class="card-text">The best employers bonding experience starts with having the best living space.</p>
         <p class="card-text"><a href="#" class="btn btn-warning">Get More</a></p>      
       </div>
     </div>

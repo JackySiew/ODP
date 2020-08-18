@@ -47,11 +47,6 @@
                         <p class="text-danger"><b>For demo only</b></p>
                         @else
                         <p>Price: Rm{{$product->prodPrice}}</p>
-                        @if ($product->quantity== 0)
-                        <p class="text-danger"><b>Out of Stock!</b></p>
-                        @else
-                        <p>Quantity: {{$product->quantity}}</p>
-                        @endif
                         @endif                    
                         </div>
                     </div>  
