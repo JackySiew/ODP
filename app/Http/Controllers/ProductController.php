@@ -36,7 +36,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $category = Category::orderBy('name','asc')->get();
+        $category = Category::orderBy('category_name','asc')->get();
         return view('designer.create')->with('category',$category);
     }
 
@@ -61,7 +61,6 @@ class ProductController extends Controller
         $product->category = $request->input('category');
         $product->description = $request->input('description');
         $product->prodPrice = $request->input('prodPrice');
-        $product->quantity = $request->input('quantity');
         $product->presentBy = auth()->user()->id;//get current login user's id
 
         if ($request->hasFile('prodImage')) {

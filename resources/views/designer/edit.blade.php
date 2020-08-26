@@ -6,13 +6,13 @@
 
 @section('content')
 <div class="text-center">
-<div class="card col-md-6">
+<div class="card col-md-8">
   <div class="card-header">
     <h4 class="card-title">Product Detail</h4>
   </div>
 @foreach ($products as $product)
     
-  <img class="rounded mx-auto d-block" src="/storage/image/{{$product->prodImage}}" width="150">
+  <img class="rounded mx-auto d-block" src="{{url('/storage/image/'.$product->prodImage)}}" width="150">
 
 <div class="card-body text-left">
   {!! Form::open(['action' => ['ProductController@update', $product->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
@@ -32,7 +32,7 @@
   </div>
   <div class="form-group">
     {{Form::label('description','Description')}}
-    {{Form::textarea('description',$product->description, ['class' => 'form-control', 'placeholder' => 'Product Details.....'])}}
+    {{Form::textarea('description',$product->description, ['id' => 'editor', 'class' => 'form-control', 'placeholder' => 'Product Details.....'])}}
   </div>
   <div class="form-group">
     {{Form::label('prodPrice','Price')}}
@@ -46,11 +46,18 @@
     <hr>
     {{Form::hidden('_method', 'PUT')}}
     {{Form::submit('Edit Product', ['class' => 'btn btn-primary'])}}
-    <a href="/products" class="btn btn-secondary">Go Back</a>
+    <a href="{{url('products')}}" class="btn btn-secondary">Cancel</a>
   </div>
   </div>
   {!! Form::close() !!}
   </div>
 </div>
 </div>
+@endsection
+
+@section('scripts')
+<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'editor' );
+</script>
 @endsection

@@ -1,4 +1,4 @@
-@extends('layouts.app2')
+@extends('layouts.app')
 @section('title')
     Register
 @endsection
@@ -87,7 +87,7 @@
                                 </select>
                             </div>
                         </div>
-
+                        <input type="hidden" name="profileImage" id="profileImage" value="noprofile.png">
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">

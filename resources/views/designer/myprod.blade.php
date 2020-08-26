@@ -17,7 +17,7 @@
     <div class="table-responsive">
     @if (count($products)>0)
     <div class="text-center">
-    <a href="/products/create" class="btn btn-warning">Add</a>
+    <a href="{{url('products/create')}}" class="btn btn-warning">Add</a>
     </div>
     <table id="dataTable" class="table">
     <thead>
@@ -37,8 +37,8 @@
       </td>
       <td>
       <p><b>{{$product->prodName}}</b></p>
-      <p>{{$product->category_name}}</p>
-      <p>Detail: {{$product->description}}</p>
+      <p class="text-primary">{{$product->category_name}}</p>
+      <p>Detail: {!!$product->description!!}</p>
       @if ($product->prodPrice == 0)
         <p class="text-success"><b>For demo only</b></p>
       @else
@@ -48,7 +48,7 @@
       </td>
         <td>
           {{-- <a href="/products/{{$product->id}}" class="btn btn-info">View</a> --}}
-          <a href="/products/{{$product->id}}/edit" class="btn btn-info">Edit</a>
+          <a href="{{url('products/'.$product->id.'/edit')}}" class="btn btn-info">Edit</a>
           <br>
           <br>
           {!! Form::open(['action' => ['ProductController@destroy', $product->id], 'method' => 'POST']) !!}
@@ -70,8 +70,8 @@
 </div>
 
 <nav class="fixed-bottom text-center">
-  <a href="/products/create" class="btn btn-warning">Add</a>
-  </nav>
+  <a href="{{url('products/create')}}" class="btn btn-warning">Add</a>
+</nav>
   
   
 @endsection

@@ -33,8 +33,8 @@
                   <td>{{$user->phone}}</td>
                   <td>{{$user->usertype}}</td>
                   <td>{{$user->created_at}}</td>
-                <td><a class="btn btn-info text-white pull-left" href="/users-edit/{{$user->id}}">Edit</a>
-                  <form action="/user-delete/{{$user->id}}" method="POST">
+                <td><a class="btn btn-info text-white pull-left" href="{{url('users-edit/'.$user->id)}}">Edit</a>
+                  <form action="{{url('user-delete/'.$user->id)}}" method="POST">
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
       

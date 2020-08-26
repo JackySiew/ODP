@@ -15,7 +15,7 @@
 
     <div class="card-header">
       <h4 class="card-title">My Profile</h4>
-      <img src="/storage/image/{{$user->profileImage}}" width="100">
+      <img src="{{url('/storage/image/'.$user->profileImage)}}" width="100">
     </div>
     <div class="card-body text-left">
       <h3>Name: {{$user->name}}</h3>
@@ -25,7 +25,7 @@
     </div>
     <div class="card-footer">
       <hr>
-      <a href="/profile-edit/{{$user->id}}" class="btn btn-info">Edit</a>
+      <a href="{{url('profile-edit/'.$user->id)}}" class="btn btn-info">Edit</a>
     </div>
     <small>Last updated:{{$user->updated_at}}</small>
   </div>

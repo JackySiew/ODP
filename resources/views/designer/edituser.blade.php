@@ -12,7 +12,7 @@
           <h4 class="card-title"></h4>
         </div>
         <div class="card-body">
-          <form action="/user-update/{{$users->id}}" method="POST">
+          <form action="{{url('user-update/'.$users->id)}}" method="POST">
               {{ csrf_field() }}
               {{ method_field('PUT') }}
             <div class="form-group">    
@@ -29,7 +29,7 @@
             </div>
             <div class="form-group">    
                 <button type="submit" class="btn btn-success">Update</button>
-                <a href="/users" class="btn btn-secondary">Cancel</a>
+                <a href="{{url('users')}}" class="btn btn-secondary">Cancel</a>
             </div>                
 
           </form>

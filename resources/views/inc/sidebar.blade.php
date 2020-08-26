@@ -10,39 +10,33 @@
     <div class="sidebar-wrapper" id="sidebar-wrapper">
       <ul class="nav">
       <li class="{{ 'designer' == request()->path() ? 'active' : ''}}">
-          <a href="/designer">
+          <a href="{{url('designer')}}">
             <i class="now-ui-icons design_app"></i>
             <p>Dashboard</p>
           </a>
         </li>
         <li class="{{ 'profile' == request()->path() ? 'active' : ''}}">
-          <a href="/profile">
+          <a href="{{url('profile')}}">
             <i class="now-ui-icons users_single-02"></i>
             <p>User Profile</p>
           </a>
         </li>
-        <li class="{{ 'users' == request()->path() ? 'active' : ''}}">
-          <a href="/users">
-            <i class="now-ui-icons users_single-02"></i>
-            <p>Users</p>
+        <li class="{{ 'products' == request()->path() ? 'active' : ''}}">
+          <a href="{{url('products')}}">
+            <i class="now-ui-icons design_bullet-list-67"></i>
+            <p>My Portfolio</p>
           </a>
         </li>
-        <li class="{{ 'products' == request()->path() ? 'active' : ''}}">
-          <a href="/products">
+        <li class="{{ 'orders' == request()->path() ? 'active' : ''}}">
+          <a href="{{url('orders')}}">
             <i class="now-ui-icons design_bullet-list-67"></i>
-            <p>Product List</p>
+            <p>My Orders</p>
           </a>
         </li>
         <li>
           <a href="./notifications.html">
             <i class="now-ui-icons ui-1_bell-53"></i>
             <p>Notifications</p>
-          </a>
-        </li>
-        <li>
-          <a href="./typography.html">
-            <i class="now-ui-icons text_caps-small"></i>
-            <p>Typography</p>
           </a>
         </li>
         <li class="active-pro">

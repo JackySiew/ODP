@@ -47,7 +47,7 @@
               </p>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="/profile">Profile</a>
+                <a class="dropdown-item" href="{{url('profile')}}">Profile</a>
                 <a class="dropdown-item text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     Logout
                 </a>

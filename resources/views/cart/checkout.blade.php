@@ -1,9 +1,11 @@
-@extends('layouts.app2')
+@extends('layouts.app')
 
 @section('title')
     Checkout
 @endsection
-
+@section('class2')
+    <div class="container">
+@endsection
 @section('content')
 <div class="col-md-6 col-md-offset-3">
     <h1 class="text-center"> Your Checkout</h1>
@@ -54,7 +56,7 @@
         <div class='col-md-12 form-group'>
             {{ csrf_field() }}
             <button class='form-control btn btn-primary submit-button'
-                type='submit' style="margin-top: 10px;">Pay </button>
+                type='submit' style="margin-top: 10px;">Pay</button>
         </div>
     </div>
 </form> 

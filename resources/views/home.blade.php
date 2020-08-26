@@ -2,6 +2,9 @@
 @section('title')
    Home Page
 @endsection
+@section('class')
+    fixed-top
+@endsection
 @section('content')
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Wrapper for slides -->
@@ -70,7 +73,7 @@
     <div class="card-body text-center">
       <img src="storage/image/{{$product->prodImage}}" class="w-100" height="200">
       @if ($product->prodPrice == 0)
-      <p class="text-danger"><b>For demo only</b></p>
+      <p class="text-success"><b>For demo only</b></p>
       @else
       <p>Price: Rm{{$product->prodPrice}}</p>
       @endif    

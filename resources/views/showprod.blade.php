@@ -1,9 +1,13 @@
-@extends('layouts.app2')
+@extends('layouts.app')
     
 @section('title')
 @foreach ($products as $product)
      | {{$product->prodName}}
 @endforeach
+@section('class2')
+    <div class="container">
+@endsection
+
 @endsection
 @section('content')
 @if (session('status'))
@@ -15,7 +19,7 @@
     <div class="panel-body">
         @foreach ($products as $product)
         <div class="col-md-4">
-        <img src="/storage/image/{{$product->prodImage}}" class="w-100" height="250">
+        <img src="{{url('storage/image/'.$product->prodImage)}}" class="w-100" height="250">
         </div>
         <div class="col-md-7 pull-right">
         <h1>{{$product->prodName}}</h1>

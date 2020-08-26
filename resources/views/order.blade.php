@@ -1,9 +1,11 @@
-@extends('layouts.app2')
+@extends('layouts.app')
 
 @section('title')
 My Order
 @endsection
-
+@section('class2')
+    <div class="container">
+@endsection
 @section('content')
     <h1>My Orders</h1>
 @if(count($orders) > 0)

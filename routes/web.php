@@ -30,16 +30,30 @@
         Route::post('/checkout', 'CartController@checkout');    
     });
 
-Route::group(['middleware' => ['auth','designer']], function(){
-    Route::get('/designer', 'AdminController@index');
+Route::group(['middleware' => ['auth','admin']], function(){
+    Route::get('/admin', 'AdminController@index');
 
     Route::get('/users', 'AdminController@users');
     Route::get('/users-edit/{id}', 'AdminController@edituser');
     Route::put('/user-update/{id}', 'AdminController@updateuser');
     Route::delete('/user-delete/{id}', 'AdminController@deleteuser');
-    Route::get('/profile', 'AdminController@profile');
-    Route::get('/profile-edit/{id}', 'AdminController@editprofile');
-    Route::put('/profile-update/{id}', 'AdminController@updateprofile');
+    Route::get('/aprofile', 'AdminController@profile');
+    Route::get('/aprofile-edit/{id}', 'AdminController@editprofile');
+    Route::put('/aprofile-update/{id}', 'AdminController@updateprofile');
+
+    Route::get('/prodlist', 'AdminController@prodlist');
+
+});
+Route::group(['middleware' => ['auth','designer']], function(){
+    Route::get('/designer', 'DesignerController@index');
+
+    // Route::get('/users', 'DesignerController@users');
+    // Route::get('/users-edit/{id}', 'DesignerController@edituser');
+    // Route::put('/user-update/{id}', 'DesignerController@updateuser');
+    Route::delete('/user-delete/{id}', 'DesignerController@deleteuser');
+    Route::get('/profile', 'DesignerController@profile');
+    Route::get('/profile-edit/{id}', 'DesignerController@editprofile');
+    Route::put('/profile-update/{id}', 'DesignerController@updateprofile');
 
     Route::resource('products', 'ProductController');  
     

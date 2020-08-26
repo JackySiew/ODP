@@ -11,16 +11,15 @@
     <title>Online Designer Platform | @yield('title')</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}">
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/fontawesome.css') }}"> --}}
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.min.css') }}">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">  
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.min.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-warning">
+        <nav class="navbar navbar-expand-lg navbar-light @yield('class') bg-warning">
             <div class="navbar-header">                
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                     <span class="sr-only">Toggle Navigation</span>
@@ -32,13 +31,13 @@
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
               <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="/all-products">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url('all-products')}}">Products</a></li>
               </ul>
-              <ul class="navbar-nav ml-auto">
+              <ul class="navbar-nav pull-right">
                 <li class="nav-item">
-                <a class="nav-link" href="/cart"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> Shopping Cart <span class="badge">{{Session::has('cart') ? Session::get('cart')->totalQty : ''}}</span></a>
-                </li>
-                @if (Auth::guest())
+                  <a class="nav-link" href="{{url('cart')}}"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> Shopping Cart <span class="badge">{{Session::has('cart') ? Session::get('cart')->totalQty : ''}}</span></a>
+                  </li>
+                  @if (Auth::guest())
                 <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
                 @else
@@ -49,7 +48,7 @@
 
                     <ul class="dropdown-menu" role="menu">
                       <li class="nav-item">
-                        <a class="nav-link" href="/my-orders">My Order</a>
+                        <a class="nav-link" href="{{url('my-orders')}}">My Order</a>
                       </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('logout') }}"
@@ -68,9 +67,10 @@
               </ul>
             </div>
           </nav>
-            @yield('content')
-
-            <!-- Load Facebook SDK for JavaScript -->
+          @yield('class2')        
+              @yield('content')
+          </div>
+<!-- Load Facebook SDK for JavaScript -->
 <div id="fb-root"></div>
 <script>
   window.fbAsyncInit = function() {
@@ -96,95 +96,94 @@ logged_in_greeting="Hi! What can I help you?"
 logged_out_greeting="Hi! What can I help you?">
 </div>
 
-<!-- Footer -->
+          <!-- Footer -->
 <footer class="page-footer font-small bg-dark text-white pt-4 mt-5">
 
-  <!-- Footer Links -->
-  <div class="container-fluid text-center text-md-left">
-
-    <!-- Grid row -->
-    <div class="row">
-
-      <!-- Grid column -->
-      <div class="col-md-6 mt-md-0 mt-3">
-
-        <!-- Content -->
-        <h5 class="text-uppercase">More About</h5>
-        <p>Try to know more about Onliine Designer Platform</p>
-
+    <!-- Footer Links -->
+    <div class="container-fluid text-center text-md-left">
+  
+      <!-- Grid row -->
+      <div class="row">
+  
+        <!-- Grid column -->
+        <div class="col-md-6 mt-md-0 mt-3">
+  
+          <!-- Content -->
+          <h5 class="text-uppercase">More About</h5>
+          <p>Try to know more about Onliine Designer Platform</p>
+  
+        </div>
+        <!-- Grid column -->
+  
+        <hr class="clearfix w-100 d-md-none pb-3">
+  
+        <!-- Grid column -->
+        <div class="col-md-3 mb-md-0 mb-3">
+  
+          <!-- Links -->
+          <h5 class="text-uppercase">About</h5>
+  
+          <ul class="list-unstyled">
+            <li>
+              <a href="#!">Online Designer Platform</a>
+            </li>
+            <li>
+              <a href="#!">Products</a>
+            </li>
+            <li>
+              <a href="#!">Contact</a>
+            </li>
+            <li>
+              <a href="#!"></a>
+            </li>
+          </ul>
+  
+        </div>
+        <!-- Grid column -->
+  
+        <!-- Grid column -->
+        <div class="col-md-3 mb-md-0 mb-3">
+  
+          <!-- Links -->
+          <h5 class="text-uppercase">Follow Us</h5>
+  
+          <ul class="list-unstyled">
+            <li>
+              <a href="#!">Facebook</a>
+            </li>
+            <li>
+              <a href="#!">Instagram</a>
+            </li>
+            <li>
+              <a href="#!">Twitter</a>
+            </li>
+            <li>
+              <a href="#!">WhatsApp</a>
+            </li>
+          </ul>
+  
+        </div>
+        <!-- Grid column -->
+  
       </div>
-      <!-- Grid column -->
-
-      <hr class="clearfix w-100 d-md-none pb-3">
-
-      <!-- Grid column -->
-      <div class="col-md-3 mb-md-0 mb-3">
-
-        <!-- Links -->
-        <h5 class="text-uppercase">About</h5>
-
-        <ul class="list-unstyled">
-          <li>
-            <a href="#!">Online Designer Platform</a>
-          </li>
-          <li>
-            <a href="#!">Products</a>
-          </li>
-          <li>
-            <a href="#!">Contact</a>
-          </li>
-          <li>
-            <a href="#!"></a>
-          </li>
-        </ul>
-
-      </div>
-      <!-- Grid column -->
-
-      <!-- Grid column -->
-      <div class="col-md-3 mb-md-0 mb-3">
-
-        <!-- Links -->
-        <h5 class="text-uppercase">Follow Us</h5>
-
-        <ul class="list-unstyled">
-          <li>
-            <a href="#!">Facebook</a>
-          </li>
-          <li>
-            <a href="#!">Instagram</a>
-          </li>
-          <li>
-            <a href="#!">Twitter</a>
-          </li>
-          <li>
-            <a href="#!">WhatsApp</a>
-          </li>
-        </ul>
-
-      </div>
-      <!-- Grid column -->
-
+      <!-- Grid row -->
+  
     </div>
-    <!-- Grid row -->
-
-  </div>
-  <!-- Footer Links -->
-
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2020 Copyright:
-    <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
-  </div>
-  <!-- Copyright -->
-
+    <!-- Footer Links -->
+  
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+      <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+  
 </footer>
 <!-- Footer -->
+
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('sass/app.scss') }}"></script>
     @yield('scripts')
 </body>
 </html>

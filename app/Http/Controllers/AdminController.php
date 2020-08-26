@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Product;
+use App\Order;
+use DB;
 class AdminController extends Controller
 {
     /**
@@ -13,12 +16,12 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('designer.dashboard');
+        return view('admin.dashboard');
     }
 
     public function users(){
         $users = User::all();
-        return view('designer.users')->with('users',$users);
+        return view('admin.users')->with('users',$users);
     }
 
     
@@ -31,7 +34,7 @@ class AdminController extends Controller
     public function edituser(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        return view('designer.edituser')->with('users',$user);
+        return view('admin.edituser')->with('users',$user);
     }
     
     public function updateuser(Request $request, $id)
@@ -61,13 +64,13 @@ class AdminController extends Controller
     public function profile(){
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
-        return view('designer.profile')->with('user',$user);
+        return view('admin.profile')->with('user',$user);
     }
 
     public function editprofile(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        return view('designer.editprofile')->with('user',$user);
+        return view('admin.editprofile')->with('user',$user);
     }
 
     public function updateprofile(Request $request, $id)
@@ -79,6 +82,14 @@ class AdminController extends Controller
         $user->update();
 
         return redirect('/profile')->with('status','Your Profile is updated'); 
+    }
+    public function prodlist(){
+        $products = Db::table('products')
+        ->join('category', 'products.category','=','category.id')
+        ->select('products.*','category.category_name')
+        ->orderBy('created_at','desc')
+        ->get();
+        return view('admin.prodlist')->with('products',$products);
     }
 
 }
