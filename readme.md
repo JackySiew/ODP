@@ -11,14 +11,14 @@
 <p>1. Please install XAMPP into your personal computer.(Require PHP version >7.x)</p>
 <p>2. Copy the odp into C:\xampp\htdocs</p>
 <p>3. Import sql to the database as the step below:</p>
-<p>	1. go to the file directory of the XAMPP (C:\xampp)</p>
-<p>	2. open the xampp_control.exe</p>
-<p>	3. start both "Apache" and "MySQL", activate function can see by the background color that change to green after start.</p>
+<p>	A. go to the file directory of the XAMPP (C:\xampp)</p>
+<p>	B. open the xampp_control.exe</p>
+<p>	C. start both "Apache" and "MySQL", activate function can see by the background color that change to green after start.</p>
 <p>4. Go to the website "http://localhost/phpmyadmin/"</p>
 <p>5. Create a new database call "odp".</p>
 <p>5. Select the created "odp" database and click "Import",than select the odp.sql file and import it.</p>
 <p>6. Go to C:\xampp\apache\conf\extra\httpd-vhosts.conf and set the roots and server name as below:</p>
-<div align="center">
+
       <VirtualHost *:80>
           DocumentRoot "C:/xampp/htdocs"
           ServerName localhost
@@ -27,7 +27,7 @@
           DocumentRoot "C:/xampp/htdocs/odp/public"
           ServerName odp.test
       </VirtualHost>
-<div>
+
 <p>7. Go to C:\WINDOWS\System32\drivers\etc and open hosts(open with notepad and run as administrator), then write these statements into the file:</p>
       <p>127.0.0.1 localhost</p>
       <p>127.0.0.1 odp.test</p>
