@@ -6,17 +6,18 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
+
 ## Step
-1. Please install XAMPP into your personal computer.(Require PHP version >7.x)
-2. Copy the odp into C:\xampp\htdocs
-3. Import sql to the database as the step below:
+<p>1. Please install XAMPP into your personal computer.(Require PHP version >7.x)</p>
+<p>2. Copy the odp into C:\xampp\htdocs</p>
+<p>3. Import sql to the database as the step below:</p>
 	1. go to the file directory of the XAMPP (C:\xampp)
 	2. open the xampp_control.exe
 	3. start both "Apache" and "MySQL", activate function can see by the background color that change to green after start.
-4. Go to the website "http://localhost/phpmyadmin/"
-5. Create a new database call "odp".
-5. Select the created "odp" database and click "Import",than select the odp.sql file and import it.
-6. Go to C:\xampp\apache\conf\extra\httpd-vhosts.conf and set the roots and server name as below:
+<p>4. Go to the website "http://localhost/phpmyadmin/"</p>
+<p>5. Create a new database call "odp".</p>
+<p>5. Select the created "odp" database and click "Import",than select the odp.sql file and import it.</p>
+<p>6. Go to C:\xampp\apache\conf\extra\httpd-vhosts.conf and set the roots and server name as below:</p>
       <VirtualHost *:80>
           DocumentRoot "C:/xampp/htdocs"
           ServerName localhost
@@ -25,10 +26,10 @@
           DocumentRoot "C:/xampp/htdocs/odp/public"
           ServerName odp.test
       </VirtualHost>
-7. Go to C:\WINDOWS\System32\drivers\etc and open hosts(open with notepad and run as administrator), then write these statements into the file:
+<p>7. Go to C:\WINDOWS\System32\drivers\etc and open hosts(open with notepad and run as administrator), then write these statements into the file:</p>
       127.0.0.1 localhost
       127.0.0.1 odp.test
-8. Finally, you can type the website http://odp.test or http://localhost/odp/public and enjoy yourself
+<p>8. Finally, you can type the website http://odp.test or http://localhost/odp/public and enjoy yourself</p>
 
 ## Customer
 Email: user@user.com
