@@ -64,15 +64,13 @@
     </div>
 
     @else
-    <h1 class="text-center">No product for now! =="</h1>
+    <div class="text-center">
+      <h1>You don't have any product!!!</h1>
+      <a href="{{url('products/create')}}" class="btn btn-warning">Create one now!!!</a>
+    </div>  
     @endif
   </div>
 </div>
-
-<nav class="fixed-bottom text-center">
-  <a href="{{url('products/create')}}" class="btn btn-warning">Add</a>
-</nav>
-  
   
 @endsection
 

@@ -75,5 +75,9 @@ class DesignerController extends Controller
 
         return redirect('/profile')->with('status','Your Profile is updated'); 
     }
+    public function notification()
+    {
+        return view('designer.notification');
+    }
 
 }

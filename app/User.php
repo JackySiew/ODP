@@ -7,8 +7,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Cmgmyr\Messenger\Traits\Messagable;
 class User extends Authenticatable
 {
-    use Notifiable;
-    use Messagable;
     /**
      * The attributes that are mass assignable.
      *
@@ -32,5 +30,8 @@ class User extends Authenticatable
     }
     public function orders(){
         return $this->hasMany('App\Orders');//user has many order
+    }
+    public function reviews(){
+        return $this->hasMany('App\Review');//user has many review
     }
 }

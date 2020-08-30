@@ -28,6 +28,7 @@
         Route::get('/remove/{id}', 'CartController@getRemove');    
         Route::get('/checkout', 'CartController@getcheckout');    
         Route::post('/checkout', 'CartController@checkout');    
+        Route::resource('review', 'ReviewController');  
     });
 
 Route::group(['middleware' => ['auth','admin']], function(){
@@ -54,6 +55,8 @@ Route::group(['middleware' => ['auth','designer']], function(){
     Route::get('/profile', 'DesignerController@profile');
     Route::get('/profile-edit/{id}', 'DesignerController@editprofile');
     Route::put('/profile-update/{id}', 'DesignerController@updateprofile');
+
+    Route::get('/notification', 'DesignerController@notification');
 
     Route::resource('products', 'ProductController');  
     

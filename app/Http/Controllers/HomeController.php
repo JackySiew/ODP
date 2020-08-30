@@ -10,18 +10,13 @@ use Auth;
 class HomeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Create a new controller instance.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
-    public function index()
+    public function __construct()
     {
-        $products = Db::table('products')
-        ->join('category', 'products.category','=','category.id')
-        ->select('products.*','category.category_name')
-        ->orderBy('created_at','desc')
-        ->get();
-        return view('home')->with('products',$products);
+        $this->middleware('auth', ['except' => ['index', 'products','category','showprod']]);
     }
     public function products(){
         $products = Db::table('products')
@@ -36,33 +31,19 @@ class HomeController extends Controller
         return view('products',compact('products','categories'));    
     }
 
-    public function category($id){
-        $products = DB::table('products')
-        ->join('category', 'products.category','=','category.id')
-        ->select('products.*','category.category_name')
-        ->where('products.category',$id)
-        ->get();
-        // return $products;
-        $categories = Db::table('category')
-        ->select('*')
-        ->orderBy('category_name','asc')
-        ->get();
-        if (count($products)>0) {
-            return view('showcate',compact('products','categories'));    
-        }else{
-            return redirect('/all-products')->with('alert','Sorry! No such product in this category. =="');    
-        }
-    }
-
-    public function showprod($id)
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
     {
-        $products = DB::table('products')
+        $products = Db::table('products')
         ->join('category', 'products.category','=','category.id')
         ->select('products.*','category.category_name')
-        ->where('products.id',$id)
+        ->orderBy('created_at','desc')
         ->get();
-        // return $products;
-        return view('showprod')->with('products',$products);
+        return view('home')->with('products',$products);
     }
 
     public function myorder()
@@ -75,6 +56,6 @@ class HomeController extends Controller
             return $order;
         });
         return view('order',['orders'=> $orders]);
-    }
+}
 
 }

@@ -2,8 +2,8 @@
 @section('title')
     All Products
 @endsection
-@section('class2')
-    <div class="container">
+@section('class')
+container
 @endsection
 @section('content')
 
@@ -41,17 +41,18 @@
                     @foreach ($products as $product)
                     <div class="card col-md-4 border-warning">
                         <a href="{{url('product/'.$product->id)}}" class="text-decoration-none">
-                        <h3><b>{{$product->prodName}}</b></h3>
+                        <h5><b>{{$product->prodName}}</b></h5>
                         <img src="{{url('/storage/image/'.$product->prodImage)}}" class="w-100" height="200">
                         </a>
-                        <a class="btn btn-warning rounded" href="all-products/category/{{$product->category}}">{{$product->category_name}}</a>
+                        <a class="btn btn-warning rounded" href="{{url('all-products/category/'.$product->category)}}">{{$product->category_name}}</a>
                         <br>
                         <div class="card-body">
                         @if ($product->prodPrice == 0)
                         <p class="text-success"><b>For demo only</b></p>
                         @else
                         <p>Price: Rm{{$product->prodPrice}}</p>
-                        @endif                    
+                        @endif 
+                        <p>{{count($products)}} comment(s)</p>                   
                         @if ($product->prodPrice != 0)
                         <a href="{{url('add-cart/'.$product->id)}}" class="btn btn-lg btn-success">Add to cart</a>
                         @endif            

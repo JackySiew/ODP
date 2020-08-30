@@ -54,10 +54,9 @@ class CartController extends Controller
                     "source" => $request->input ( 'stripeToken' ), // obtained with Stripe.js
                     "description" => "Test payment." 
             ) );
-            $order = new Orders();
+            $order = new Orders;
             $order->cart = serialize($cart);
             $order->address = $request->input('address');
-            $order->name = $request->input('name');
             $order->payment_id = $charge->id;
             $order->user_id = Auth::user()->id;
             $order->status = 0;
@@ -65,7 +64,7 @@ class CartController extends Controller
             Session::forget('cart');
             return redirect('/all-products')->with('status','Purchase Sucessfully!');
             } catch ( \Exception $e ) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return $e->getMessage();
         }
     }
     public function getAdd($id){

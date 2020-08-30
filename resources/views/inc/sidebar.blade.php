@@ -1,10 +1,7 @@
 <div class="sidebar" data-color="yellow">
-    <div class="logo">
-      <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-        CT
-      </a>
-      <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-        Creative Tim
+    <div class="logo text-center">
+      <a href="#" class="simple-text logo-normal">
+        Online Designer Platform
       </a>
     </div>
     <div class="sidebar-wrapper" id="sidebar-wrapper">
@@ -33,8 +30,8 @@
             <p>My Orders</p>
           </a>
         </li>
-        <li>
-          <a href="./notifications.html">
+        <li class="{{ 'notification' == request()->path() ? 'active' : ''}}">
+          <a href="{{url('notification')}}">
             <i class="now-ui-icons ui-1_bell-53"></i>
             <p>Notifications</p>
           </a>

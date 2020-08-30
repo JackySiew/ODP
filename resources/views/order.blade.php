@@ -3,8 +3,8 @@
 @section('title')
 My Order
 @endsection
-@section('class2')
-    <div class="container">
+@section('class')
+container
 @endsection
 @section('content')
     <h1>My Orders</h1>

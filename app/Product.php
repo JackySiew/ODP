@@ -16,5 +16,8 @@ class Product extends Model
     public function category(){
         return $this->belongsTo('App\Category');//product has relationship with category and belong to category
     }
+    public function reviews(){
+        return $this->hasMany('App\Review');//product has relationship with Review
+    }
 
 }
