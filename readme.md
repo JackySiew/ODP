@@ -7,6 +7,44 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
+## Step
+<p>1. Please install XAMPP into your personal computer.(Require PHP version >7.x)</p>
+<p>2. Copy the odp into C:\xampp\htdocs</p>
+<p>3. Import sql to the database as the step below:</p>
+<p>	A. go to the file directory of the XAMPP (C:\xampp)</p>
+<p>	B. open the xampp_control.exe</p>
+<p>	C. start both "Apache" and "MySQL", activate function can see by the background color that change to green after start.</p>
+<p>4. Go to the website "http://localhost/phpmyadmin/"</p>
+<p>5. Create a new database call "odp".</p>
+<p>5. Select the created "odp" database and click "Import",than select the odp.sql file and import it.</p>
+<p>6. Go to C:\xampp\apache\conf\extra\httpd-vhosts.conf and set the roots and server name as below:</p>
+
+      <VirtualHost *:80>
+          DocumentRoot "C:/xampp/htdocs"
+          ServerName localhost
+      </VirtualHost>
+      <VirtualHost *:80>
+          DocumentRoot "C:/xampp/htdocs/odp/public"
+          ServerName odp.test
+      </VirtualHost>
+
+<p>7. Go to C:\WINDOWS\System32\drivers\etc and open hosts(open with notepad and run as administrator), then write these statements into the file:</p>
+      <p>127.0.0.1 localhost</p>
+      <p>127.0.0.1 odp.test</p>
+<p>8. Finally, you can type the website http://odp.test or http://localhost/odp/public and enjoy yourself</p>
+
+## Customer
+Email: user@user.com
+Password: 00000000
+
+## Designer
+Email: design@design.com
+Password: 11111111
+
+## Admin
+Email: admin@admin.com
+Password: 11111111
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
