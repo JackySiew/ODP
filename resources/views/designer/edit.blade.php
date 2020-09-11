@@ -15,49 +15,49 @@
   <img class="rounded mx-auto d-block" src="{{url('/storage/image/'.$product->prodImage)}}" width="150">
 
 <div class="card-body text-left">
-  {!! Form::open(['action' => ['ProductController@update', $product->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-  <div class="form-group">
-    {{Form::label('prodName','Product Name')}}
-    {{Form::text('prodName',$product->prodName, ['class' => 'form-control', 'placeholder' => 'Product Name.....'])}}
+<form action="{{route('products.update',[$product->id])}}" method="POST" enctype="multipart/form-data">
+  {{ csrf_field() }}
+  {{ method_field('PUT') }}
+<div class="form-group">
+    <label for="prodName">Product Name</label>    
+    <input type="text" name="prodName" class="form-control" placeholder="Product Name....." value="{{$product->prodName}}" >
   </div>
   <div class="form-group">
-    {{Form::label('category','Category:')}}
+    <label for="category">Category</label>    
     <select name="category" class="form-control">
     <option value="{{$product->category}}">{{$product->category_name}}</option>
     @foreach ($category as $cat)
     <option value="{{$cat->id}}">{{$cat->category_name}}</option>    
     @endforeach
     </select>
-    {{-- {{Form::select('category',$categories, null, ['class' => 'form-control'])}} --}}
   </div>
   <div class="form-group">
-    {{Form::label('description','Description')}}
-    {{Form::textarea('description',$product->description, ['id' => 'editor', 'class' => 'form-control', 'placeholder' => 'Product Details.....'])}}
+    <label for="description">Description</label>    
+  <textarea class="ckeditor form-control" name="description">{{$product->description}}</textarea>
   </div>
   <div class="form-group">
-    {{Form::label('prodPrice','Price')}}
-    {{Form::number('prodPrice',$product->prodPrice, ['class' => 'form-control', 'placeholder' => 'Product Name.....','step' => '0.10','max'=>'10000', 'min' => '0'] )}}
+    <label for="prodPrice">Price</label>    
+  <input type="number" class="form-control" name="prodPrice" value="{{$product->prodPrice}}" step="1.00" max="10000" min="0.00" required>
   </div>
-    {{Form::label('prodImage','Product Image(If want Replace)')}}
-    {{Form::file('prodImage')}}
     @endforeach
-  <div class="card-footer">
-  <div class="form-group">
-    <hr>
-    {{Form::hidden('_method', 'PUT')}}
-    {{Form::submit('Edit Product', ['class' => 'btn btn-primary'])}}
+    <label for="prodImage">Image(If want to replace)</label>    
+    <input type="file" name="prodImage" class="form-control-file">  
+<div class="form-group">
+    <button type="submit" class="btn btn-primary">Update</button>
     <a href="{{url('products')}}" class="btn btn-secondary">Cancel</a>
   </div>
-  </div>
-  {!! Form::close() !!}
-  </div>
+
+</form>  
+</div>
 </div>
 </div>
 @endsection
 
 @section('scripts')
-<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
-<script>
-    CKEDITOR.replace( 'editor' );
+<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+      $('.ckeditor').ckeditor();
+  });
 </script>
 @endsection

@@ -8,16 +8,11 @@
 
 <div class="card col-md-12">
   <div class="card-body">
-    @if (session('status'))
-    <div class="alert alert-success">
-      {{ session('status') }}
-    </div>
-    @endif
 
     <div class="table-responsive">
     @if (count($products)>0)
     <div class="text-center">
-    <a href="{{url('products/create')}}" class="btn btn-warning">Add</a>
+    <a href="{{route('products.create')}}" class="btn btn-warning">Add</a>
     </div>
     <table id="dataTable" class="table">
     <thead>
@@ -30,32 +25,27 @@
       @php $no = 1; @endphp
       @foreach ($products as $product)
       <tr>
+      <input type="hidden" class="serdelete_val" value="{{$product->id}}">
       <td>{{$no++}}</td>
       <td>
-        <p><img src="storage/image/{{$product->prodImage}}" width="150"></p> 
-        <p>Created at: {{$product->created_at}}</p> 
+        <img src="storage/image/{{$product->prodImage}}" width="250" height="150">
+        <p>Last updated: {{$product->updated_at}}</p>
       </td>
       <td>
-      <p><b>{{$product->prodName}}</b></p>
-      <p class="text-primary">{{$product->category_name}}</p>
-      <p>Detail: {!!$product->description!!}</p>
-      @if ($product->prodPrice == 0)
-        <p class="text-success"><b>For demo only</b></p>
+      <p><h4>{{$product->prodName}}</h4></p>
+      @if ($product->reviews()->count())
+      <p>Rate: <i class="fa fa-star" style="color: #deb217"></i>{{ number_format($product->reviews()->avg('rating'), 2) }} / 5.00</p>
+      <p>{{$product->reviews()->count()}} comment(s)</p>  
       @else
-      <p>Price: Rm{{$product->prodPrice}}</p>
+      <p>No one ratings</p>
       @endif
-      <p>Last updated: {{$product->updated_at}}</p>
       </td>
         <td>
-          {{-- <a href="/products/{{$product->id}}" class="btn btn-info">View</a> --}}
+          <a href="{{url('products/'.$product->id)}}" class="btn btn-info">View</a>
           <a href="{{url('products/'.$product->id.'/edit')}}" class="btn btn-info">Edit</a>
           <br>
           <br>
-          {!! Form::open(['action' => ['ProductController@destroy', $product->id], 'method' => 'POST']) !!}
-           {{ Form::hidden('_method', 'DELETE') }}
-           {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-   
-          {!! Form::close() !!}
+          <a href="{{url('products/delete/'.$product->id)}}" class="btn btn-danger delete-confirm"><i class="fa fa-trash">Delete</i></a>        
         </td>
       </tr>
       @endforeach
@@ -65,19 +55,37 @@
 
     @else
     <div class="text-center">
-      <h1>You don't have any product!!!</h1>
-      <a href="{{url('products/create')}}" class="btn btn-warning">Create one now!!!</a>
-    </div>  
+      <h1>No product for now! =="</h1>
+      <h3>Go and upload your own product now!</h3>  
+      <a href="{{route('products.create')}}" class="btn btn-warning">Add</a>
+      </div>  
     @endif
   </div>
 </div>
-  
+
 @endsection
 
 @section('scripts')
-    <script>
-      $(document).ready( function () {
-    $('#dataTable').DataTable();
-} );
-    </script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+  $(document).ready( function () {
+  $('#dataTable').DataTable();
+  });
+
+  $('.delete-confirm').on('click', function (event) {
+    event.preventDefault();
+    const url = $(this).attr('href');
+    swal({
+        title: 'Are you sure?',
+        text: 'This record and it`s details will be permanantly deleted!',
+        icon: 'warning',
+        buttons: ["Cancel", "Yes!"],
+    }).then(function(value) {
+        if (value) {
+            window.location.href = url;
+        }
+    });
+});
+</script>
 @endsection

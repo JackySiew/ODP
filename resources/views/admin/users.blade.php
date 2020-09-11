@@ -21,7 +21,6 @@
             <table class="table">
               <thead class=" text-primary">
                 <th>Name</th>
-                <th>Phone</th>
                 <th>Role</th>
                 <th>Created At</th>
                 <th>Action</th>
@@ -30,7 +29,6 @@
                 <tr>
                   @foreach ($users as $user)
                   <td>{{$user->name}}</td>
-                  <td>{{$user->phone}}</td>
                   <td>{{$user->usertype}}</td>
                   <td>{{$user->created_at}}</td>
                 <td><a class="btn btn-info text-white pull-left" href="{{url('users-edit/'.$user->id)}}">Edit</a>

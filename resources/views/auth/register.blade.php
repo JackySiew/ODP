@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('title')
+    Registration
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -65,7 +67,7 @@
                             <label for="usertype" class="col-md-4 col-form-label text-md-right">{{ __('Sign up as') }}</label>
 
                             <div class="col-md-6">
-                                <select name="usertype" id="usertype">
+                                <select name="usertype" id="usertype" class="form-control">
                                     <option value="user">User</option>
                                     <option value="designer">Designer</option>
                                 </select>

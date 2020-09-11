@@ -29,11 +29,11 @@ class LoginController extends Controller
      */
     protected function redirectTo() {    
         if (Auth::user()->usertype=="admin") {
-            return "admin";
+            return 'admin';
         }else if (Auth::user()->usertype=="designer") {
             return 'designer';
         }else{
-            return '/';
+            return 'all-products';
         }
     }
 

@@ -33,7 +33,7 @@ class ResetPasswordController extends Controller
         }else if (Auth::user()->usertype=="designer") {
             return 'designer';
         }else{
-            return '/';
+            return 'all-products';
         }
     }
 }

@@ -37,23 +37,28 @@ container
     <div class="col-md-9">
         <div class="panel panel-default text-center">
             <div class="panel-body">
-                <div class="card-deck">
+                <div class="row col-md-12">
                     @foreach ($products as $product)
-                    <div class="card col-md-4 border-warning">
+                    <div class="card border-warning col-md-4 mb-3">
+                        
                         <a href="{{url('product/'.$product->id)}}" class="text-decoration-none">
                         <h5><b>{{$product->prodName}}</b></h5>
-                        <img src="{{url('/storage/image/'.$product->prodImage)}}" class="w-100" height="200">
+                        <img src="{{url('/storage/image/'.$product->prodImage)}}" class="w-100" height="170">
                         </a>
-                        <a class="btn btn-warning rounded" href="{{url('all-products/category/'.$product->category)}}">{{$product->category_name}}</a>
                         <br>
                         <div class="card-body">
                         @if ($product->prodPrice == 0)
                         <p class="text-success"><b>For demo only</b></p>
                         @else
-                        <p>Price: Rm{{$product->prodPrice}}</p>
+                        <p>Price: RM{{$product->prodPrice}}</p>
                         @endif 
-                        <p>{{count($products)}} comment(s)</p>                   
-                        @if ($product->prodPrice != 0)
+                        @if ($product->reviews()->count())
+                        <p>Rate: <i class="fa fa-star" style="color:#deb217;"></i>{{ number_format($product->reviews()->avg('rating'), 2) }} / 5.00</p>
+                        <p>{{$product->reviews()->count()}} comment(s)</p>  
+                        @else
+                        <p>No one ratings</p>
+                        @endif                       
+                         @if ($product->prodPrice != 0)
                         <a href="{{url('add-cart/'.$product->id)}}" class="btn btn-lg btn-success">Add to cart</a>
                         @endif            
                         </div>

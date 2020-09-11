@@ -14,10 +14,11 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">    
+    @yield('extra-css')
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-warning shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light @yield('top') bg-warning shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     Online Designer Platform
@@ -41,7 +42,7 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item">
-                            <a class="nav-link" href="{{url('cart')}}"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> Shopping Cart <span class="badge">{{Session::has('cart') ? Session::get('cart')->totalQty : ''}}</span></a>
+                            <a class="nav-link" href="{{url('cart')}}"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> Shopping Cart <span class="badge badge-secondary">{{Session::has('cart') ? Session::get('cart')->totalQty : ''}}</span></a>
                         </li>          
                         @guest
                             <li class="nav-item">
@@ -79,7 +80,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 mb-5">
             <div class="@yield('class')">
                 @yield('content')
             </div>
@@ -187,7 +188,8 @@ logged_out_greeting="Hello! How can we help you?">
           
             <!-- Copyright -->
             <div class="footer-copyright text-center py-3">© 2020 Copyright:
-              <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+            <a href="{{url('/')}}">odp.test</a>
+              {{-- <a href="https://mdbootstrap.com/"> MDBootstrap.com</a> --}}
             </div>
             <!-- Copyright -->
           

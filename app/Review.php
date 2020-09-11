@@ -12,4 +12,5 @@ class Review extends Model
         'rating',
         'product_id'
     ];
+    
 }

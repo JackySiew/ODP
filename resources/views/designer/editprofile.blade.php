@@ -11,10 +11,10 @@
         <h4 class="card-title">Edit Profile</h4>
     </div>
     <div class="card-body text-left ">
-        <form action="{{url('profile-update/'.$user->id)}}" method="POST">
+        <form action="{{url('profile-update/'.$user->id)}}" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
             {{ method_field('PUT') }}
-        <img class="rounded mx-auto d-block" src="{{url('/storage/image/'.$user->profileImage)}}" width="100">
+        <img class="rounded mx-auto d-block" src="{{url('/storage/image/'.$user->profile)}}"  width="200">
         <div class="form-group">    
             <label for="name">Name</label>
             <input class="form-control" name="name" type="text" value="{{$user->name}}">
@@ -23,17 +23,14 @@
             <label for="email">Email</label>
             <input class="form-control" name="email" type="text" value="{{$user->email}}">
         </div>
-        <div class="form-group">
-            <label for="phone">Phone No</label>
-            <input class="form-control" name="phone" type="text" value="{{$user->phone}}">
-        </div>
-    <div class="card-footer">
+            <label for="profile">Profile (If want to replace)</label>    
+            <input type="file" name="profile" class="form-control-file">  
+        <div class="card-footer">
         <div class="form-group">    
             <button type="submit" class="btn btn-success">Update</button>
             <a href="{{url('profile')}}" class="btn btn-secondary">Cancel</a>
-        </form>
-
         </div>                
+    </form>
     </div>
     </div>
     </div>  

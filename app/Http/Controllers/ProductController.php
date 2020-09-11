@@ -8,6 +8,7 @@ use App\Category;
 use App\Product;
 use DB;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
@@ -19,14 +20,16 @@ class ProductController extends Controller
     public function index()
     {
         $user_id = auth()->user()->id;
-        $products = Db::table('products')
-        ->join('category', 'products.category','=','category.id')
-        ->select('products.*','category.category_name')
-        ->where('presentBy',$user_id)
-        ->orderBy('created_at','desc')
-        ->get();
-        // return $products; //for check
-        return view('designer.myprod')->with('products',$products);
+        $products = Product::all()->where('presentBy',$user_id)->sortByDesc('created_at');
+        if (session('status')) {
+            Alert::success('Create successfully!', 'You have created new product!!!');
+        }else if (session('status2')) {
+            Alert::success('Update successfully!', 'You have updated your product!!!');
+        }else if (session('status3')){
+            Alert::success('Delete successfully!', 'You have deleted your product!!!');
+        }
+
+        return view('designer.myprod',compact('products'))->with(['reviews','categories']);
     }
 
     /**
@@ -38,6 +41,20 @@ class ProductController extends Controller
     {
         $category = Category::orderBy('category_name','asc')->get();
         return view('designer.create')->with('category',$category);
+    }
+    public function show($id)
+    {
+        $products = DB::table('products')
+        ->join('categories', 'products.category','=','categories.id')
+        ->select('products.*','categories.category_name')
+        ->where('products.id',$id)
+        ->get();
+        $reviews = DB::table('reviews')
+        ->join('users', 'reviews.user_id','=','users.id')
+        ->select('reviews.*','users.name')
+        ->where('reviews.product_id',$id)
+        ->get();
+        return view('designer.show',compact('products','reviews'));
     }
 
     /**
@@ -97,8 +114,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $products = Db::table('products')
-        ->join('category', 'products.category','=','category.id')
-        ->select('products.*','category.category_name')
+        ->join('categories', 'products.category','=','categories.id')
+        ->select('products.*','categories.category_name')
         ->where('products.id',$id)
         ->get();
 
@@ -107,7 +124,7 @@ class ProductController extends Controller
         ->where('id',$id)
         ->pluck('category');
 
-        $category = Db::table('category')
+        $category = Db::table('categories')
         ->select('*')
         ->where('id','!=',$cat_id)
         ->orderBy('category_name','asc')
@@ -142,12 +159,14 @@ class ProductController extends Controller
         $product->description = $request->input('description');
         $product->prodPrice = $request->input('prodPrice');
         if ($request->hasFile('prodImage')) {
-            Storage::delete('/storage/image/'.$product->prodImage);
-            $product->prodImage = $fileNameToStore;
+            if ($product->prodImage != "noimage.png") {
+                Storage::delete('public/image/'.$product->prodImage);          
+                $product->prodImage = $fileNameToStore;
+            }  
         }
         $product->update();
 
-        return redirect('/products')->with('status','Product Updated');
+        return redirect('/products')->with('status2','Product Updated');
     }
 
     /**
@@ -163,6 +182,6 @@ class ProductController extends Controller
             Storage::delete('public/image/'.$product->prodImage);
         }
         $product->delete();
-        return redirect('/products')->with('status','Product Deleted'); 
+        return redirect('/products')->with('status3','Product Deleted'); 
     }
 }

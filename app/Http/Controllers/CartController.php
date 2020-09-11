@@ -28,7 +28,7 @@ class CartController extends Controller
         $cart  = new Cart($oldCart);
         $cart->add($product, $product->id);
         $request->session()->put('cart',$cart);
-        return redirect('/all-products')->with('status','Your product has added in cart!');
+        return redirect()->back()->with('status','Your product has added in cart!');
     }
     public function getcheckout(){
         if (!Session::has('cart')) {
@@ -55,10 +55,12 @@ class CartController extends Controller
                     "description" => "Test payment." 
             ) );
             $order = new Orders;
+            
             $order->cart = serialize($cart);
             $order->address = $request->input('address');
             $order->payment_id = $charge->id;
             $order->user_id = Auth::user()->id;
+            $order->user_name = Auth::user()->name;
             $order->status = 0;
             $order->save();
             Session::forget('cart');

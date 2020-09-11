@@ -10,12 +10,21 @@
   <div class="carousel-inner">
     <div class="carousel-item active" data-interval="3000">
       <img src="storage/image/commercial1.jpg" class="d-block w-100" >
+      <div class="carousel-caption d-none d-md-block bg-dark mb-5">
+        <h1>Welcome to Online Designer Platform</h1>
+      </div>
     </div>
     <div class="carousel-item" data-interval="3000">
       <img src="storage/image/commercial2.jpg" class="d-block w-100" >
+      <div class="carousel-caption d-none d-md-block bg-dark mb-5">
+        <h1>New package for Office Area</h1>
+      </div>
     </div>
     <div class="carousel-item" data-interval="3000">
       <img src="storage/image/commercial3.jpg" class="d-block w-100" >
+      <div class="carousel-caption d-none d-md-block bg-dark mb-5">
+        <h1>Special promotion for Bedroom Design</h1>
+      </div>
     </div>
   </div>
   <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">

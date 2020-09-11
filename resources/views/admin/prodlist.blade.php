@@ -1,19 +1,13 @@
 @extends('layouts.panel2')
 
 @section('title')
-   Product List
+   My Product
 @endsection
 
 @section('content')
 
 <div class="card col-md-12">
   <div class="card-body">
-    @if (session('status'))
-    <div class="alert alert-success">
-      {{ session('status') }}
-    </div>
-    @endif
-
     <div class="table-responsive">
     @if (count($products)>0)
     <table id="dataTable" class="table">
@@ -29,30 +23,20 @@
       <tr>
       <td>{{$no++}}</td>
       <td>
-        <p><img src="storage/image/{{$product->prodImage}}" width="150"></p> 
-        <p>Created at: {{$product->created_at}}</p> 
+        <img src="storage/image/{{$product->prodImage}}" width="250" height="150">
+        <p>Last updated: {{$product->updated_at}}</p>
       </td>
       <td>
-      <p><b>{{$product->prodName}}</b></p>
-      <p>{{$product->category_name}}</p>
-      <p>Detail: {!!$product->description!!}</p>
-      @if ($product->prodPrice == 0)
-        <p class="text-success"><b>For demo only</b></p>
+      <p><h4>{{$product->prodName}}</h4></p>
+      @if ($product->reviews()->count())
+      <p>Rate: <i class="fa fa-star" style="color: #deb217"></i>{{ number_format($product->reviews()->avg('rating'), 2) }} / 5.00</p>
+      <p>{{$product->reviews()->count()}} comment(s)</p>  
       @else
-      <p>Price: Rm{{$product->prodPrice}}</p>
+      <p>No one ratings</p>
       @endif
-      <p>Last updated: {{$product->updated_at}}</p>
       </td>
         <td>
-          {{-- <a href="/products/{{$product->id}}" class="btn btn-info">View</a> --}}
-          <a href="{{url('products/'.$product->id.'/edit')}}" class="btn btn-info">Edit</a>
-          <br>
-          <br>
-          {!! Form::open(['action' => ['ProductController@destroy', $product->id], 'method' => 'POST']) !!}
-           {{ Form::hidden('_method', 'DELETE') }}
-           {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-   
-          {!! Form::close() !!}
+          <a href="{{url('prodlist/'.$product->id)}}" class="btn btn-info">View</a>
         </td>
       </tr>
       @endforeach
@@ -61,7 +45,9 @@
     </div>
 
     @else
-    <h1 class="text-center">No product for now! =="</h1>
+    <div class="text-center">
+      <h1>There is no product! =="</h1>
+    </div>  
     @endif
   </div>
 </div>

@@ -11,42 +11,47 @@
     <h4 class="card-title">Product Detail</h4>
   </div>
   <div class="card-body text-left">
-  {!! Form::open(['action' => 'ProductController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+  <form action="{{route('products.store')}}" method="post" enctype="multipart/form-data">
+    {{ csrf_field() }}
   <div class="form-group">
-    {{Form::label('prodName','Product Name')}}
-    {{Form::text('prodName','', ['class' => 'form-control', 'placeholder' => 'Product Name.....'])}}
+    <label for="prodName">Product Name</label>    
+    <input type="text" name="prodName" class="form-control" placeholder="Product Name....." required>
   </div>
   <div class="form-group">
-    {{Form::label('category','Category')}}
-    <select name="category" id="category" class="form-control">
+    <label for="category">Category</label>    
+    <select name="category" id="category" class="form-control"required>
     @foreach ($category as $cat)
     <option value="{{$cat->id}}">{{$cat->category_name}}</option>    
     @endforeach
   </select>
   </div>
   <div class="form-group">
-    {{Form::label('description','Description')}}
-    {{Form::textarea('description','', ['id' => 'editor', 'class' => 'form-control', 'placeholder' => 'Product Details.....'])}}
+    <label for="description">Description</label>    
+    <textarea class="ckeditor form-control" name="description"></textarea>
   </div>
   <div class="form-group">
-    {{Form::label('prodPrice','Price')}}
-    {{Form::number('prodPrice','0.00', ['class' => 'form-control', 'placeholder' => 'Product Name.....','step' => '0.10','max'=>'10000', 'min' => '0'] )}}
+    <label for="prodPrice">Price</label>    
+    <input type="number" class="form-control" name="prodPrice" value="0.00" step="1.00" max="10000" min="0.00" required>
   </div>
-    {{Form::file('prodImage')}}
+    <label for="prodImage">Image</label>    
+    <input type="file" name="prodImage" class="form-control-file">  
+
   <div class="form-group">
-    {{Form::submit('Create Product', ['class' => 'btn btn-primary'])}}
+    <button type="submit" class="btn btn-primary">Submit</button>
     <a href="{{url('products')}}" class="btn btn-secondary">Cancel</a>
   </div>
 
-{!! Form::close() !!}
-  </div>
+  </form>  
+</div>
 </div>
 </div>
 @endsection
 
 @section('scripts')
-<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
-<script>
-    CKEDITOR.replace( 'editor' );
+<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+      $('.ckeditor').ckeditor();
+  });
 </script>
 @endsection

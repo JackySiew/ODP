@@ -1,8 +1,7 @@
 @extends('layouts.app')
 @section('title')
-@foreach ($products as $product)
-{{$product->category_name}}
-
+@foreach ($cates as $cate)
+    {{$cate->category_name}}
 @endsection
 @section('class')
 container
@@ -23,7 +22,7 @@ container
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
         <li class="breadcrumb-item" aria-current="page"><a href="{{url('all-products')}}">Products</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{$product->category_name}}</li>     
+        <li class="breadcrumb-item active" aria-current="page">{{$cate->category_name}}</li>     
         @endforeach
       </ol>
 </nav>
@@ -49,15 +48,20 @@ container
                         <h5><b>{{$product->prodName}}</b></h5>
                         <img src="{{url('/storage/image/'.$product->prodImage)}}" class="w-100" height="200">
                         </a>
-                        <a class="btn btn-warning rounded" href="all-products/category/{{$product->category}}">{{$product->category_name}}</a>
                         <br>
                         <div class="card-body">
                         @if ($product->prodPrice == 0)
                         <p class="text-success"><b>For demo only</b></p>
                         @else
                         <p>Price: Rm{{$product->prodPrice}}</p>
-                        @endif                    
-                        @if ($product->prodPrice != 0)
+                        @endif 
+                        @if ($product->reviews()->count())
+                        <p>Rate: <i class="fa fa-star" style="color: #deb217"></i>{{ number_format($product->reviews()->avg('rating'), 2) }} / {{ number_format($product->reviews()->sum('rating'), 2) }}</p>
+                        <p>{{$product->reviews()->count()}} comment(s)</p>  
+                        @else
+                        <p>No one ratings</p>
+                        @endif                       
+                         @if ($product->prodPrice != 0)
                         <a href="{{url('add-cart/'.$product->id)}}" class="btn btn-lg btn-success">Add to cart</a>
                         @endif            
                         </div>
