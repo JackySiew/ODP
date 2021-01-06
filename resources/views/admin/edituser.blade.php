@@ -7,11 +7,11 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title"></h4>
+      <div class="panel">
+        <div class="panel-heading">
+          <h4 class="panel-title">Edit User Roles</h4>
         </div>
-        <div class="card-body">
+        <div class="panel-body">
           <form action="{{url('user-update/'.$users->id)}}" method="POST">
               {{ csrf_field() }}
               {{ method_field('PUT') }}

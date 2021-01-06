@@ -6,15 +6,15 @@
 
 @section('content')
 <div class="text-center">
-<div class="card col-md-8">
-  <div class="card-header">
-    <h4 class="card-title">Product Detail</h4>
+<div class="panel col-md-8 col-md-offset-2">
+  <div class="panel-header">
+    <h4 class="panel-title">Product Detail</h4>
   </div>
 @foreach ($products as $product)
     
-  <img class="rounded mx-auto d-block" src="{{url('/storage/image/'.$product->prodImage)}}" width="150">
+  <img src="{{url('/storage/image/'.$product->prodImage)}}" width="150">
 
-<div class="card-body text-left">
+<div class="panel-body text-left">
 <form action="{{route('products.update',[$product->id])}}" method="POST" enctype="multipart/form-data">
   {{ csrf_field() }}
   {{ method_field('PUT') }}

@@ -9,10 +9,12 @@ container
 
 @if (session('status'))
 <div class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
   {{ session('status') }}
 </div>
 @elseif (session('alert'))
 <div class="alert alert-danger">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
   {{ session('alert') }}
 </div>
 @endif

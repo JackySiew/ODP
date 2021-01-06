@@ -5,15 +5,17 @@
 @endsection
 
 @section('content')
-
-<div class="card col-md-12">
-  <div class="card-body">
-
+@if (session('success'))
+<div class="alert alert-success">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+  <p>{{session('success')}}    
+</p>
+</div>
+@endif
+<div class="panel col-md-12">
+  <div class="panel-body">
     <div class="table-responsive">
     @if (count($products)>0)
-    <div class="text-center">
-    <a href="{{route('products.create')}}" class="btn btn-warning">Add</a>
-    </div>
     <table id="dataTable" class="table">
     <thead>
       <th>Id</th>
@@ -32,7 +34,9 @@
         <p>Last updated: {{$product->updated_at}}</p>
       </td>
       <td>
-      <p><h4>{{$product->prodName}}</h4></p>
+        <p><h4>{{$product->prodName}}</h4></p>
+        <p><h4>{!!$product->description!!}</h4></p>
+      
       @if ($product->reviews()->count())
       <p>Rate: <i class="fa fa-star" style="color: #deb217"></i>{{ number_format($product->reviews()->avg('rating'), 2) }} / 5.00</p>
       <p>{{$product->reviews()->count()}} comment(s)</p>  
@@ -57,8 +61,7 @@
     <div class="text-center">
       <h1>No product for now! =="</h1>
       <h3>Go and upload your own product now!</h3>  
-      <a href="{{route('products.create')}}" class="btn btn-warning">Add</a>
-      </div>  
+    </div>  
     @endif
   </div>
 </div>
@@ -66,7 +69,6 @@
 @endsection
 
 @section('scripts')
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <script>
   $(document).ready( function () {
@@ -78,12 +80,18 @@
     const url = $(this).attr('href');
     swal({
         title: 'Are you sure?',
-        text: 'This record and it`s details will be permanantly deleted!',
+        text: 'This product and it`s details will be permanantly deleted!',
         icon: 'warning',
         buttons: ["Cancel", "Yes!"],
     }).then(function(value) {
         if (value) {
-            window.location.href = url;
+          swal({
+          icon: 'success',
+          title: 'The product has deleted!',
+          buttons: true,
+          }).then(function(value){
+              window.location.href = url;
+          });
         }
     });
 });

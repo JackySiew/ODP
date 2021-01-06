@@ -63,7 +63,7 @@ container
           <h3>RM{{$product->prodPrice}}</h3>
           <br>
           @endif   
-          <a href="#"><button class="btn btn-lg btn-primary">Customize Request</button></a>
+          <a href="{{url('customize/'.$product->id)}}" class="btn btn-lg btn-primary">Customize Request</a>
           @if ($product->prodPrice == 0)
           <a class="btn btn-lg btn-secondary" disabled>Add to cart</a>
           @else
@@ -125,7 +125,7 @@ container
             @for ($i = 0; $i < $review->rating; $i++)
               <i class="fa fa-star" style="color:  #deb217;"></i>
             @endfor
-            {{date("d-M-Y", strtotime($review->created_at))}}
+            {{$dt->createFromTimeStamp(strtotime($review->created_at))->diffForHumans()}}
           </div>    
           <div class="card-body">
             {{$review->comment}}
@@ -143,7 +143,7 @@ container
                   <i class="fa fa-star" style="color:  #deb217;"></i>
                 @endfor
                 <br>
-                {{date("d-M-Y", strtotime($review->created_at))}}
+                {{$dt->createFromTimeStamp(strtotime($review->created_at))->diffForHumans()}}
               </div>
               @if (Auth::user()->id == $review->user_id)
             <form action="{{url('review/delete/'.$review->id)}}" method="POST">

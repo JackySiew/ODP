@@ -5,12 +5,11 @@
 @endsection
 
 @section('content')
-<div class="text-center">
-<div class="card col-md-8">
-  <div class="card-header">
-    <h4 class="card-title">Product Detail</h4>
+<div class="panel col-md-8 col-md-offset-2">
+  <div class="panel-heading">
+    <h3 class="panel-title text-center"><b>Product Details</b></h3>
   </div>
-  <div class="card-body text-left">
+  <div class="panel-body text-left">
   <form action="{{route('products.store')}}" method="post" enctype="multipart/form-data">
     {{ csrf_field() }}
   <div class="form-group">
@@ -33,9 +32,10 @@
     <label for="prodPrice">Price</label>    
     <input type="number" class="form-control" name="prodPrice" value="0.00" step="1.00" max="10000" min="0.00" required>
   </div>
+  <div class="form-group">
     <label for="prodImage">Image</label>    
     <input type="file" name="prodImage" class="form-control-file">  
-
+  </div>
   <div class="form-group">
     <button type="submit" class="btn btn-primary">Submit</button>
     <a href="{{url('products')}}" class="btn btn-secondary">Cancel</a>
@@ -43,13 +43,12 @@
 
   </form>  
 </div>
-</div>
-</div>
+
 @endsection
 
 @section('scripts')
 <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
-<script type="text/javascript">
+<script>
   $(document).ready(function () {
       $('.ckeditor').ckeditor();
   });

@@ -8,96 +8,52 @@ use App\Cart;
 use DB;
 use Session;
 use Auth;
-use Stripe\Charge;
-use Stripe\Stripe;
 use App\Orders;
 class CartController extends Controller
 {
+    //view the cart
     public function index(){
-        if (!Session::has('cart')) {
-            return view('cart.cart',['products' => null]);
-        }
-        $oldCart = Session::get('cart');
-        $cart  = new Cart($oldCart);
-        return view('cart.cart', ['products' => $cart->items, 'totalPrice' => $cart->totalPrice]);
+        $cartItems= \Cart::session(auth()->id())->getContent();
+        return view('user.cart', compact('cartItems'));
     }
 
+    // add item into cart
     public function addToCart(Request $request, $id){
         $product = Product::find($id);
-        $oldCart = Session::has('cart') ? Session::get('cart')  : null;
-        $cart  = new Cart($oldCart);
-        $cart->add($product, $product->id);
-        $request->session()->put('cart',$cart);
-        return redirect()->back()->with('status','Your product has added in cart!');
+        \Cart::session(auth()->id())->add(array(
+            'id' => $product->id,
+            'presentBy' => $product->presentBy,
+            'name' => $product->prodName,
+            'price' => $product->prodPrice,
+            'quantity' => 1,
+            'image' => $product->prodImage,
+            'attributes' => array(),
+            'associatedModel' => $product
+        ));
+        return redirect()->back()->with('status','Product added to cart!');
     }
+
+    // go checkout
     public function getcheckout(){
-        if (!Session::has('cart')) {
-            return view('cart.cart');
-        }
-        $oldCart = Session::get('cart');
-        $cart  = new Cart($oldCart);
-        $total = $cart->totalPrice;
-        return view('cart.checkout',['total' => $total]);
+        $product = \Cart::session(auth()->id())->getContent();
+        return view('user.pay.checkout', compact('product'));
     }
-    public function checkout(Request $request){
-        if (!Session::has('cart')) {
-            return view('cart.cart');
-        }
-        $oldCart = Session::get('cart');
-        $cart  = new Cart($oldCart);
 
-        Stripe::setApiKey ('sk_test_51HFVGNCFq6SzGxX29Qawy6zsQPaLDyEWCJfZTJRI4ENUD2JRP0mKSv7n8LdbfsBWuasyqU7QErHVNliZ9ARKhBY400eCmKx89T');
-        try {
-            $charge =Charge::create ( array (
-                    "amount" => $cart->totalPrice * 100,
-                    "currency" => "myr",
-                    "source" => $request->input ( 'stripeToken' ), // obtained with Stripe.js
-                    "description" => "Test payment." 
-            ) );
-            $order = new Orders;
-            
-            $order->cart = serialize($cart);
-            $order->address = $request->input('address');
-            $order->payment_id = $charge->id;
-            $order->user_id = Auth::user()->id;
-            $order->user_name = Auth::user()->name;
-            $order->status = 0;
-            $order->save();
-            Session::forget('cart');
-            return redirect('/all-products')->with('status','Purchase Sucessfully!');
-            } catch ( \Exception $e ) {
-            return $e->getMessage();
-        }
+    //update item's quantity
+    public function update($id){
+        \Cart::session(auth()->id())->update($id, [
+            'quantity' => array(
+                'relative' =>false,
+                'value' => request('quantity')
+            )
+        ]);
+        return redirect()->back();    
     }
-    public function getAdd($id){
-        $oldCart = Session::has('cart') ? Session::get('cart')  : null;
-        $cart  = new Cart($oldCart);
-        $cart->addqty($id);     
-        Session::put('cart',$cart);
-        return redirect('/cart');
-    }
-    public function getReduce($id){
-        $oldCart = Session::has('cart') ? Session::get('cart')  : null;
-        $cart  = new Cart($oldCart);
-        $cart->reduceqty($id);  
-        if (count($cart->items) > 0) {
-            Session::put('cart',$cart);
-        }else{
-            Session::forget('cart');
-        }
-        return redirect('/cart');    
 
-    }
+    //remove item from cart
     public function getRemove($id){
-        $oldCart = Session::has('cart') ? Session::get('cart')  : null;
-        $cart  = new Cart($oldCart);
-        $cart->removeItem($id);     
-        if (count($cart->items) > 0) {
-            Session::put('cart',$cart);
-        }else{
-            Session::forget('cart');
-        }
-        return redirect('/cart');
+        \Cart::session(auth()->id())->remove($id);
+        return redirect()->back();    
     }
 
 }

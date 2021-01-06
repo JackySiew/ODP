@@ -6,10 +6,11 @@
 
 @section('content')
 
-<div class="card col-md-12">
-  <div class="card-body">
+<div class="panel col-md-12">
+  <div class="panel-body">
     @if (session('status'))
     <div class="alert alert-success">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
       {{ session('status') }}
     </div>
     @endif
@@ -19,8 +20,8 @@
     <table id="dataTable" class="table">
     <thead>
       <th>Id</th>
-      <th>Customer Details</th>
-      <th>Orders</th>
+      <th>Order Number</th>
+      <th>Shipping Address</th>
       <th>Order Date</th>
       <th>Status</th>
       <th>Action</th>
@@ -31,47 +32,61 @@
       <tbody>
       <td>{{$no++}}</td>
       <td>
-        <p>{{$order->user_name}}</p>
-        {{$order->address}}
+        <p>{{$order->order_number}}</p>
       </td>
       <td>
-        @foreach ($order->cart->items as $item)
-        <li>{{$item['item']['prodName']}} | {{$item['qty']}} unit(s)</li>
-        @endforeach
+        {{$order->address}}, {{$order->postcode}} {{$order->city}}, {{$order->state}}
       </td>
       <td>
-        {{$order->created_at->format('d-M-y')}}
+        {{$order->created_at}}
       </td>
       <td>
-        @if ($order->status == 0)
+        @if ($order->status == 'declined')
         <div class="alert alert-danger">
-          You haven't prepare for it
-        </div>
-        @elseif($order->status == 1)
-        <div class="alert alert-info">
-          Now shipping
-        </div>
-        @else
+        @elseif($order->status == 'processing')
+        <div class="alert alert-warning">
+        @elseif($order->status == 'completed')
         <div class="alert alert-success">
-          Shipped
-        </div>
+        @else
+        <div class="alert ">
         @endif
+          {{$order->status}}
+        </div>
       </td>
       <td>
         <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Change status
+        <a href="{{url('order/'.$order->id)}}" class="btn btn-primary">View</a><br>
+          {{-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Change status
           </button>
           <div class="dropdown-menu">
-            <a class="dropdown-item bg-info text-white" href="#">Ready for shipment</a>
-            <a class="dropdown-item bg-success text-white" href="#">Order complete</a>
-          </div>
+            <li><a class="dropdown-item" href="{{url('update-order/'.$order->id)}}">Ready for shipment</a></li>
+            <li><a class="dropdown-item" href="{{url('update-order/'.$order->id)}}">Order complete</a></li>
+          </div> --}}
         </div>
       </td>
     </tbody>
       @endforeach
-    
     </table>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Order Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     @else
@@ -85,9 +100,32 @@
 @endsection
 
 @section('scripts')
-    <script>
-      $(document).ready( function () {
-    $('#dataTable').DataTable();
-} );
-    </script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+  $(document).ready( function () {
+  $('#dataTable').DataTable();
+  });
+
+  $('.delete-confirm').on('click', function (event) {
+    event.preventDefault();
+    const url = $(this).attr('href');
+    swal({
+        title: 'Are you sure?',
+        text: 'This record and it`s details will be permanantly deleted!',
+        icon: 'warning',
+        buttons: ["Cancel", "Yes!"],
+    }).then(function(value) {
+        if (value) {
+          swal({
+          icon: 'success',
+          title: 'The product has deleted!',
+          buttons: true,
+          }).then(function(value){
+              window.location.href = url;
+          });
+        }
+    });
+});
+</script>
 @endsection

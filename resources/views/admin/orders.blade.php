@@ -1,22 +1,29 @@
 @extends('layouts.panel2')
 
 @section('title')
-   Order list
+   My Orders
 @endsection
 
 @section('content')
 
-<div class="card col-md-12">
-  <div class="card-body">
+<div class="panel col-md-12">
+  <div class="panel-body">
+    @if (session('status'))
+    <div class="alert alert-success">
+      {{ session('status') }}
+    </div>
+    @endif
+
     <div class="table-responsive">
     @if (count($orders)>0)
     <table id="dataTable" class="table">
     <thead>
       <th>Id</th>
-      <th>Customer Details</th>
-      <th>Orders</th>
+      <th>Order Number</th>
+      <th>Shipping Address</th>
       <th>Order Date</th>
       <th>Status</th>
+      <th>Action</th>
     </thead>
     
       @php $no = 1; @endphp
@@ -24,41 +31,58 @@
       <tbody>
       <td>{{$no++}}</td>
       <td>
-        <p>{{$order->user_name}}</p>
-        {{$order->address}}
+        <p>{{$order->order_number}}</p>
       </td>
       <td>
-        @foreach ($order->cart->items as $item)
-        <li>{{$item['item']['prodName']}} | {{$item['qty']}} unit(s)</li>
-        @endforeach
+        {{$order->address}}, {{$order->postcode}} {{$order->city}}, {{$order->state}}
       </td>
       <td>
-        {{$order->created_at->format('d-M-y')}}
+        {{$order->created_at}}
       </td>
       <td>
-        @if ($order->status == 0)
-        <div class="alert alert-danger">
-          Order is under process
-        </div>
-        @elseif($order->status == 1)
         <div class="alert alert-info">
-          Now shipping
+          {{$order->status}}
         </div>
-        @else
-        <div class="alert alert-success">
-          Order is complete
+      </td>
+      <td>
+        <div class="btn-group">
+        <a href="{{url('order/'.$order->id)}}" class="btn btn-primary">View</a><br>
+          {{-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Change status
+          </button>
+          <div class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Ready for shipment</a></li>
+            <li><a class="dropdown-item" href="#">Order complete</a></li>
+          </div> --}}
         </div>
-        @endif
       </td>
     </tbody>
       @endforeach
-    
     </table>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Order Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     @else
     <div class="text-center">
-      <h1>There is no orders for now! =="</h1>
+      <h1>You don't have any order for now! =="</h1>
       </div>  
     @endif
   </div>
@@ -69,7 +93,22 @@
 @section('scripts')
     <script>
       $(document).ready( function () {
-    $('#dataTable').DataTable();
-} );
+      $('#dataTable').DataTable();
+
+      $('.order').click(function () {
+            
+           receiver_id = $(this).attr('id');
+           $.ajax({
+            type:"get",
+            url:"order/"+receiver_id,
+            cache:false,
+            success: function (data) {
+                $('#messages').html(data);
+                scrollToBottom();
+            }
+           });
+        });
+
+      });
     </script>
 @endsection

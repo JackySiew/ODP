@@ -8,7 +8,10 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Events\Registered;
 use Auth;
+use App\SendCode;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class RegisterController extends Controller
@@ -25,21 +28,28 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+    public function otp(){
+        return view('auth.otp');
+    }
+
+    public function submit_otp(Request $request){
+        if ($user = User::where('code',$request->code)->first()) {
+            $user->active = 1;
+            $user->code=null;
+            $user->save();
+            return redirect('/login')->with('status','Your account is activated!');
+        } else {
+            return redirect()->back()->with('alert','The verify code is not correct. Please try again.');
+        }
+        
+    }
 
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected function redirectTo() {    
-        if (Auth::user()->usertype=="admin") {
-            return "admin";
-        }else if (Auth::user()->usertype=="designer") {
-            return 'designer';
-        }else{
-            return '/';
-        }
-    }
+    protected $redirectTo = '/otp';
     /**
      * Create a new controller instance.
      *
@@ -49,7 +59,11 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-
+    public function register(Request $request){
+        $this->validator($request->all())->validate();
+        event(new Registered($user = $this->create($request->all())));
+        return $this->registered($request,$user) ?: redirect('/otp?mobile='.$request->mobile);
+    }
     /**
      * Get a validator for an incoming registration request.
      *
@@ -61,6 +75,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'mobile' => ['required', 'string'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'usertype' => ['required', 'string'],
             'profile' => ['string','nullable'],
@@ -75,12 +90,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user= User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'mobile' => $data['mobile'],
             'password' => Hash::make($data['password']),
             'usertype' => $data['usertype'],
-            'profile' => "noprofile.png"
+            'profile' => "noprofile.png",
         ]);
+        if ($user) {
+            $user->code= SendCode::sendCode($user->mobile);
+            $user->save();
+        }
+        
     }
 }

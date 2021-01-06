@@ -6,8 +6,8 @@
 
 @section('content')
 
-<div class="card col-md-12">
-  <div class="card-body">
+<div class="panel col-md-12">
+  <div class="panel-body">
     <div class="table-responsive">
     @if (count($products)>0)
     <table id="dataTable" class="table">

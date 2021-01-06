@@ -12,31 +12,15 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //designer view products
     public function index()
     {
         $user_id = auth()->user()->id;
         $products = Product::all()->where('presentBy',$user_id)->sortByDesc('created_at');
-        if (session('status')) {
-            Alert::success('Create successfully!', 'You have created new product!!!');
-        }else if (session('status2')) {
-            Alert::success('Update successfully!', 'You have updated your product!!!');
-        }else if (session('status3')){
-            Alert::success('Delete successfully!', 'You have deleted your product!!!');
-        }
-
-        return view('designer.myprod',compact('products'))->with(['reviews','categories']);
+        return view('designer.myprod',compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //designer create product
     public function create()
     {
         $category = Category::orderBy('category_name','asc')->get();
@@ -57,12 +41,7 @@ class ProductController extends Controller
         return view('designer.show',compact('products','reviews'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   //designer save product
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -78,8 +57,7 @@ class ProductController extends Controller
         $product->category = $request->input('category');
         $product->description = $request->input('description');
         $product->prodPrice = $request->input('prodPrice');
-        $product->presentBy = auth()->user()->id;//get current login user's id
-
+        $product->presentBy = auth()->user()->id;
         if ($request->hasFile('prodImage')) {
             $fileNameWithExt = $request->file('prodImage')->getClientOriginalName();
 
@@ -97,13 +75,8 @@ class ProductController extends Controller
         $product->prodImage = $fileNameToStore;
         $product->save();
 
-        return redirect('/products')->with('status','Product Created');
+        return redirect('/products')->with('success','Product Created!');
     }
-
-    // public function show($id){
-    //     $product = Product::find($id);
-    //     return view('designer.show')->with('product',$product);
-    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -132,13 +105,7 @@ class ProductController extends Controller
         return view('designer.edit',compact('products','category'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         if ($request->hasFile('prodImage')) {
@@ -165,16 +132,9 @@ class ProductController extends Controller
             }  
         }
         $product->update();
-
-        return redirect('/products')->with('status2','Product Updated');
+        return redirect('/products')->with('success','Product Updated!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $product = Product::find($id);
@@ -182,6 +142,6 @@ class ProductController extends Controller
             Storage::delete('public/image/'.$product->prodImage);
         }
         $product->delete();
-        return redirect('/products')->with('status3','Product Deleted'); 
+        return redirect('/products')->with('success','Product Deleted!'); 
     }
 }

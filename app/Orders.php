@@ -6,13 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Orders extends Model
 {
-    protected $table= 'orders';
-
-    public function user(){
-        return $this->belongsTo('App\User');//product has relationship with user and belong to user
+    public function items(){
+        return $this->belongsToMany(Product::class,'order_items','order_id','product_id');
     }
 
     public function products(){
-        return $this->hasMany('App\Product');//order has many product
+        return $this->belongsToMany('App\Product')->withPivot('quantity');
+     }
+
+    public function user(){
+        return $this->belongsTo('App\User');
+     }
+
+    public function orderItem()
+    {
+        return $this->hasMany(OrderItems::class );
     }
-}
+ }
