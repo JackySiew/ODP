@@ -45,11 +45,13 @@
       @endif
       </td>
         <td>
-          <a href="{{url('products/'.$product->id)}}" class="btn btn-info">View</a>
-          <a href="{{url('products/'.$product->id.'/edit')}}" class="btn btn-info">Edit</a>
+          <a href="{{url('products/'.$product->id)}}" class="btn btn-info">View</a> 
           <br>
           <br>
-          <a href="{{url('products/delete/'.$product->id)}}" class="btn btn-danger delete-confirm"><i class="fa fa-trash">Delete</i></a>        
+          <div class="row">
+            <a href="{{url('products/'.$product->id.'/edit')}}" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i></a>
+            <a href="{{url('products/delete/'.$product->id)}}" class="btn btn-sm btn-danger delete-confirm"><i class="fa fa-trash"></i></a>                      
+          </div>
         </td>
       </tr>
       @endforeach

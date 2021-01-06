@@ -31,11 +31,11 @@
       <tbody>
       <td>{{$no++}}</td>
       <td>
-        <p>{{$custom->custom_number}}</p>
+        <p><b>Customize ID:</b> {{$custom->custom_number}}</p>
         <small>Order at: {{$custom->created_at}}</small>
       </td>
       <td>
-        {{$custom->address}}, {{$custom->postcode}} {{$custom->city}}, {{$custom->state}}
+        {{$custom->address1}}, {{$custom->address2}}, <br>{{$custom->postcode}} {{$custom->city}}, {{$custom->state}}
       </td>
       <td>
         {{$custom->deadline}}
@@ -82,7 +82,7 @@
         </div>
         <div class="form-group">
           <label for="deposit">Deposit:</label><br>
-          <input type="checkbox" name="deposit">   <span>Pay Deposit</span>
+          <input type="checkbox" name="deposit"> <span>Pay Deposit</span>
         </div>
 
       </div>

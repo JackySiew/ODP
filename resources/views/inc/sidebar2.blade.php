@@ -31,21 +31,14 @@
           </a>
         </li>
         <li>
-          <a href="{{url('prodlist')}}" class="{{ 'prodlist' == request()->path() ? 'active' : ''}}"><i class="fa fa-list"></i> <span>Product Details</span></a>
+          <a href="{{url('prodlist')}}" class="{{ 'prodlist' == request()->path() ? 'active' : ''}}"><i class="fa fa-list"></i> <span>Product Lists</span></a>
         </li>
         <li>
-          <a href="{{url('users')}}" class="{{ 'users' == request()->path() ? 'active' : ''}}"><i class="fa fa-users"></i> <span>User Details</span></a>
-        </li>
-        {{-- <li>
-          <a href="notifications.html" class="">
-            <i class="lnr lnr-alarm"></i> <span>Notifications</span>
-          </a>
+          <a href="{{url('users')}}" class="{{ 'users' == request()->path() ? 'active' : ''}}"><i class="fa fa-users"></i> <span>User Lists</span></a>
         </li>
         <li>
-          <a href="typography.html" class="">
-            <i class="lnr lnr-text-format"></i> <span>Typography</span>
-          </a>
-        </li> --}}
+          <a href="{{url('report')}}" class="{{ 'report' == request()->path() ? 'active' : ''}}"><i class="fa fa-file-pdf-o"></i> <span>Sales Report</span></a>
+        </li>
       </ul>
     </nav>
   </div>

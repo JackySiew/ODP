@@ -103,7 +103,6 @@ class HomeController extends Controller
         ->join('products', 'order_items.product_id','=','products.id')
         ->select('order_items.*','products.*')
         ->where('order_items.order_id', $orders->id)->get();
-        // $total = $orderItems->quantity;
         return view('user.showitem',['orderItems'=>$orderItems]);
     }
 
@@ -117,7 +116,7 @@ class HomeController extends Controller
     }
 
     //ajax get customize items
-    public function getCustomize($id)
+    public function getTaskItem($id)
     {      
         $custom = CustomTask::find($id);
         
@@ -126,10 +125,10 @@ class HomeController extends Controller
         ->select('custom_items.*','products.*')
         ->where('custom_items.custom_id', $custom->id)->get();
 
-        return view('user.showtask',['customItems'=>$customItems]);
+        return view('user.showtaskitem',['customItems'=>$customItems]);
     }
 
-    //view more ordering details
+    //user view more ordering details
     public function getOrder($id){
         $orders = Orders::find($id);
         
@@ -139,6 +138,17 @@ class HomeController extends Controller
         ->where('order_items.order_id', $orders->id)->get();
 
        return view('user.showorder',compact('orders','orderItems'));
+    }
+    //user view more customize task details
+    public function getCustomize($id){
+        $custom = CustomTask::find($id);
+        
+        $customItems = DB::table('custom_items')
+        ->join('products', 'custom_items.product_id','=','products.id')
+        ->select('custom_items.*','products.*')
+        ->where('custom_items.custom_id', $custom->id)->get();
+
+       return view('user.showcustom',compact('custom','customItems'));
     }
     
 }

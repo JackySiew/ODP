@@ -20,9 +20,9 @@
   </div>
   <div class="card-body">
     <ul class="list-unstyled">
-      <li><label for="Order Number">Order ID: </label> <p>{{$orders->order_number}}</p></li><hr>
-      <li><label for="Status">Status: </label> <p>{{$orders->status}}</p></li><hr>
-      <li><label for="Grand Total">Grand Total: </label> <p>RM {{$orders->grand_total}}</p></li><hr>
+      <li><label for="Order Number"><b>Order ID:</b> </label> {{$orders->order_number}}</li><hr>
+      <li><label for="Status"><b>Status:</b> </label> {{$orders->status}}</li><hr>
+      <li><label for="Grand Total"><b>Grand Total:</b> </label> RM {{$orders->grand_total}}</li><hr>
       <li><label for="Item Count">Items: </label> 
         <table class="table table-responsive-sm">
           <tr>
@@ -49,21 +49,29 @@
       </table>            
       </li>
       <hr>
-      <li><label for="IsPaid">Is Paid: </label> 
-        <p class="text-white">         
-          @if ($orders->is_paid == 0)
-          <span class="badge bg-danger"> Not paid
+      <li>
+        <label for="Payment"><b>Payment status:</b> </label> 
+        @if ($orders->is_paid == false)
+          <span class="badge bg-danger text-white"> Unpaid</span>
+
           @else
-          <span class="badge bg-success">  Paid
+          <span class="badge bg-success text-white"> Is Paid</span><br>
           @endif
-        </span>
-      </p>
+          <label for="Payment Method"><b>Pay by:</b> </label> <span class="badge badge-primary"><i class="fa fa-{{$orders->payment_method}}"></i>{{$orders->payment_method}}</span>
       </li><hr>
-      <li><label for="Payment Method">Payment Method: </label> <p>{{$orders->payment_method}}</p></li><hr>
-      <li><label for="Name">Name: </label> <p>{{$orders->fullname}}</p></li><hr>
-      <li><label for="Address">Address: </label><p> {{$orders->address1}},{{$orders->address2}}, {{$orders->postcode}} {{$orders->city}}, {{$orders->state}}</p></li><hr>
-      <li><label for="Mobile">Mobile No.: </label> <p>{{$orders->mobile}}</p></li><hr>
-      <li><label for="Remark">Remark*: </label> <p>
+      <li>
+        <label for="Customer Details"><b><u>Customer Details</u></b></label>
+        <br>
+        <br>
+        <li><label for="Name"><b>Name:</b> </label> {{$orders->fullname}}</li>
+        <li><label for="Address"><b>Address:</b> </label> {{$orders->address1}},{{$orders->address2}}, {{$orders->postcode}} {{$orders->city}}, {{$orders->state}}</li>
+        <li><label for="Mobile"><b>Mobile No:</b> </label> {{$orders->mobile}}</li>
+        
+        
+        
+      </li>
+      <hr>
+      <li><label for="Remark"><b>Remark*:</b> </label>
       @if ($orders->notes == "")
           None
       @else

@@ -1,4 +1,4 @@
-@extends('layouts.panel2')
+@extends('layouts.panel')
 
 @section('title')
  View Product

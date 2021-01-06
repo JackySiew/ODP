@@ -21,17 +21,18 @@ container
    <div class="card mb-4">
        <div class="card-header text-center">
         <b>Order ID:</b> {{$order->order_number}}   <br>  
-        <small>{{$order->created_at->format('d M, Y H:i A')}}</small>         
+        <small>Order Date: {{$order->created_at->format('d M, Y H:i A')}}</small>         
         </div>
         <div class="card-body">
             <ul class="list-group">
-                <li class="list-group-item"><b>Paid by:</b> {{$order->payment_method}} 
+                <li class="list-group-item"><b>Payment Status:</b> 
                     @if ($order->is_paid == 0)
-                        <span class="badge badge-danger">Haven't Pay
+                        <span class="badge badge-danger">Haven't Pay </span>
                     @else
-                        <span class="badge badge-success">Is Paid
+                        <span class="badge badge-success">Is Paid </span>
                     @endif
-                </span>
+                    <br>
+                    <b>Paid by:</b> {{$order->payment_method}} 
                 </li>
                 <li class="list-group-item"><b>Item(s):</b> {{$order->item_count}} 
                     <button class="btn btn-light btn-sm item pull-right" id="{{$order->id}}" data-toggle="collapse" data-target="#items{{$order->id}}" aria-expanded="false" aria-controls="items{{$order->id}}"><i class="fa fa-eye"></i></button>

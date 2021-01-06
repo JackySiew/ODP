@@ -51,7 +51,8 @@ class CustomController extends Controller
     {
         $request->validate([
             'fullname' => 'required',
-            'address' => 'required',
+            'address1' => 'required',
+            'address2' => 'required',
             'city' => 'required',
             'state' => 'required',
             'postcode' => 'required',
@@ -65,13 +66,12 @@ class CustomController extends Controller
         $custom->user_id = Auth::user()->id;
         $custom->status = 'pending';
         $custom->fullname = $request->input('fullname');
-        $custom->address = $request->input('address1');
-        $custom->address = $request->input('address2');
+        $custom->address1 = $request->input('address1');
+        $custom->address2 = $request->input('address2');
         $custom->city = $request->input('city');
         $custom->state = $request->input('state');
         $custom->postcode = $request->input('postcode');
         $custom->mobile = $request->input('mobile');
-        $custom->description = $request->input('description');
         $custom->deadline = $request->input('deadline');
         
         $custom->save();
@@ -81,11 +81,12 @@ class CustomController extends Controller
             $custom_items->product_id = $product->id;
             $custom_items->custom_id = $custom->id;
             $custom_items->quantity = $request->input('quantity');
+            $custom_items->request = $request->input('description');
             $custom_items->save();
         $seller = User::find($product->presentBy);
         $action = ["Action"=>"Someone sent customize request to your product"];
         $seller->notify(new Action($action));
-        return view('thankyou');
+        return redirect('my-customize')->with('status', 'Your request has sent! You can check your customize request status at here.');
 
     }
 
@@ -146,7 +147,7 @@ class CustomController extends Controller
         $task->grand_total = $request->input('totalPrice');
         if ($request->input('deposit') == true) {
             $task->status = 'accepted';
-            $task->deposit = $request->input('totalPrice') * 10/100;
+            $task->deposit = $request->input('totalPrice') * 50/100;
             $action = ["Action" => "Your request are accepted, please pay deposit"];
         }else{
             $task->status = 'processing';

@@ -40,8 +40,9 @@ Route::group(['middleware' => ['auth','user']], function(){
     Route::resource('orders', 'OrdersController');
     Route::resource('customize', 'CustomController');
     Route::get('/item/{id}', 'HomeController@getItems'); 
-    Route::get('/task/{id}', 'HomeController@getCustomize'); 
+    Route::get('/task-item/{id}', 'HomeController@getTaskItem'); 
     Route::get('/showorder/{id}', 'HomeController@getOrder');       
+    Route::get('/showcustom/{id}', 'HomeController@getCustomize');       
     Route::get('/chat', 'ChatController@index');    
     Route::get('/deposit/{id}', 'CustomController@deposit');    
     Route::get('/fullpay/{id}', 'CustomController@fullpay');    
@@ -83,6 +84,8 @@ Route::group(['middleware' => ['auth','admin']], function(){
     Route::put('/aprofile-update/{id}', 'AdminController@updateprofile');
     Route::get('/prodlist', 'AdminController@prodlist');
     Route::get('/prodlist/{id}', 'AdminController@show');
+    Route::get('/report', 'ReportController@index');
+    Route::post('/check', 'ReportController@checkReport');
 });
 
 Auth::routes();

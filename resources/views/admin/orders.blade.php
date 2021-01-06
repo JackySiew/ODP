@@ -1,4 +1,4 @@
-@extends('layouts.panel2')
+@extends('layouts.panel')
 
 @section('title')
    My Orders
@@ -34,7 +34,7 @@
         <p>{{$order->order_number}}</p>
       </td>
       <td>
-        {{$order->address}}, {{$order->postcode}} {{$order->city}}, {{$order->state}}
+        {{$order->address1}}, {{$order->address2}}, {{$order->postcode}} {{$order->city}}, {{$order->state}}
       </td>
       <td>
         {{$order->created_at}}
@@ -47,13 +47,6 @@
       <td>
         <div class="btn-group">
         <a href="{{url('order/'.$order->id)}}" class="btn btn-primary">View</a><br>
-          {{-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Change status
-          </button>
-          <div class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Ready for shipment</a></li>
-            <li><a class="dropdown-item" href="#">Order complete</a></li>
-          </div> --}}
         </div>
       </td>
     </tbody>

@@ -272,5 +272,8 @@ class AdminController extends Controller
         ->get();
         return view('admin.show',compact('products','reviews'));
     }
+    public function report(){
+        return view('admin.report');
+    }
 
 }

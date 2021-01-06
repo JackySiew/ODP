@@ -2,7 +2,13 @@
 <html lang="en">
 
 <head>
-	<title>Designer | @yield('title')</title>
+	<title>
+		@if (auth()->user()->usertype == 'designer')
+			Designer | @yield('title')
+		@else
+			Admin | @yield('title')
+		@endif
+	</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
@@ -25,7 +31,11 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		@include('inc.navbar2')
+		@if (auth()->user()->usertype == 'designer')
 		@include('inc.sidebar')
+		@else
+		@include('inc.sidebar2')
+		@endif
 		<!-- MAIN -->
 		<div class="main">
 			<!-- MAIN CONTENT -->
