@@ -27,7 +27,7 @@ container
             <ul class="list-group">
                 <li class="list-group-item"><b>Payment Status:</b> 
                     @if ($order->is_paid == 0)
-                        <span class="badge badge-danger">Haven't Pay </span>
+                        <span class="badge badge-danger">Not Pay </span>
                     @else
                         <span class="badge badge-success">Is Paid </span>
                     @endif

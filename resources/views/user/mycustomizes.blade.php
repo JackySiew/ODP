@@ -26,14 +26,14 @@ container
                     @elseif($custom->status == 'processing')
                         <span class="badge badge-warning">{{$custom->status}}</span>                   
                     @else
-                        <span class="badge badge-secondary">{{$custom->status}}</span>                   
+                        <span class="badge badge-warning">{{$custom->status}}</span>                   
                     @endif
                 </li>
                 @if ($custom->grand_total != NULL)
                     <li class="list-group-item">
                         <b>Payment Status:</b> 
-                        @if ($order->is_paid == 0)
-                            <span class="badge badge-danger">Haven't Pay </span>
+                        @if ($custom->is_paid == 0)
+                            <span class="badge badge-danger">Not Pay </span>
                         @else
                             <span class="badge badge-success">Is Paid </span>
                         @endif

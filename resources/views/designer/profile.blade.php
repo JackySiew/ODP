@@ -19,7 +19,7 @@
         <div class="profile-stat">
           <div class="row">
             <div class="col-md-12 stat-item">
-               <span>Products</span>
+               <span>Role as <b>{{$user->usertype}}</b></span>
             </div>
           </div>
         </div>
@@ -32,6 +32,7 @@
           <ul class="list-unstyled list-justify">
             <li>Mobile No. <span>{{$user->mobile}}</span></li>
             <li>Email <span>{{$user->email}}</span></li>
+            <li>Uploaded Product(s) <span>{{$products->count()}}</span></li>
           </ul>
         </div>
         <div class="profile-info">

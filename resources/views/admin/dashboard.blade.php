@@ -7,8 +7,7 @@ Dashboard
 @section('content')
 <div class="panel panel-headline">
   <div class="panel-heading">
-    <h3 class="panel-title">Weekly Overview</h3>
-    <p class="panel-subtitle">Period: Jan 2020 - Oct 2020</p>
+    <h3 class="panel-title">Sales Overview</h3>
   </div>
   <div class="panel-body">
     <div class="row">
@@ -53,9 +52,10 @@ Dashboard
   </div>
   <div class="col-lg-4">
     <div class="panel panel-chart">
-      <div class="panel-header">
-        <h5 class="panel-category">Rates & Reviews</h5>
-        <h4 class="panel-title">Reviews & Star Rates</h4>
+      <div class="panel-heading">
+        <h5 class="panel-title">Rates & Reviews</h5>
+        <h4 class="panel-subtitle">Reviews & Star Rates</h4>
+      </div>
       <div class="panel-body">
         {!! $chartjs3->render() !!}
       </div>

@@ -7,6 +7,9 @@
 @section('content')
 
 <div class="panel col-md-12">
+  <div class="panel-heading">
+    <h3 class="panel-title">Ordering data</h3>
+  </div>
   <div class="panel-body">
     @if (session('status'))
     <div class="alert alert-success">
@@ -20,7 +23,7 @@
     <table id="dataTable" class="table">
     <thead>
       <th>Id</th>
-      <th>Order Number</th>
+      <th>Order ID</th>
       <th>Shipping Address</th>
       <th>Order Date</th>
       <th>Status</th>
@@ -35,34 +38,27 @@
         <p>{{$order->order_number}}</p>
       </td>
       <td>
-        {{$order->address}}, {{$order->postcode}} {{$order->city}}, {{$order->state}}
+        {{$order->address1}}, {{$order->address2}}, {{$order->postcode}} {{$order->city}}, {{$order->state}}
       </td>
       <td>
         {{$order->created_at}}
       </td>
       <td>
-        @if ($order->status == 'declined')
-        <div class="alert alert-danger">
-        @elseif($order->status == 'processing')
-        <div class="alert alert-warning">
-        @elseif($order->status == 'completed')
-        <div class="alert alert-success">
+        @if ($order->status == 'completed')
+        <span class="badge bg-success">{{$order->status}}</span>            
+        @elseif ($order->status == 'declined')
+        <span class="badge bg-danger">{{$order->status}}</span>            
         @else
-        <div class="alert ">
+        <span class="badge bg-warning">{{$order->status}}</span>            
         @endif
-          {{$order->status}}
-        </div>
       </td>
       <td>
         <div class="btn-group">
         <a href="{{url('order/'.$order->id)}}" class="btn btn-primary">View</a><br>
-          {{-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Change status
-          </button>
-          <div class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{url('update-order/'.$order->id)}}">Ready for shipment</a></li>
-            <li><a class="dropdown-item" href="{{url('update-order/'.$order->id)}}">Order complete</a></li>
-          </div> --}}
+          @if ($order->status == 'pending')
+          <br>
+          <button class="btn btn-success deliver" id="{{$order->id}}">Ready to deliver</button>                     
+          @endif
         </div>
       </td>
     </tbody>
@@ -106,7 +102,26 @@
   $(document).ready( function () {
   $('#dataTable').DataTable();
   });
-
+  $('.deliver').on('click', function (event) {
+        event.preventDefault();
+        id = $(this).attr('id');
+        swal({
+              title: 'Are you sure?',
+              text: 'The status will be inform the customer and unable to change!',
+              icon: 'warning',
+              buttons: ["Cancel", "Yes!"],
+          }).then(function(value) {
+              if (value) {
+                swal({
+                icon: 'success',
+                buttons: true,
+                }).then(function(value){
+                  window.location = 'order-deliver/'+id;
+                });
+              }
+          });
+  });
+  
   $('.delete-confirm').on('click', function (event) {
     event.preventDefault();
     const url = $(this).attr('href');

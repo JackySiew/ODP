@@ -171,10 +171,12 @@ class CustomController extends Controller
         $user->notify(new Action($action));
         return redirect()->back()->with('status','Task Updated!');
     }
+
+    // Designer deliver customized product
     public function deliver($id){
         $task = CustomTask::findOrFail($id);
         $action = ["Action" => "Your customized product is on delivering"];
-        $task->status = 'delivering';
+        $task->status = 'processing';
         $task->update();
         $user = User::find($task->user_id);
         $user->notify(new Action($action));

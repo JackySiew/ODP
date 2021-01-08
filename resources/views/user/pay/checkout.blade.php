@@ -8,7 +8,7 @@
 @endsection
 @section('content')
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-6">
         <table class="table table-responsive">
             <tr>
                 <th>Image</th>
@@ -22,20 +22,20 @@
                     Product Id: {{$item->id}}<br>
                     Product Name: {{$item->name}}<br>
                     Qty: {{$item->quantity}} Unit(s)<br>
-                    Price per Unit: RM {{$item->price}}
+                    Price per Unit: RM {{number_format($item->price,2)}}
                 </td>
-                <td>RM {{\Cart::session(auth()->id())->get($item->id)->getPriceSum()}}</td>
+                <td>RM {{number_format(\Cart::session(auth()->id())->get($item->id)->getPriceSum(), 2)}}</td>
             </tr>
             @endforeach
             <tr>
                 <td colspan="4">
-                    <strong>Grand Total: RM {{\Cart::session(auth()->id())->getTotal()}}</strong>
+                    <strong>Grand Total: RM {{number_format(\Cart::session(auth()->id())->getTotal(),2)}}</strong>
                 </td>
             </tr>
         </table>
     </div>
 
-    <div class="col-md-6 offset-md-1">
+    <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-heading">Checkout Form</h3>
@@ -155,6 +155,7 @@
                     </div>
                         <div class="col-xs-12">
                             <button class="btn btn-success btn-lg btn-block" type="submit">Place Order</button>
+                            <a href="{{url('cart')}}" class="btn btn-secondary btn-lg btn-block">Cancel</a>
                         </div>
                       
                 </form>

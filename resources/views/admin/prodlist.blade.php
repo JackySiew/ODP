@@ -1,12 +1,15 @@
 @extends('layouts.panel')
 
 @section('title')
-   My Product
+  Product List
 @endsection
 
 @section('content')
 
 <div class="panel col-md-12">
+  <div class="panel-heading">
+    <h3 class="panel-title">Product List</h3>
+  </div>
   <div class="panel-body">
     <div class="table-responsive">
     @if (count($products)>0)
@@ -27,14 +30,14 @@
         <p>Last updated: {{$product->updated_at}}</p>
       </td>
       <td>
-      <p><h4>{{$product->prodName}}</h4></p>
+        <p><h4>{{$product->prodName}}</h4></p>     
       @if ($product->reviews()->count())
       <p>Rate: <i class="fa fa-star" style="color: #deb217"></i>{{ number_format($product->reviews()->avg('rating'), 2) }} / 5.00</p>
       <p>{{$product->reviews()->count()}} comment(s)</p>  
       @else
       <p>No one ratings</p>
-      @endif
-      </td>
+      @endif     
+     </td>
         <td>
           <a href="{{url('prodlist/'.$product->id)}}" class="btn btn-info">View</a>
         </td>

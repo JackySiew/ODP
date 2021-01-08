@@ -8,14 +8,17 @@
           </a>
         </li>
         <li>
-          @if ('aorders' == request()->path() || 'atasks' == request()->path())
-          <a href="#subPages" data-toggle="collapse" class="active"><i class="lnr lnr-chart-bars"></i> <span>Order/Customize Data</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+          @if ('aorders' == request()->path() || 'atasks' == request()->path() || 'report' == request()->path() )
+          <a href="#subPages" data-toggle="collapse" class="active"><i class="lnr lnr-chart-bars"></i> <span>Sales Report</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
           <div id="subPages" class="collapse in">
           @else
-          <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-chart-bars"></i> <span>Order/Customize Data</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+          <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-chart-bars"></i> <span>Sales Report</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
           <div id="subPages" class="collapse">
           @endif
             <ul class="nav">
+              <li>
+                <a href="{{url('report')}}" class="{{ 'report' == request()->path() ? 'active' : ''}}"><span>Search Report</span></a>
+              </li>      
                <li><a href="{{url('aorders')}}" class="{{ 'aorders' == request()->path() ? 'active' : ''}}">Manage Orders</a></li>
                <li><a href="{{url('atasks')}}" class="{{ 'atasks' == request()->path() ? 'active' : ''}}">Manage Customize Tasks</a></li>
             </ul>
@@ -35,9 +38,6 @@
         </li>
         <li>
           <a href="{{url('users')}}" class="{{ 'users' == request()->path() ? 'active' : ''}}"><i class="fa fa-users"></i> <span>User Lists</span></a>
-        </li>
-        <li>
-          <a href="{{url('report')}}" class="{{ 'report' == request()->path() ? 'active' : ''}}"><i class="fa fa-file-pdf-o"></i> <span>Sales Report</span></a>
         </li>
       </ul>
     </nav>

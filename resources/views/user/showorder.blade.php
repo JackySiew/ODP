@@ -21,9 +21,23 @@
   <div class="card-body">
     <ul class="list-unstyled">
       <li><label for="Order Number"><b>Order ID:</b> </label> {{$orders->order_number}}</li><hr>
-      <li><label for="Status"><b>Status:</b> </label> {{$orders->status}}</li><hr>
+      <li><label for="Status"><b>Status:</b> </label> 
+      @if ($orders->status == 'completed')
+      <div class="alert alert-success">
+        {{$orders->status}}
+      </div>    
+      @elseif($orders->status == 'declined')
+      <div class="alert alert-danger">
+        {{$orders->status}}
+      </div>    
+      @else
+      <div class="alert alert-warning">
+        {{$orders->status}}
+      </div>    
+      @endif
+      </li><hr>
       <li><label for="Grand Total"><b>Grand Total:</b> </label> RM {{$orders->grand_total}}</li><hr>
-      <li><label for="Item Count">Items: </label> 
+      <li><label for="Item Count"><b>Items:</b> </label> 
         <table class="table table-responsive-sm">
           <tr>
               <th>Product Image</th>
@@ -52,7 +66,7 @@
       <li>
         <label for="Payment"><b>Payment status:</b> </label> 
         @if ($orders->is_paid == false)
-          <span class="badge bg-danger text-white"> Unpaid</span>
+          <span class="badge bg-danger text-white"> Not Paid</span>
 
           @else
           <span class="badge bg-success text-white"> Is Paid</span><br>

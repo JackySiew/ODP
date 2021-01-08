@@ -19,11 +19,7 @@ class DesignerController extends Controller
     public function getAllMonths(){
         $month_array= array();
         $orders_date = DB::table('orders')
-        ->join('users', 'orders.user_id','=','users.id')
-        ->join('order_items', 'orders.id','=','order_items.order_id')
-        ->join('products', 'order_items.product_id','=','products.id')
-        ->select('orders.created_at')
-        ->where('products.presentBy', Auth::user()->id)
+        ->select('created_at')
         ->orderBy('created_at','asc')->pluck('created_at');
         if (!empty($orders_date)) {
             foreach ($orders_date as $date) {
@@ -38,12 +34,16 @@ class DesignerController extends Controller
 
     //count orders monthly
     function getMonthlyOrdersCount($month){
-        $monthOrderCount = DB::table('orders')->whereMonth('created_at',$month)->get()->count();
+        $monthOrderCount = Orders::whereHas('items',function($query){
+            $query->where('presentBy', Auth::user()->id);
+        })->whereMonth('created_at',$month)->get()->count();
         return $monthOrderCount;
     }
     //count tasks monthly by order's month record
     function getMonthlyTasksCount($month){
-        $monthTaskCount = DB::table('customize')->whereMonth('created_at',$month)->get()->count();
+        $monthTaskCount = CustomTask::whereHas('items',function($query){
+            $query->where('presentBy', Auth::user()->id);
+        })->whereMonth('created_at',$month)->get()->count();
         return $monthTaskCount;
     }
         
@@ -123,10 +123,11 @@ class DesignerController extends Controller
     public function profile(){
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
+        $products = Product::where('presentBy',$user_id);
         if (session('status')) {
             Alert::success('Update successfully!', 'You have updated your profile!!!');
         }
-        return view('designer.profile',compact('user'));
+        return view('designer.profile',compact('user','products'));
     }
 
     public function editprofile(Request $request, $id)

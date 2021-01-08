@@ -137,4 +137,16 @@ class OrdersController extends Controller
         $order->update();
     }
 
+    // Designer deliver product
+    public function deliver($id){
+        $task = Orders::findOrFail($id);
+        $action = ["Action" => "Your product is on delivering!"];
+        $task->status = 'processing';
+        $task->update();
+        $user = User::find($task->user_id);
+        $user->notify(new Action($action));
+
+        return redirect()->back()->with('status','Task Updated!');
+    }
+    
 }

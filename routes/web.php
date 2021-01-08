@@ -10,8 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/invoice-pdf/{id}', 'PDFController@invoice');
-Route::get('/report-pdf/{id}', 'PDFController@report');
 Route::get('/designer-pdf/{id}', 'PDFController@designer');
 
 Route::get('/', 'HomeController@index');
@@ -28,6 +26,7 @@ Route::get('/messages/{id}', 'ChatController@getMessage')->name('message');
 Route::post('message', 'ChatController@sentMessage');  
 
 Route::group(['middleware' => ['auth','user']], function(){
+    Route::get('/invoice-pdf/{id}', 'PDFController@invoice');
     Route::get('/my-orders', 'HomeController@myorder');    
     Route::get('/my-customize', 'HomeController@myCustomize');    
     Route::get('/add-cart/{id}', 'CartController@addToCart');    
@@ -66,7 +65,8 @@ Route::group(['middleware' => ['auth','designer']], function(){
     Route::put('/decline/{id}', 'CustomController@decline'); 
     Route::get('/products/delete/{id}', 'ProductController@destroy');
     Route::get('/chatd', 'ChatController@dindex');    
-    Route::get('/deliver/{id}', 'CustomController@deliver');    
+    Route::get('/task-deliver/{id}', 'CustomController@deliver');    
+    Route::get('/order-deliver/{id}', 'OrderController@deliver');    
 
 });
 
@@ -75,10 +75,12 @@ Route::group(['middleware' => ['auth','admin']], function(){
     Route::get('/admin', 'AdminController@index');
     Route::get('/users', 'AdminController@users');
     Route::get('/atasks', 'AdminController@customizeTask');
+    Route::get('/atask/{id}', 'AdminController@getTask'); 
     Route::get('/users-edit/{id}', 'AdminController@edituser');
     Route::put('/user-update/{id}', 'AdminController@updateuser');
     Route::delete('/user-delete/{id}', 'AdminController@deleteuser');
     Route::get('/aorders', 'AdminController@orders');
+    Route::get('/aorder/{id}', 'AdminController@getOrder');
     Route::get('/aprofile', 'AdminController@profile');
     Route::get('/aprofile-edit/{id}', 'AdminController@editprofile');
     Route::put('/aprofile-update/{id}', 'AdminController@updateprofile');
@@ -86,6 +88,9 @@ Route::group(['middleware' => ['auth','admin']], function(){
     Route::get('/prodlist/{id}', 'AdminController@show');
     Route::get('/report', 'ReportController@index');
     Route::post('/check', 'ReportController@checkReport');
+    Route::get('/sales-pdf/{year?}/{month?}/{day?}', 'PDFController@salesReport');
+    Route::get('/report/atask/{id}', 'AdminController@getTask'); 
+    Route::get('/report/aorder/{id}', 'AdminController@getOrder');
 });
 
 Auth::routes();

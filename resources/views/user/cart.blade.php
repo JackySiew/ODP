@@ -33,12 +33,12 @@
         <td>{{$product['name']}}
         <br>
         </td>
-        <td>RM {{\Cart::session(auth()->id())->get($product->id)->getPriceSum()}}</td>
+        <td>RM {{number_format(\Cart::session(auth()->id())->get($product->id)->getPriceSum(),2)}}</td>
     </tr>
     @endforeach
     <tr>
 
-        <td colspan="4" class="text-right">Total: <strong>RM {{\Cart::session(auth()->id())->getTotal()}}</strong></td>
+        <td colspan="4" class="text-right">Total: <strong>RM {{number_format(\Cart::session(auth()->id())->getTotal(),2)}}</strong></td>
     </tr>
 </table>
 <a href="{{url('checkout')}}" class="btn btn-info pull-right">Checkout</a>

@@ -6,25 +6,30 @@
 
 @section('content')
 
-<a href="{{url('report')}}" class="btn btn-primary">Go back</a>
 
 <div class="panel col-md-12">
     <div class="panel-heading">
-        <h3> Results found in 
+        <h3> Order sales results found in 
         @php
             if (isset($date)){
+              $link = date('Y/m/d', strtotime($date));
                 echo $date;
             }
             else if(isset($month) && isset($year))
             {
-                echo $month.', '.$year;
+                $link = $year.'/'.$month;
+                echo date('F', strtotime($month)).', '.$year;
             }
             else{
+              $link = $year;
                echo $year; 
             }
         @endphp
          = {{count($orders)}}
         </h3>
+        <a href="{{url('sales-pdf/'.$link)}}" class="btn btn-danger"><i class="fa fa-file-pdf-o"></i> Download PDF</a>  
+        <a href="{{url('report')}}" class="btn btn-primary">Go back</a>
+
     </div>
   <div class="panel-body">
     <div class="table-responsive">
@@ -36,7 +41,7 @@
       <th>Shipping Address</th>
       <th>Order Date</th>
       <th>Amount</th>
-      <th>Status</th>
+      <th>Order Status</th>
       <th>Action</th>
     </thead>
     
@@ -54,24 +59,37 @@
         {{$order->created_at}}
       </td>
       <td>
-        {{$order->grand_total}}
+        RM {{$order->grand_total}}
       </td>
       <td>
-        <div class="alert alert-info">
+        @if ($order->status == 'completed')
+        <div class="alert" style="background-color: rgb(27, 153, 27);color: white;">
           {{$order->status}}
         </div>
+        @elseif ($order->status == 'declined')
+        <div class="alert" style="background-color: rgb(231, 39, 39);color: white;">
+          {{$order->status}}
+        </div>
+        @elseif ($order->status == 'processing')
+        <div class="alert" style="background-color: rgb(226, 172, 23);color: white;">
+          {{$order->status}}
+        </div>
+        @else
+        <div class="alert" style="background-color: rgb(221, 154, 29);color: white;">
+          {{$order->status}}
+        </div>
+        @endif
       </td>
       <td>
         <div class="btn-group">
-        <a href="{{url('order/'.$order->id)}}" class="btn btn-primary">View</a><br>
+        <a href="{{url('aorder/'.$order->id)}}" class="btn btn-primary">View</a><br>
         </div>
       </td>
     </tbody>
       @endforeach
     </table>
-    <h3>Total Amount = RM {{$sum}}</h3>
+    <h3 class="text-right">Total Amount = RM {{$sum}}</h3>
     </div>
-
     @else
     <div class="text-center">
       <h1>No result found.</h1>

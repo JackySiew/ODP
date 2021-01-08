@@ -1,12 +1,15 @@
 @extends('layouts.panel')
 
 @section('title')
-   My customize tasks
+   Customize Task Data
 @endsection
 
 @section('content')
 
 <div class="panel col-md-12">
+  <div class="panel-heading">
+    <h3 class="panel-title">Customize Task Data</h3>
+  </div>
   <div class="panel-body">
     @if (session('status'))
     <div class="alert alert-success">
@@ -34,17 +37,23 @@
         <p>{{$custom->custom_number}}</p>
       </td>
       <td>
-        {{$custom->address}}, {{$custom->postcode}} {{$custom->city}}, {{$custom->state}}
+        {{$custom->address1}}, {{$custom->address2}}, {{$custom->postcode}} {{$custom->city}}, {{$custom->state}}
       </td>
       <td>
         {{$custom->created_at}}
       </td>
       <td>
-        {{$custom->status}}
+        @if ($custom->status == 'completed')
+        <span class="badge bg-success">{{$custom->status}}</span>            
+        @elseif ($custom->status == 'declined')
+        <span class="badge bg-danger">{{$custom->status}}</span>            
+        @else
+        <span class="badge bg-warning">{{$custom->status}}</span>            
+        @endif
       </td>
       <td>
         <div class="btn-group">
-        <p><a href="{{url('tasks/'.$custom->id)}}" class="btn btn-primary">View</a></p>
+        <p><a href="{{url('atask/'.$custom->id)}}" class="btn btn-primary">View</a></p>
       </div>
       </td>
     </tbody>
@@ -92,38 +101,9 @@
 @section('scripts')
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <script>
-      $(document).ready( function () {
-      $('#dataTable').DataTable();
-
-        $('.confirm').on('click', function (event) {
-          event.preventDefault();
-          confirm = $(this).attr('id');
-          const url = $(this).attr('href');
-          if (confirm == 'accept') {
-            swal({
-              title: 'Are you sure?',
-              text: 'The status will unable to change after update!',
-              icon: 'warning',
-              buttons: ["Cancel", "Yes!"],
-          }).then(function(value) {
-              if (value) {
-                window.location.href = url;
-              }
-            });
-          } else {
-            swal({
-              title: 'Are you sure?',
-              text: 'The status will unable to change after update!',
-              icon: 'warning',
-              buttons: ["Cancel", "Yes!"],
-          }).then(function(value) {
-              if (value) {
-                $('#exampleModal').modal("show");
-              }
-            });
-          }
-      });
-    });
-    </script>
+<script>
+  $(document).ready( function () {
+  $('#dataTable').DataTable();
+  });
+</script>
 @endsection

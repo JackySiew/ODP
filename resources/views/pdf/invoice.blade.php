@@ -3,17 +3,15 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
     <style>
         .page-break {
             page-break-after: always;
         }
-        table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-table{
-    width: 100%;
-}
     </style>
 </head>
 <body>      
@@ -25,8 +23,7 @@ table{
     81300 Skudai, Johor
 </p>
 <hr>
-<div style="float: right;">
-<p>
+<p class="float-right">
     <b>Order ID:</b> {{$orderNumber}}<br>
     <b>Order Date:</b> {{$orderDate}}
 </p>
@@ -42,13 +39,15 @@ table{
 <br>
 
 <p><b>Purchase Order:</b>
-    <table>
-        <tr>
-            <th>Image</th>
-            <th>Description</th>
-            <th>Quantity</th>
-            <th>Amount</th>
-        </tr>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+            </tr>    
+        </thead>
         @foreach ($products as $item)
         <tr>
             <td><img src="storage/image/{{$item->prodImage}}" width="100"></td>
@@ -58,11 +57,11 @@ table{
                 Price per Unit: RM {{$item->prodPrice}}
             </td>
             <td>{{$item->quantity}} Unit(s)</td>
-            <td style="text-align: center;">RM {{$item->prodPrice * $item->quantity}}</td>
+            <td>RM {{$item->prodPrice * $item->quantity}}</td>
         </tr>
         @endforeach
         <tr>
-            <td colspan="4" style="text-align:right;"><b>Total: RM{{$total}}</b></td>
+            <td colspan="4" class="text-right"><b>Total: RM{{$total}}</b></td>
         </tr>    
     </table>    
     <br>

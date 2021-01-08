@@ -1,12 +1,15 @@
 @extends('layouts.panel')
 
 @section('title')
-   My Orders
+  Ordering Data
 @endsection
 
 @section('content')
 
 <div class="panel col-md-12">
+  <div class="panel-heading">
+    <h3 class="panel-title">Ordering data</h3>
+  </div>
   <div class="panel-body">
     @if (session('status'))
     <div class="alert alert-success">
@@ -19,7 +22,7 @@
     <table id="dataTable" class="table">
     <thead>
       <th>Id</th>
-      <th>Order Number</th>
+      <th>Order Description</th>
       <th>Shipping Address</th>
       <th>Order Date</th>
       <th>Status</th>
@@ -31,22 +34,26 @@
       <tbody>
       <td>{{$no++}}</td>
       <td>
-        <p>{{$order->order_number}}</p>
+        {{$order->order_number}}
       </td>
       <td>
-        {{$order->address1}}, {{$order->address2}}, {{$order->postcode}} {{$order->city}}, {{$order->state}}
+        {{$order->address1}},<br> {{$order->address2}},<br> {{$order->postcode}} {{$order->city}}, {{$order->state}}
       </td>
       <td>
         {{$order->created_at}}
       </td>
       <td>
-        <div class="alert alert-info">
-          {{$order->status}}
-        </div>
+        @if ($order->status == 'completed')
+        <span class="badge bg-success">{{$order->status}}</span>            
+        @elseif ($order->status == 'declined')
+        <span class="badge bg-danger">{{$order->status}}</span>            
+        @else
+        <span class="badge bg-warning">{{$order->status}}</span>            
+        @endif
       </td>
       <td>
         <div class="btn-group">
-        <a href="{{url('order/'.$order->id)}}" class="btn btn-primary">View</a><br>
+        <a href="{{url('aorder/'.$order->id)}}" class="btn btn-primary">View</a><br>
         </div>
       </td>
     </tbody>
@@ -87,21 +94,6 @@
     <script>
       $(document).ready( function () {
       $('#dataTable').DataTable();
-
-      $('.order').click(function () {
-            
-           receiver_id = $(this).attr('id');
-           $.ajax({
-            type:"get",
-            url:"order/"+receiver_id,
-            cache:false,
-            success: function (data) {
-                $('#messages').html(data);
-                scrollToBottom();
-            }
-           });
-        });
-
       });
     </script>
 @endsection

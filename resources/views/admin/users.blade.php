@@ -13,7 +13,7 @@
         </div>
         <div class="panel-body">
           <div class="table-responsive">
-            <table class="table">
+            <table class="table" id="dataTable">
               <thead class=" text-primary">
                 <th>Name</th>
                 <th>Role</th>
@@ -27,10 +27,7 @@
                   <td>{{$user->name}}</td>
                   <td>{{$user->usertype}}</td>
                   <td>{{$user->created_at}}</td>
-                  {{-- <td>
-                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                    <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
-                  </td> --}}
+
                   @if ($user->active == 1)
                       <td><div class="btn btn-success">Active</div></td>
                   @else 
@@ -61,6 +58,10 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
   <script>
+  $(document).ready( function () {
+    $('#dataTable').DataTable();
+  });
+
   $('.delete-confirm').on('click', function (event) {
     event.preventDefault();
     const url = $(this).attr('href');

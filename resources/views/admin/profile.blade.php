@@ -19,7 +19,7 @@
         <div class="profile-stat">
           <div class="row">
             <div class="col-md-12 stat-item">
-               <span>Products</span>
+              Role as <b>{{$user->usertype}}</b>
             </div>
           </div>
         </div>

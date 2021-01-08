@@ -7,6 +7,7 @@ use App\User;
 use App\Product;
 use App\Orders;
 use App\Review;
+use Carbon\Carbon;
 use App\CustomTask;
 use DB;
 use Illuminate\Support\Facades\Storage;
@@ -17,10 +18,7 @@ class AdminController extends Controller
     public function getAllMonths(){
         $month_array= array();
         $orders_date = DB::table('orders')
-        ->join('users', 'orders.user_id','=','users.id')
-        ->join('order_items', 'orders.id','=','order_items.order_id')
-        ->join('products', 'order_items.product_id','=','products.id')
-        ->select('orders.created_at')
+        ->select('created_at')
         ->orderBy('created_at','asc')->pluck('created_at');
         if (!empty($orders_date)) {
             foreach ($orders_date as $date) {
@@ -187,6 +185,7 @@ class AdminController extends Controller
         $user = User::find($id);
         $user->name =$request->input('name');
         $user->email =$request->input('email');
+        $user->mobile =$request->input('mobile');
         if ($request->hasFile('profile')) {
             if ($user->profile != "noimage.png") {
                 Storage::delete('public/image/'.$user->profile);          
@@ -252,11 +251,40 @@ class AdminController extends Controller
         return view('admin.orders',compact('orders'));
     }
 
+    //admin view order's details
+    public function getOrder($id){
+        $orders = Orders::find($id);
+        
+        $orderItems = DB::table('order_items')
+        ->join('products', 'order_items.product_id','=','products.id')
+        ->select('order_items.*','products.*')
+        ->where([
+            'order_items.order_id' => $orders->id
+            ])->get();
+
+       return view('admin.showorder',compact('orders','orderItems'));
+    }
+
     //View all customize request tasks
     public function customizeTask(){
         $customs = CustomTask::all()->sortByDesc('created_at');
         return view('admin.tasks',compact('customs'));
     }
+
+    // Admin View Customize task details
+    public function getTask($id){
+        $task = CustomTask::find($id);
+        
+        $taskItems = DB::table('custom_items')
+        ->join('products', 'custom_items.product_id','=','products.id')
+        ->select('custom_items.*','products.*')
+        ->where([
+            'custom_items.custom_id' => $task->id
+            ])->get();
+        $dt = new Carbon();
+        return view('admin.showtask',compact('task','taskItems','dt'));
+    }
+    
     // View product's details
     public function show($id)
     {

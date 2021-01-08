@@ -7,6 +7,10 @@
 @section('content')
 
 <div class="panel col-md-12">
+  <div class="panel-heading">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <h3 class="panel-title">Customize task data</h3>
+  </div>
   <div class="panel-body">
     @if (session('status'))
     <div class="alert alert-success">
@@ -32,7 +36,7 @@
       <td>{{$no++}}</td>
       <td>
         <p><b>Customize ID:</b> {{$custom->custom_number}}</p>
-        <small>Order at: {{$custom->created_at}}</small>
+        <small>Ordered at: {{$custom->created_at}}</small>
       </td>
       <td>
         {{$custom->address1}}, {{$custom->address2}}, <br>{{$custom->postcode}} {{$custom->city}}, {{$custom->state}}
@@ -41,7 +45,13 @@
         {{$custom->deadline}}
       </td>
       <td>
-        {{$custom->status}}
+        @if ($custom->status == 'completed')
+        <span class="badge bg-success">{{$custom->status}}</span>            
+        @elseif ($custom->status == 'declined')
+        <span class="badge bg-danger">{{$custom->status}}</span>            
+        @else
+        <span class="badge bg-warning">{{$custom->status}}</span>            
+        @endif
       </td>
       <td>
         <div class="btn-group">
@@ -176,7 +186,7 @@
               buttons: ["Cancel", "Yes!"],
           }).then(function(value) {
               if (value) {
-                window.location = 'deliver/'+id;
+                window.location = 'task-deliver/'+id;
               }
           });
       });

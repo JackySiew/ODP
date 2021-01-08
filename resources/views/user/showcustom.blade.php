@@ -46,14 +46,14 @@
         @endif
         <li><label for="FullyPaid"><b>Fully Payment:</b></label> 
         @if ($custom->fully_paid == false)
-            <span class="badge badge-danger">Unpaid</span>
+            <span class="badge badge-danger">Not Paid</span>
         @else
         <span class="badge badge-success">Is Paid</span>
         @endif
         </li>
         <li><label for="DepositPaid"><b>Deposit:</b></label>
           @if ($custom->deposit_paid == false)
-          <span class="badge badge-danger">Unpaid</span>
+          <span class="badge badge-danger">Not Paid</span>
           @else
           <span class="badge badge-success">Is Paid</span>
           @endif
