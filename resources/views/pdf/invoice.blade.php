@@ -57,11 +57,11 @@
                 Price per Unit: RM {{$item->prodPrice}}
             </td>
             <td>{{$item->quantity}} Unit(s)</td>
-            <td>RM {{$item->prodPrice * $item->quantity}}</td>
+            <td>RM {{number_format($item->prodPrice * $item->quantity,2)}}</td>
         </tr>
         @endforeach
         <tr>
-            <td colspan="4" class="text-right"><b>Total: RM{{$total}}</b></td>
+            <td colspan="4" class="text-right"><b>Total: RM{{number_format($total,2)}}</b></td>
         </tr>    
     </table>    
     <br>

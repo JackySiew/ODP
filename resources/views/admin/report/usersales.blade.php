@@ -9,7 +9,7 @@
     <div class="panel-heading">
       @foreach ($designer as $user)    
         <h3> {{$user->name}}'s sales data</h3>
-        <a href="{{url('sales-pdf')}}" class="btn btn-danger"><i class="fa fa-file-pdf-o"></i> Download PDF</a>  
+        <a href="{{url('user-sales-pdf/'.$user->id)}}" class="btn btn-danger"><i class="fa fa-file-pdf-o"></i> Download PDF</a>  
         <a href="{{url('report')}}" class="btn btn-primary">Go back</a>
       @endforeach
     </div>

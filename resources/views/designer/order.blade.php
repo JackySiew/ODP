@@ -5,19 +5,18 @@
 @endsection
 
 @section('content')
+@if (session('status'))
+<div class="alert alert-success">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+  {{ session('status') }}
+</div>
+@endif
 
 <div class="panel col-md-12">
   <div class="panel-heading">
     <h3 class="panel-title">Ordering data</h3>
   </div>
   <div class="panel-body">
-    @if (session('status'))
-    <div class="alert alert-success">
-      <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-      {{ session('status') }}
-    </div>
-    @endif
-
     <div class="table-responsive">
     @if (count($orders)>0)
     <table id="dataTable" class="table">

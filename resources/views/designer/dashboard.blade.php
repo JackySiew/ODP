@@ -17,15 +17,23 @@ Dashboard
       </div>
       <div class="col-md-3">
         <div class="weekly-summary text-right">
-          <span class="number">3</span> <span class="percentage"><i class="fa fa-caret-up text-success"></i> 12%</span>
+          <span class="number">{{$products}}</span> 
+          <span class="info-label">Uploaded Product</span>
+        </div>
+        <div class="weekly-summary text-right">
+          <span class="number">{{$allOrderComplete}}/{{$allOrder}} completed</span> 
+          <span class="info-label">Total Order(s)</span>
+        </div>
+        <div class="weekly-summary text-right">
+          <span class="number">{{$allTaskComplete}}/{{$allTask}} completed</span> 
+          <span class="info-label">Total Customize Task(s)</span>
+        </div>        
+        <div class="weekly-summary text-right">
+          <span class="number">RM {{number_format($totalSales,2)}}</span> 
           <span class="info-label">Total Sales</span>
         </div>
         <div class="weekly-summary text-right">
-          <span class="number">$5,758</span> <span class="percentage"><i class="fa fa-caret-up text-success"></i> 23%</span>
-          <span class="info-label">Monthly Income</span>
-        </div>
-        <div class="weekly-summary text-right">
-          <span class="number">$65,938</span> <span class="percentage"><i class="fa fa-caret-down text-danger"></i> 8%</span>
+          <span class="number">RM {{number_format($totalIncome,2)}}</span> 
           <span class="info-label">Total Income</span>
         </div>
       </div>

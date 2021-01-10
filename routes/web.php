@@ -92,6 +92,7 @@ Route::group(['middleware' => ['auth','admin']], function(){
     Route::get('/sales-pdf/{id?}/{year?}/{month?}/{day?}', 'PDFController@salesReport');
     Route::get('/report/atask/{id}', 'AdminController@getTask'); 
     Route::get('/report/aorder/{id}', 'AdminController@getOrder');
+    Route::get('/user-sales-pdf/{id}','PDFController@designerSalesReport');
 });
 
 Auth::routes();

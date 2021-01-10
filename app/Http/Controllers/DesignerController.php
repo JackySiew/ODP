@@ -51,7 +51,6 @@ class DesignerController extends Controller
     public function index()
     {
         // Ordering data chart
-        $orders = Orders::all();
         $monthly_order_count_array = array();
         $month_array = $this->getAllMonths();
         $month_name_array = array();
@@ -71,7 +70,6 @@ class DesignerController extends Controller
         $data = $monthly_order_data_array['order_count_data'];
 
         // Task data chart
-        $tasks = CustomTask::all();
         $monthly_task_count_array = array();
         $month_array2 = $this->getAllMonths();
         $month_name_array2 = array();
@@ -114,9 +112,33 @@ class DesignerController extends Controller
                 
         ])
         ->options([]);
-        
-        alert()->info('InfoAlert','jkzbkgbdkgdj');
-        return view('designer.dashboard',compact('chartjs'));
+        $products = Product::where('presentBy',Auth::user()->id)->count();
+        $orderSales = Orders::whereHas('items',function($query){
+            $query->where('presentBy', Auth::user()->id);
+        })->where('status','!=','declined')->sum('grand_total');
+        $taskSales = CustomTask::whereHas('items',function($query){
+            $query->where('presentBy', Auth::user()->id);
+        })->where('status','!=','declined')->sum('grand_total');    
+        $allOrder = Orders::whereHas('items',function($query){
+            $query->where('presentBy', Auth::user()->id);
+        })->count();
+        $allTask = CustomTask::whereHas('items',function($query){
+            $query->where('presentBy', Auth::user()->id);
+        })->count();    
+        $allOrderComplete = Orders::whereHas('items',function($query){
+            $query->where('presentBy', Auth::user()->id);
+        })->where('status','completed')->count();
+        $allTaskComplete = CustomTask::whereHas('items',function($query){
+            $query->where('presentBy', Auth::user()->id);
+        })->where('status','completed')->count();    
+        $totalSales = $orderSales + $taskSales;
+        $orderTrueSales = DB::table('orders')->where('status','!=','declined')->where('is_paid',true)->sum('grand_total');
+        $taskFully = DB::table('customize')->where('status','!=','declined')->where('fully_paid',true)->sum('grand_total');
+        $taskDeposit = DB::table('customize')->where('status','!=','declined')->where('deposit_paid',true)->sum('deposit');
+        $taskTrueSales = $taskFully + $taskDeposit;
+        $totalIncome = $orderTrueSales + $taskTrueSales;
+
+        return view('designer.dashboard',compact('chartjs','totalSales','totalIncome','products','allTask','allOrder','allOrderComplete','allTaskComplete'));
     }
 
 

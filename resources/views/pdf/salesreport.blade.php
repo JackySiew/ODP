@@ -24,6 +24,7 @@
     81300 Skudai, Johor
 </p>
 <hr>
+<h3>Ordering Details:</h3>
 <table class="table table-sm">
     <thead class="thead-light">
         <tr>
@@ -32,7 +33,7 @@
             @endif
             <th>Description</th>
             <th>Payment Remark</th>
-            <th>Amount</th>
+            <th>Total Amount</th>
         </tr>    
     </thead>
     @foreach ($description as $order)
@@ -52,29 +53,92 @@
             <br>
             Customer Name: {{$order->fullname}} 
         </td>
-
         <td>
-            Pay by: {{$order->payment_method}} <br>
+            Payment Status:
             @if ($order->is_paid == 1)
             <span class="badge badge-success"> Is Paid</span>
             @else
             <span class="badge badge-danger"> Not Paid </span>
-            @endif 
-            <br>
-            
+            @endif             
+            Pay by: {{$order->payment_method}} <br>
         </td>
-        <td class="text-right">RM {{$order->grand_total}}</td>
+        <td class="text-right">RM {{number_format($order->grand_total,2)}}</td>
+    </tr>
+    @endforeach
+    <tfoot>
+        <tr>
+            <td colspan="4" class="text-right">
+            <b>Total sum: RM{{number_format($sum,2)}}</b> <br> 
+            <b>Total Income: RM{{number_format($actual,2)}}</b> <br>
+            <b>Payment Pending: RM{{number_format($paymentPending,2)}}</b>
+            </td>
+        </tr>        
+    </tfoot>
+</table>    
+<br>
+<br>
+<div class="page-break"></div>
+<h3>Customize Task Details:</h3>
+<table class="table table-sm">
+    <thead class="thead-light">
+        <tr>
+            @if ($day == NULL)
+            <th>Date</th>
+            @endif
+            <th>Description</th>
+            <th>Payment Remark</th>
+            <th>Total Amount</th>
+        </tr>    
+    </thead>
+    @foreach ($description2 as $task)
+    <tr>
+        <td>{{date('d-m-Y', strtotime($task->created_at))}}</td>
+        <td>
+            Task ID: {{$task->custom_number}}<br>
+            Customize task Status: 
+            @if ($task->status == 'completed')
+            <span class="badge badge-success">{{$task->status}}</span>            
+            @elseif($task->status == 'declined')
+            <span class="badge badge-danger">{{$task->status}}</span>            
+            @else
+            <span class="badge badge-warning">{{$task->status}}</span>            
+            @endif
+            <br>
+            Customer Name: {{$task->fullname}} 
+        </td>
+
+        <td>
+            Fully Payment:
+            @if ($task->fully_paid == 1)
+            <span class="badge badge-success"> Is Paid</span><br>
+            Paid by: {{$task->payment_method}} <br>
+            @else
+            <span class="badge badge-danger"> Not Paid </span><br>
+            @endif 
+            Deposit:
+            @if ($task->deposit_paid == 1)
+            <span class="badge badge-success"> Is Paid</span><br>
+            Paid by: {{$task->payment_method}} <br>
+            @else
+            <span class="badge badge-danger"> Not Paid </span><br>
+            @endif 
+        </td>
+        <td class="text-right">
+            @if ($task->grand_total == null)
+                None
+            @else
+            RM {{number_format($task->grand_total,2)}}
+            @endif
+        </td>
     </tr>
     @endforeach
     <tr>
-        <td colspan="4" class="text-right"><b>Total sum: RM{{$sum}}</b> <br> <b>Actual sum: RM{{$actual}}</b></td>
+        <td colspan="4" class="text-right">
+            <b>Total sum: RM{{number_format($sum2,2)}}</b> <br> 
+            <b>Total Income: RM{{number_format($actual2,2)}}</b> <br>
+            <b>Payment Pending: RM{{number_format($paymentPending2,2)}}</b>
+        </td>
     </tr>    
 </table>    
-<br>
-<div class="page-break"></div>
-<footer>
-    <p>For more about information, please email to info@odp.com or contact no(07-5638525).</p>
-    <p>Thank You.</p>        
-</footer>
 </body>
 </html>
