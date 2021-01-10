@@ -86,24 +86,22 @@
     </div>
 </div>
 
-<div class="col-md-4">
-    <div class="panel">
-        <div class="panel-heading">
-            <h3 class="panel-title">Search by Designer</h3>
-        </div>
-        <div class="panel-body">
-            <form action="{{url('check')}}" method="POST">
-                {{ csrf_field() }}
-            <label for="year">Take a Year:</label>
-            <select name="year" class="form-control">
-                <option value="2020">2020</option>
-                <option value="2021">2021</option>
-            </select>
-            <br>
-            <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
+<div class="panel panel-headline">
+    <div class="panel-heading">
+        <h3 class="panel-title">Search by Designer</h3>
+    </div>
+    <div class="panel-body">
+        <form action="{{url('check')}}" method="POST">
+            {{ csrf_field() }}
+        <label for="user">Please choose a user:</label>
+        <select name="user" class="form-control">
+            @foreach ($users as $user)
+                <option value="{{$user->id}}">{{$user->name}}</option>
+            @endforeach
+        </select>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </div>
 </div>
-
 @endsection

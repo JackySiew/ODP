@@ -43,11 +43,11 @@
             Items count: {{$order->item_count}}<br>
             Order Status: 
             @if ($order->status == 'completed')
-            <span class="badge bg-success">{{$order->status}}</span>            
+            <span class="badge badge-success">{{$order->status}}</span>            
             @elseif($order->status == 'declined')
-            <span class="badge bg-danger">{{$order->status}}</span>            
+            <span class="badge badge-danger">{{$order->status}}</span>            
             @else
-            <span class="badge bg-warning">{{$order->status}}</span>            
+            <span class="badge badge-warning">{{$order->status}}</span>            
             @endif
             <br>
             Customer Name: {{$order->fullname}} 

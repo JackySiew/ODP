@@ -15,6 +15,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminController extends Controller
 {
+    //get all month by orders
     public function getAllMonths(){
         $month_array= array();
         $orders_date = DB::table('orders')
@@ -36,6 +37,19 @@ class AdminController extends Controller
         $monthOrderCount = DB::table('orders')->whereMonth('created_at',$month)->get()->count();
         return $monthOrderCount;
     }
+
+    //count monthly total order sales
+    function getMonthlyOrdersSales($month){
+        $monthOrderSales = DB::table('orders')->whereMonth('created_at',$month)->where('is_paid',true)->get()->sum('grand_total');
+        return $monthOrderSales;
+    }
+
+    //count monthly total order sales
+    function getMonthlyTasksSales($month){
+        $monthTasksSales = DB::table('customize')->whereMonth('created_at',$month)->where(['fully_paid' => true, 'deposit_paid' =>true])->get()->sum('grand_total');
+        return $monthTasksSales;
+    }
+
     //count tasks monthly by order's month record
     function getMonthlyTasksCount($month){
         $monthTaskCount = DB::table('customize')->whereMonth('created_at',$month)->get()->count();
@@ -47,6 +61,7 @@ class AdminController extends Controller
         // Ordering data chart
         $orders = Orders::all();
         $monthly_order_count_array = array();
+        $products = Product::all();
         $month_array = $this->getAllMonths();
         $month_name_array = array();
         if (!empty($month_array)) {
@@ -81,31 +96,23 @@ class AdminController extends Controller
             'task_count_data' => $monthly_task_count_array
         );
         $data2 = $monthly_task_data_array['task_count_data'];
+
+        //chart overview
         $chartjs = app()->chartjs
-        ->name('lineChart')
-        ->type('line')
-        ->size(['width' => 700, 'height' => 500])
+        ->name('barChartTest')
+        ->type('bar')
+        ->size(['width' => 400, 'height' => 200])
         ->labels($months)
         ->datasets([
             [
                 "label" => "Total Order",
-                'borderColor' => "blue",
-                "pointBorderColor" => "rgba(38, 185, 154, 0.7)",
-                "pointBackgroundColor" => "rgba(38, 185, 154, 0.7)",
-                "pointHoverBackgroundColor" => "red",
-                "pointHoverBorderColor" => "rgba(220,220,220,1)",
+                'backgroundColor' => "blue",
                 'data' => $data     
             ],[
                 "label" => "Total Customize Request",
-                'backgroundColor' => "rgba(38, 185, 154, 0.31)",
-                'borderColor' => "green",
-                "pointBorderColor" => "rgba(38, 185, 154, 0.7)",
-                "pointBackgroundColor" => "rgba(38, 185, 154, 0.7)",
-                "pointHoverBackgroundColor" => "",
-                "pointHoverBorderColor" => "rgba(220,220,220,1)",
+                'backgroundColor' => "yellow",
                 'data' => $data2     
-            ]
-                
+            ]     
         ])
         ->options([]);
 
@@ -146,8 +153,18 @@ class AdminController extends Controller
         ]
     ])
     ->options([]);
-
-    return view('admin.dashboard',compact('chartjs','chartjs2','chartjs3','orders','tasks'));
+    $orderSales = DB::table('orders')->where('status','!=','declined')->sum('grand_total');
+    $taskSales = DB::table('customize')->where('status','!=','declined')->sum('grand_total');    
+    $totalSales = $orderSales + $taskSales;
+    $orderTrueSales = DB::table('orders')->where('status','!=','declined')->where('is_paid',true)->sum('grand_total');
+    $taskFully = DB::table('customize')->where('status','!=','declined')->where('fully_paid',true)->sum('grand_total');
+    $taskDeposit = DB::table('customize')->where('status','!=','declined')->where('deposit_paid',true)->sum('deposit');
+    $taskTrueSales = $taskFully + $taskDeposit;
+    $actualSales = $orderTrueSales + $taskTrueSales;
+    $paymentPending = $totalSales-$actualSales;
+    $completeTask = DB::table('customize')->where('status','completed')->count();
+    $completeOrder = DB::table('orders')->where('status','completed')->count();
+    return view('admin.dashboard',compact('chartjs','chartjs2','chartjs3','orders','tasks','totalSales','actualSales','completeTask','completeOrder','paymentPending','products'));
     }
 
     //View admin profile

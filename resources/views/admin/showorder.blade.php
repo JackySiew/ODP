@@ -9,7 +9,7 @@
 <div class="panel col-md-6">
   <div class="panel-heading">
     <h3 class="panel-title">Order Details</h3>
-    <a class="btn btn-info" href="{{url('aorders')}}">Go Back</a>
+    <a class="btn btn-info pull-right" href="{{url('aorders')}}">Go Back</a>
   <small>Ordered Date: {{$orders->created_at}}</small>
 </div>
   <div class="panel-body">
@@ -45,7 +45,7 @@
       @else
       {{$orders->notes}}
       @endif
-    </p>
+      </p>
       </li>
       <hr>
     </ul>     

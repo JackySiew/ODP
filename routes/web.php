@@ -81,6 +81,7 @@ Route::group(['middleware' => ['auth','admin']], function(){
     Route::delete('/user-delete/{id}', 'AdminController@deleteuser');
     Route::get('/aorders', 'AdminController@orders');
     Route::get('/aorder/{id}', 'AdminController@getOrder');
+    Route::get('/check/aorder/{id}', 'AdminController@getOrder');
     Route::get('/aprofile', 'AdminController@profile');
     Route::get('/aprofile-edit/{id}', 'AdminController@editprofile');
     Route::put('/aprofile-update/{id}', 'AdminController@updateprofile');
@@ -88,7 +89,7 @@ Route::group(['middleware' => ['auth','admin']], function(){
     Route::get('/prodlist/{id}', 'AdminController@show');
     Route::get('/report', 'ReportController@index');
     Route::post('/check', 'ReportController@checkReport');
-    Route::get('/sales-pdf/{year?}/{month?}/{day?}', 'PDFController@salesReport');
+    Route::get('/sales-pdf/{id?}/{year?}/{month?}/{day?}', 'PDFController@salesReport');
     Route::get('/report/atask/{id}', 'AdminController@getTask'); 
     Route::get('/report/aorder/{id}', 'AdminController@getOrder');
 });

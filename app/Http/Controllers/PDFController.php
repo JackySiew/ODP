@@ -39,34 +39,72 @@ class PDFController extends Controller
     public function salesReport($year = null, $month = null, $day = null){
         if ($year != null && $month != null && $day != null) {
             $date = $year.'-'.$month.'-'.$day;
-            $orders = DB::table('orders')->join('users','orders.user_id','=','users.id')->whereDate('orders.created_at',$date)->get();
-            $sum = DB::table('orders')->whereDate('created_at',$date)->sum('grand_total');
-            $actual = DB::table('orders')->whereDate('created_at',$date)->where('status','completed')->sum('grand_total');
+            $orders = DB::table('orders')->whereDate('created_at',$date)->get();
+            $sum = DB::table('orders')->whereDate('created_at',$date)->where('status','!=','declined')->sum('grand_total');
+            $tasks = DB::table('customize')->whereDate('created_at',$date)->get();
+            $fullypaid = DB::table('customize')->whereDate('created_at',$date)->where('fully_paid',true)->sum('grand_total');
+            $depositpaid = DB::table('customize')->whereDate('created_at',$date)->where('deposit_paid',true)->sum('deposit');            
+            $sum2 = $fullypaid + $depositpaid;
+            $actual = DB::table('orders')->whereDate('created_at',$date)->where('status','!=','declined')->where('is_paid',true)->sum('grand_total');
 
             $details =[
                 'day' => $day,
                 'month' => $month,
                 'year' => $year,
                 'description' => $orders,
+                'description2' => $tasks,
                 'sum' => $sum,
+                'sum2' => $sum2,
                 'actual' => $actual,
             ];
             $pdf = \PDF::loadView('pdf.salesreport', $details);
             return $pdf->download('sales-report.pdf');    
         }elseif($year != null && $month != null && $day == null){
-            $orders = DB::table('orders')->whereYear('orders.created_at',$year)->whereMonth('orders.created_at',$month)->get();
-            $sum = DB::table('orders')->whereYear('created_at',$year)->whereMonth('created_at',$month)->sum('grand_total');
-            $actual = DB::table('orders')->whereYear('created_at',$year)->whereMonth('created_at',$month)->where('status','completed')->sum('grand_total');
+            $orders = DB::table('orders')->whereYear('created_at',$year)->whereMonth('created_at',$month)->get();
+            $sum = DB::table('orders')->whereYear('created_at',$year)->whereMonth('created_at',$month)->where('status','!=','declined')->sum('grand_total');
+            $tasks = DB::table('customize')->whereYear('created_at',$year)->whereMonth('created_at',$month)->get();
+            $fullypaid = DB::table('customize')->whereYear('created_at',$year)->whereMonth('created_at',$month)->where('fully_paid',true)->sum('grand_total');
+            $depositpaid = DB::table('customize')->whereYear('created_at',$year)->whereMonth('created_at',$month)->where('deposit_paid',true)->sum('deposit');            
+            $sum2 = $fullypaid + $depositpaid;
+            $orders = DB::table('orders')->whereYear('created_at',$year)->whereMonth('created_at',$month)->where('is_paid',true)->get();
             $details =[
                 'day' => $day,
                 'month' => $month,
                 'year' => $year,
                 'description' => $orders,
+                'description2' => $tasks,
                 'sum' => $sum,
+                'sum2' => $sum2,
                 'actual' => $actual,
             ];
             $pdf = \PDF::loadView('pdf.salesreport', $details);
             return $pdf->download('sales-report.pdf');    
+        }elseif($year != null && $month == null && $day == null){
+            $orders = DB::table('orders')->whereYear('created_at',$year)->get();
+            $sum = DB::table('orders')->whereYear('created_at',$year)->where('status','!=','declined')->sum('grand_total');
+            $tasks = DB::table('customize')->whereYear('created_at',$year)->get();
+            $fullypaid = DB::table('customize')->whereYear('created_at',$year)->where('fully_paid',true)->sum('grand_total');
+            $depositpaid = DB::table('customize')->whereYear('created_at',$year)->where('deposit_paid',true)->sum('deposit');            
+            $sum2 = $fullypaid + $depositpaid;
+            $details =[
+                'day' => $day,
+                'month' => $month,
+                'year' => $year,
+                'description' => $orders,
+                'description2' => $tasks,
+                'sum' => $sum,
+                'sum2' => $sum2,
+                'actual' => $actual,
+            ];
+            $pdf = \PDF::loadView('pdf.salesreport', $details);
+            return $pdf->download('sales-report.pdf');    
+        }else{
+            return redirect()->back()->with('error','Unable to download!');
         }
+    }
+
+    public function DesignerSalesReport($id){
+        $pdf = \PDF::loadView('pdf.salesreport', $details);
+        return $pdf->download('designer-sales-report.pdf');    
     }
 }

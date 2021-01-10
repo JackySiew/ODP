@@ -23,17 +23,11 @@
       <li><label for="Order Number"><b>Order ID:</b> </label> {{$orders->order_number}}</li><hr>
       <li><label for="Status"><b>Status:</b> </label> 
       @if ($orders->status == 'completed')
-      <div class="alert alert-success">
-        {{$orders->status}}
-      </div>    
+      <span class="badge badge-success">{{$orders->status}}</span>
       @elseif($orders->status == 'declined')
-      <div class="alert alert-danger">
-        {{$orders->status}}
-      </div>    
+      <span class="badge badge-danger">{{$orders->status}}</span>
       @else
-      <div class="alert alert-warning">
-        {{$orders->status}}
-      </div>    
+      <span class="badge badge-warning">{{$orders->status}}</span>
       @endif
       </li><hr>
       <li><label for="Grand Total"><b>Grand Total:</b> </label> RM {{$orders->grand_total}}</li><hr>

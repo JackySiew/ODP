@@ -11,27 +11,56 @@ Dashboard
   </div>
   <div class="panel-body">
     <div class="row">
+      <div class="col-md-3">
+        <div class="metric">
+          <span class="icon"><i class="fa fa-shopping-bag"></i></span>
+          <p>
+            <span class="number">{{count($orders)}} / {{count($tasks)}}</span> 
+            <span class="title">Total Orders/Task</span>
+          </p>
+        </div>
+      </div>  
+      <div class="col-md-3">
+        <div class="metric">
+          <span class="icon"><i class="fa fa-money">RM</i></span>
+          <p>
+            <span class="number">{{number_format($totalSales,2)}}</span> 
+            <span class="title">Total Sales</span>
+          </p>
+        </div>
+      </div>  
+      <div class="col-md-3">
+        <div class="metric">
+          <span class="icon"><i class="fa fa-money">RM</i></span>
+          <p>
+            <span class="number">{{number_format($actualSales,2)}}</span> 
+            <span class="title">Total Income</span>
+          </p>
+        </div>
+      </div>  
+      <div class="col-md-3">
+        <div class="metric">
+          <span class="icon"><i class="fa fa-money">RM</i></span>
+          <p>
+            <span class="number">{{(count($products))}}</span> 
+            <span class="title">Total Products</span>
+          </p>
+        </div>
+      </div>  
+    </div>
+    <div class="row">
       <div class="col-md-9">
         {!! $chartjs->render() !!}
       </div>
       <div class="col-md-3">
         <div class="weekly-summary text-right">
-          <span class="number">{{count($orders)}} / {{count($tasks)}}</span> 
+          <span class="number">{{$completeOrder}} / {{$completeTask}}</span> 
           {{-- <span class="percentage"><i class="fa fa-caret-up text-success"></i> 12%</span> --}}
-          <span class="info-label">Total Orders / Customize Tasks</span>
+          <span class="info-label">Completed Orders / Customize Tasks</span>
         </div>
         <div class="weekly-summary text-right">
-          <span class="number"></span> 
-          {{-- <span class="percentage"><i class="fa fa-caret-up text-success"></i> 12%</span> --}}
-          <span class="info-label">Total Sales</span>
-        </div>
-        <div class="weekly-summary text-right">
-          <span class="number">$5,758</span> <span class="percentage"><i class="fa fa-caret-up text-success"></i> 23%</span>
-          <span class="info-label">Monthly Income</span>
-        </div>
-        <div class="weekly-summary text-right">
-          <span class="number">$65,938</span> <span class="percentage"><i class="fa fa-caret-down text-danger"></i> 8%</span>
-          <span class="info-label">Total Income</span>
+          <span class="number">RM {{number_format($paymentPending,2)}}</span> 
+          <span class="info-label">Payment Pending</span>
         </div>
       </div>
     </div>
