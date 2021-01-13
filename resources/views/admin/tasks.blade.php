@@ -11,20 +11,14 @@
     <h3 class="panel-title">Customize Task Data</h3>
   </div>
   <div class="panel-body">
-    @if (session('status'))
-    <div class="alert alert-success">
-      {{ session('status') }}
-    </div>
-    @endif
-
-    <div class="table-responsive">
+  <div class="table-responsive">
     @if (count($customs)>0)
     <table id="dataTable" class="table">
     <thead>
       <th>Id</th>
-      <th>Task Number</th>
+      <th>Description</th>
       <th>Shipping Address</th>
-      <th>Order Date</th>
+      <th>Amount</th>
       <th>Status</th>
       <th>Action</th>
     </thead>
@@ -34,13 +28,33 @@
       <tbody>
       <td>{{$no++}}</td>
       <td>
-        <p>{{$custom->custom_number}}</p>
+        Task ID: {{$custom->custom_number}} <br>
+        @if ($custom->grand_total !=null)
+          Fully Payment: 
+          @if ($custom->fully_paid == true)
+          <span class="badge bg-success">Is Paid</span>    
+          @else
+          <span class="badge bg-danger">Not Paid</span>    
+          @endif
+          Deposit: 
+          @if ($custom->deposit_paid == true)
+          <span class="badge bg-success">Is Paid</span>    
+          @else
+          <span class="badge bg-danger">Not Paid</span>    
+          @endif
+          <br>
+        @endif
+        Deadline: {{$custom->deadline}}
       </td>
       <td>
         {{$custom->address1}}, {{$custom->address2}}, {{$custom->postcode}} {{$custom->city}}, {{$custom->state}}
       </td>
       <td>
-        {{$custom->created_at}}
+        @if ($custom->grand_total == null)
+        The price has not been set 
+        @else
+        RM {{number_format($custom->grand_total,2)}}
+        @endif
       </td>
       <td>
         @if ($custom->status == 'completed')
@@ -61,36 +75,9 @@
     </table>
     </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Decline Reason</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="{{url('decline/'.$custom->id)}}" method="POST">
-        {{ csrf_field() }}
-        {{ method_field('PUT') }}
-      <div class="modal-body">
-          <div class="form-group">
-            <label for="notes">Reasons:*</label>
-            <textarea name="notes" id="notes" class="form-control" rows="3"></textarea>
-          </div>
-        </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary decline" id="{{$custom->id}}">Send</button>
-      </div>
-    </form>
-    </div>
-  </div>
-</div>
     @else
     <div class="text-center">
-      <h1>You don't have any task for now! =="</h1>
+      <h1>No customize task received. </h1>
       </div>  
     @endif
   </div>

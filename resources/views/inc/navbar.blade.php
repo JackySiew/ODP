@@ -60,10 +60,10 @@
 				  <ul class="dropdown-menu" role="menu">
 					  <a href="{{url('allRead')}}" class="dropdown-item" style="color: green;">#Mark all as read</a>
 					@foreach (auth()->user()->unreadNotifications as $notification)
-					  <a href="#" class="dropdown-item">{{$notification->data['Action']}}</a>
+					  <a href="#" class="dropdown-item text-danger">{{$notification->data['Action']}}</a>
 					@endforeach                                              
-					@foreach (auth()->user()->readNotifications as $notification)
-					  <a href="#" class="dropdown-item">{{$notification->data['Action']}}</a>
+					@foreach (auth()->user()->readNotifications()->take(4)->get() as $notification)
+					<a href="#" class="dropdown-item">{{$notification->data['Action']}}</a>
 					@endforeach                                              
 				  </ul>
 				</li>

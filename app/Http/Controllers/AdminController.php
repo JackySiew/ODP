@@ -153,12 +153,13 @@ class AdminController extends Controller
         ]
     ])
     ->options([]);
+
     $orderSales = DB::table('orders')->where('status','!=','declined')->sum('grand_total');
     $taskSales = DB::table('customize')->where('status','!=','declined')->sum('grand_total');    
     $totalSales = $orderSales + $taskSales;
     $orderTrueSales = DB::table('orders')->where('status','!=','declined')->where('is_paid',true)->sum('grand_total');
     $taskFully = DB::table('customize')->where('status','!=','declined')->where('fully_paid',true)->sum('grand_total');
-    $taskDeposit = DB::table('customize')->where('status','!=','declined')->where('deposit_paid',true)->sum('deposit');
+    $taskDeposit = DB::table('customize')->where('status','!=','declined')->where(['deposit_paid'=>true, 'fully_paid'=>false])->sum('deposit');
     $taskTrueSales = $taskFully + $taskDeposit;
     $actualSales = $orderTrueSales + $taskTrueSales;
     $paymentPending = $totalSales-$actualSales;
@@ -242,9 +243,14 @@ class AdminController extends Controller
         $user = User::find($id);
         $user->name =$request->input('name');
         $user->usertype =$request->input('usertype');
+        if ($request->input('active') == 'on') {
+            $user->active = true;
+        }else{
+            $user->active = false;
+        }
         $user->update();
 
-        return redirect('/users')->with('status','User Updated'); 
+        return redirect('/users')->with('status','User account updated!'); 
     }
     
     public function activation(){
@@ -274,11 +280,11 @@ class AdminController extends Controller
         
         $orderItems = DB::table('order_items')
         ->join('products', 'order_items.product_id','=','products.id')
-        ->select('order_items.*','products.*')
+        ->join('users','products.presentBy','=','users.id')
+        ->select('order_items.*','products.*','users.name')
         ->where([
             'order_items.order_id' => $orders->id
             ])->get();
-
        return view('admin.showorder',compact('orders','orderItems'));
     }
 
@@ -294,7 +300,8 @@ class AdminController extends Controller
         
         $taskItems = DB::table('custom_items')
         ->join('products', 'custom_items.product_id','=','products.id')
-        ->select('custom_items.*','products.*')
+        ->join('users','products.presentBy','=','users.id')
+        ->select('custom_items.*','products.*','users.name')
         ->where([
             'custom_items.custom_id' => $task->id
             ])->get();

@@ -5,6 +5,13 @@
 @endsection
 
 @section('content')
+@if (session('status'))
+<div class="alert alert-success">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+  {{ session('status') }}
+</div>
+@endif
+
 <div class="row">
     <div class="col-md-12">
       <div class="panel">
@@ -29,9 +36,9 @@
                   <td>{{$user->created_at}}</td>
 
                   @if ($user->active == 1)
-                      <td><div class="btn btn-success">Active</div></td>
+                      <td><div class="badge bg-success">Active</div></td>
                   @else 
-                      <td><div class="btn btn-danger">Locked</div></td> 
+                      <td><div class="badge bg-danger">Locked</div></td> 
                   @endif
                 <td><a class="btn btn-info pull-left" href="{{url('users-edit/'.$user->id)}}"><i class="fa fa-pencil"></i></a>
                   <form action="{{url('user-delete/'.$user->id)}}" method="POST">

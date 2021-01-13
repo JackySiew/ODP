@@ -65,7 +65,7 @@
       @if ($product->prodPrice == 0)
       <p class="text-success"><b>For demo only</b></p>
       @else
-      <p>Price: Rm{{$product->prodPrice}}</p>
+      <p>Price: RM {{number_format($product->prodPrice,2)}}</p>
       @endif    
     </div>
   </div>

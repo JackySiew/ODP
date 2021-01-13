@@ -6,7 +6,7 @@
 
 @section('content')
 
-<div class="panel col-md-6">
+<div class="panel col-md-5">
   <div class="panel-heading">
     <h3 class="panel-title">Customize Task Details</h3>
     <a class="btn btn-info pull-right" href="{{url('atasks')}}">Go Back</a>
@@ -20,7 +20,12 @@
         @if ($task->status == 'completed')
         <span class="badge bg-success">{{$task->status}}</span>            
         @elseif ($task->status == 'declined')
-        <span class="badge bg-danger">{{$task->status}}</span>            
+          @if ($task->notes !=null)
+          <span class="badge bg-danger">{{$task->status}}</span><br>
+          Reason: {{$task->notes}}            
+          @else
+          <span class="badge bg-danger">{{$task->status}} by customer</span><br>
+          @endif
         @else
         <span class="badge bg-warning">{{$task->status}}</span>            
         @endif
@@ -50,13 +55,11 @@
       <li><label for="Name">Name: </label> <p>{{$task->fullname}}</p></li><hr>
       <li><label for="Address">Address: </label><p> {{$task->address1}}, {{$task->address2}}, {{$task->postcode}} {{$task->city}}, {{$task->state}}</p></li><hr>
       <li><label for="Mobile">Mobile No.: </label> <p>{{$task->mobile}}</p></li><hr>
-
-
     </ul>     
   </div>
 </div>
 
-<div class="panel col-md-6">
+<div class="panel col-md-7">
   <div class="panel-heading">
     <h3 class="panel-title">Customize Items</h3>
     <div class="right">
@@ -69,7 +72,7 @@
       <tr>
         <th>Image</th>
         <th>Description</th>
-        <th>Request</th>
+        <th>Requirement</th>
       </tr>
       @foreach ($taskItems as $item)
       <tr>
@@ -77,7 +80,8 @@
         <td>
           Product Name: {{$item->prodName}}<br>
           Qty: {{$item->quantity}}<br>
-          Price per Unit: RM {{$item->prodPrice}}
+          Price per Unit: RM {{$item->prodPrice}} <br>
+          Requested to: {{$item->name}}
         </td>
         <td>{!!$item->request!!}</td>
       </tr>

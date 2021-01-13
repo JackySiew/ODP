@@ -113,6 +113,8 @@
               if (value) {
                 swal({
                 icon: 'success',
+                title: 'Status Updated!',
+                text: 'The status is updated and informed to the customer!',
                 buttons: true,
                 }).then(function(value){
                   window.location = 'order-deliver/'+id;

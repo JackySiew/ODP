@@ -25,33 +25,36 @@
             </div>
         </main>
     </div>
+    @if ('chat' != request()->path())
     <script src="https://apps.elfsight.com/p/platform.js" defer></script>
-<div class="elfsight-app-b4b770df-5c1b-4038-9084-068e42445acc"></div>
-<div id="fb-root"></div>
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      xfbml            : true,
-      version          : 'v8.0'
-    });
-  };
+    <div class="elfsight-app-b4b770df-5c1b-4038-9084-068e42445acc"></div>
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v8.0'
+        });
+      };
+    
+      (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
+    
+    <!-- Your Chat Plugin code -->
+    <div class="fb-customerchat"
+      attribution=setup_tool
+      page_id="107178994448866"
+    logged_in_greeting="Hello! How can we help you?"
+    logged_out_greeting="Hello! How can we help you?">
+    </div>
 
-  (function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-</script>
-
-<!-- Your Chat Plugin code -->
-<div class="fb-customerchat"
-  attribution=setup_tool
-  page_id="107178994448866"
-logged_in_greeting="Hello! How can we help you?"
-logged_out_greeting="Hello! How can we help you?">
-</div>
+    @endif
           <!-- Footer -->
           <footer class="page-footer font-small bg-dark text-white pt-4 mt-5">
 
@@ -138,7 +141,8 @@ logged_out_greeting="Hello! How can we help you?">
         <!-- Footer -->
         
 
-    <!-- Scripts -->
+    <!-- Scripts -->	
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

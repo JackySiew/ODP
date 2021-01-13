@@ -54,6 +54,8 @@ class OrdersController extends Controller
                         "description" => "Ordering payment." 
                 ));
                 $order->payment_id = $charge->id;
+            }else{
+                $order->payment_id = null;
             }
             $order->notes = $request->input('notes');
             
@@ -112,7 +114,7 @@ class OrdersController extends Controller
         $orders = Orders::whereHas('items',function($query){
             $query->where('presentBy', Auth::user()->id);
         })->orderBy('created_at','desc')->get();
-
+        
         return view('designer.order',compact('orders'));
     }
 
@@ -131,22 +133,47 @@ class OrdersController extends Controller
        return view('designer.showorder',compact('orders','orderItems'));
     }
 
-    public function updateOrder(Request $request,$id){
-        $order = Order::find($id);
-        $order->status = $request->input('status');
-        $order->update();
-    }
-
     // Designer deliver product
     public function deliver($id){
-        $task = Orders::findOrFail($id);
+        $order = Orders::findOrFail($id);
+        $order->status = 'processing';
+        $order->update();
         $action = ["Action" => "Your product is on delivering!"];
-        $task->status = 'processing';
-        $task->update();
-        $user = User::find($task->user_id);
+        $orderItems = DB::table('order_items')
+        ->join('products', 'order_items.product_id','=','products.id')
+        ->select('order_items.*','products.*')
+        ->where([
+            'order_items.order_id' => $order->id,
+            'products.presentBy' => Auth::user()->id
+            ])->update(['status'=>'processing']);
+            
+        $user = User::find($order->user_id);
         $user->notify(new Action($action));
 
         return redirect()->back()->with('status','Task Updated!');
+    }
+
+    public function decline($id){
+
+        $action = ["Action" => "Your product order is declined!"];
+        $orderItems = DB::table('order_items')
+        ->join('products', 'order_items.product_id','=','products.id')
+        ->select('order_items.*')
+        ->where([
+            'order_items.product_id' => $id,
+            ])->update(['status'=>'declined']);
+
+            $items = DB::table('order_items')
+            ->join('products', 'order_items.product_id','=','products.id')
+            ->select('order_items.*','products.*')
+            ->where('order_items.product_id', $id)->get();
+            foreach ($items as $item) {
+                $seller = User::find($item->presentBy);
+            }
+    
+        $seller->notify(new Action($action));
+
+        return redirect()->back()->with('status','The product order has canceled!');
     }
     
 }

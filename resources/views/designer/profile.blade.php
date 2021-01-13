@@ -13,7 +13,7 @@
       <div class="profile-header">
         <div class="overlay"></div>
         <div class="profile-main">
-          <img src="storage/image/{{$user->profile}}" class="img-thumbnail img-circle" alt="Avatar">
+          <img src="storage/image/{{$user->profile}}" class="img-thumbnail img-circle" width="190" alt="Avatar">
           <h3 class="name">{{$user->name}}</h3>
         </div>
         <div class="profile-stat">

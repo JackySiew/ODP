@@ -23,7 +23,7 @@
     <tbody>
       @php $no = 1; @endphp
       @foreach ($products as $product)
-      <tr>
+      <tbody>
       <td>{{$no++}}</td>
       <td>
         <img src="storage/image/{{$product->prodImage}}" width="250" height="150">
@@ -41,7 +41,7 @@
         <td>
           <a href="{{url('prodlist/'.$product->id)}}" class="btn btn-info">View</a>
         </td>
-      </tr>
+      </tbody>
       @endforeach
     </tbody>
     </table>

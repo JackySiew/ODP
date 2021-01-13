@@ -5,27 +5,26 @@
 @endsection
 
 @section('content')
+@if (session('status'))
+<div class="alert alert-success">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+  {{ session('status') }}
+</div>
+@endif
 
 <div class="panel col-md-12">
   <div class="panel-heading">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
     <h3 class="panel-title">Customize task data</h3>
   </div>
   <div class="panel-body">
-    @if (session('status'))
-    <div class="alert alert-success">
-      {{ session('status') }}
-    </div>
-    @endif
-
     <div class="table-responsive">
     @if (count($customs)>0)
     <table id="dataTable" class="table">
     <thead>
       <th>Id</th>
-      <th>Task Number</th>
+      <th>Task Description</th>
       <th>Shipping Address</th>
-      <th>Deadline</th>
+      <th>Payment Remark</th>
       <th>Status</th>
       <th>Action</th>
     </thead>
@@ -35,20 +34,37 @@
       <tbody>
       <td>{{$no++}}</td>
       <td>
-        <p><b>Customize ID:</b> {{$custom->custom_number}}</p>
-        <small>Ordered at: {{$custom->created_at}}</small>
+        <b>Task ID:</b> {{$custom->custom_number}} <br>
+        <b>Deadline:</b> {{$custom->deadline}} <br>
+        <div class="badge bg-danger">{{$day->today()->diffForHumans($custom->deadline)}}</div><br>
+        <br><small>Ordered at: {{$custom->created_at}}</small>
       </td>
       <td>
         {{$custom->address1}}, {{$custom->address2}}, <br>{{$custom->postcode}} {{$custom->city}}, {{$custom->state}}
       </td>
       <td>
-        {{$custom->deadline}}
+        <b>Amount Set:</b> RM {{number_format($custom->grand_total,2)}} 
+        @if ($custom->fully_paid == true)
+          <span class="badge bg-success">Is paid</span><br>
+        @else
+          <span class="badge bg-danger">Not paid</span> <br>
+        @endif
+        <br>
+        <b>Deposit:</b> RM {{number_format($custom->deposit,2)}} <br>
+        @if ($custom->deposit_paid == true)
+          <span class="badge bg-success">Is paid</span><br>
+        @else
+          <span class="badge bg-danger">Not paid</span> <br>
+        @endif
+
       </td>
       <td>
-        @if ($custom->status == 'completed')
+        @if ($custom->status == 'completed' || $custom->status == 'accepted')
         <span class="badge bg-success">{{$custom->status}}</span>            
-        @elseif ($custom->status == 'declined')
+        @elseif ($custom->status == 'declined' && $custom->notes != null)
         <span class="badge bg-danger">{{$custom->status}}</span>            
+        @elseif ($custom->status == 'declined' && $custom->notes == null)
+        <span class="badge bg-danger">{{$custom->status}} by customer</span>            
         @else
         <span class="badge bg-warning">{{$custom->status}}</span>            
         @endif
@@ -57,12 +73,10 @@
         <div class="btn-group">
         <p><a href="{{url('tasks/'.$custom->id)}}" class="btn btn-primary">View</a></p>
         @if ($custom->status == 'pending')
-        <button class="btn btn-success confirm" id="accept"><i class="glyphicon glyphicon-ok"></i></button>
+        <button class="btn btn-success confirm" id="accept" data-task="{{$custom->id}}"><i class="glyphicon glyphicon-ok"></i></button>
         <br>
-        <button class="btn btn-danger confirm" id="decline"><i class="glyphicon glyphicon-remove"></i></button>
-        @elseif($custom->status == 'accepted' || $custom->status == 'processing')
-        {{$day->today()->diffForHumans($custom->deadline)}}
-        <br>
+        <button class="btn btn-danger confirm" id="decline" data-task="{{$custom->id}}"><i class="glyphicon glyphicon-remove"></i></button>
+        @elseif($custom->status == 'accepted')
         <button class="btn btn-success deliver" id="{{$custom->id}}">Ready to deliver</button>        
         @endif
       </div>
@@ -82,9 +96,10 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="{{url('accept/'.$custom->id)}}" method="POST">
+      <form action="{{url('accept')}}" method="POST">
         {{ csrf_field() }}
         {{ method_field('PUT') }}
+        <input type="hidden" name="id" id="taskID">
       <div class="modal-body">
         <div class="form-group">
           <label for="totalPrice">Total Price:</label>
@@ -98,7 +113,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary accept" id="{{$custom->id}}">Send</button>
+        <button type="submit" class="btn btn-primary">Send</button>
       </div>
     </form>
     </div>
@@ -114,9 +129,10 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="{{url('decline/'.$custom->id)}}" method="POST">
+      <form action="{{url('decline')}}" method="POST">
         {{ csrf_field() }}
         {{ method_field('PUT') }}
+        <input type="hidden" name="id" id="taskID">
       <div class="modal-body">
           <div class="form-group">
             <label for="notes">Reasons:*</label>
@@ -125,7 +141,7 @@
         </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary decline" id="{{$custom->id}}">Send</button>
+        <button type="submit" class="btn btn-primary">Send</button>
       </div>
     </form>
     </div>
@@ -151,6 +167,7 @@
         $('.confirm').on('click', function (event) {
           event.preventDefault();
           confirm = $(this).attr('id');
+          taskID = $(this).data('task');
           if (confirm == 'accept') {
             swal({
               title: 'Are you sure?',
@@ -160,6 +177,7 @@
           }).then(function(value) {
               if (value) {
                 $('#exampleModal').modal("show");
+                $('#exampleModal').find("#taskID").val(taskID);
               }
             });
           } else {
@@ -171,6 +189,7 @@
           }).then(function(value) {
               if (value) {
                 $('#exampleModal2').modal("show");
+                $('#exampleModal2').find("#taskID").val(taskID);
               }
             });
           }
@@ -186,7 +205,14 @@
               buttons: ["Cancel", "Yes!"],
           }).then(function(value) {
               if (value) {
-                window.location = 'task-deliver/'+id;
+                swal({
+                icon: 'success',
+                title: 'Status Updated!',
+                text: 'The status is updated and informed to the customer!',
+                buttons: true,
+                }).then(function(value){
+                  window.location = 'task-deliver/'+id;
+                });
               }
           });
       });

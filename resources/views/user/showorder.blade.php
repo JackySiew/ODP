@@ -60,7 +60,7 @@
       <li>
         <label for="Payment"><b>Payment status:</b> </label> 
         @if ($orders->is_paid == false)
-          <span class="badge bg-danger text-white"> Not Paid</span>
+          <span class="badge bg-danger text-white"> Not Paid</span> <br>
 
           @else
           <span class="badge bg-success text-white"> Is Paid</span><br>

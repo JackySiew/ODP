@@ -31,7 +31,7 @@
     </div>
   </div>
 </div>
-  @endforeach
+ @endforeach
   <div class="col-md-12">
     <div class="panel panel-headline">
       <div class="panel-heading text-center">

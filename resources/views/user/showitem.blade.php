@@ -17,7 +17,18 @@
         <td>
             RM {{$item->quantity * $item->prodPrice}}
         </td>
-        <td>{{$item->status}}</td>
+        <td>
+            @if ($item->status == 'completed')
+                <span class="badge badge-success">{{$item->status}}</span> <br> <br>
+            @elseif($item->status == 'declined')
+                <span class="badge badge-danger">{{$item->status}}</span> <br> <br>
+            @else
+                <span class="badge badge-warning">{{$item->status}}</span> <br> <br> 
+            @endif
+            @if ($item->status == 'pending')
+            <a href="{{url('cancel-product/'.$item->id)}}" class="btn btn-danger">Cancel</a>
+            @endif
+        </td>
     </tr>   
     @endforeach
 </table>      

@@ -47,6 +47,10 @@ Route::group(['middleware' => ['auth','user']], function(){
     Route::get('/fullpay/{id}', 'CustomController@fullpay');    
     Route::put('/pay-deposit/{id}', 'CustomController@paydeposit');    
     Route::put('/full-pay/{id}', 'CustomController@payall');    
+    Route::get('/cancel-product/{id}', 'OrdersController@decline'); 
+    Route::get('/decline-task/{id}', 'CustomController@declineDeposit');      
+    Route::get('/designers', 'HomeController@designers');     
+    Route::get('/designer/{id}', 'HomeController@designerProduct');     
 });
 
 Route::group(['middleware' => ['auth','designer']], function(){
@@ -61,12 +65,12 @@ Route::group(['middleware' => ['auth','designer']], function(){
     Route::resource('products', 'ProductController');  
     Route::get('/tasks', 'CustomController@index');
     Route::get('/tasks/{id}', 'CustomController@getTask'); 
-    Route::put('/accept/{id}', 'CustomController@accept'); 
-    Route::put('/decline/{id}', 'CustomController@decline'); 
+    Route::put('/accept', 'CustomController@accept'); 
+    Route::put('/decline', 'CustomController@decline'); 
     Route::get('/products/delete/{id}', 'ProductController@destroy');
     Route::get('/chatd', 'ChatController@dindex');    
     Route::get('/task-deliver/{id}', 'CustomController@deliver');    
-    Route::get('/order-deliver/{id}', 'OrderController@deliver');    
+    Route::get('/order-deliver/{id}', 'OrdersController@deliver');    
 
 });
 

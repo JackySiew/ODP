@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>      
-<img src="{{url('storage/image/logo.png')}}" alt="Logo">
+<img src="{{asset('assets/img/logo.png')}}" alt="Logo">
 <br>
 <p>
     No. 99, Jalan Contoh 12,<br>
@@ -54,19 +54,33 @@
             <td>
                 Product Id: {{$item->id}}<br>
                 Product Name: {{$item->prodName}}<br>
-                Price per Unit: RM {{$item->prodPrice}}
+                Price per Unit: RM {{$item->prodPrice}} <br>
+                Status: 
+                @if ($item->status == 'completed')
+                    <span class="badge badge-success">{{$item->status}}</span>
+                @elseif($item->status == 'declined')
+                    <span class="badge badge-danger">Canceled</span>
+                @else
+                    <span class="badge badge-warning">{{$item->status}}</span>
+                @endif
             </td>
             <td>{{$item->quantity}} Unit(s)</td>
-            <td>RM {{number_format($item->prodPrice * $item->quantity,2)}}</td>
+            <td>
+                    RM {{number_format($item->prodPrice * $item->quantity,2)}} 
+            </td>
         </tr>
         @endforeach
         <tr>
-            <td colspan="4" class="text-right"><b>Total: RM{{number_format($total,2)}}</b></td>
+            @if ($item->status == 'declined')
+            <td colspan="4" class="text-right"><span class="badge badge-danger">Canceled</span></td>    
+            @else
+            <td colspan="4" class="text-right"><b>Total: RM {{number_format($total,2)}}<br> Pay by: {{$payBy}}</b></td>
+            @endif
         </tr>    
     </table>    
     <br>
     <footer>
-        <p>For more about information, please email to info@odp.com or contact no(07-5638525).</p>
+        <p>For more about information, please email to info@odp.com or contact 07-5638525.</p>
         <p>Thank You.</p>        
     </footer>
 </body>

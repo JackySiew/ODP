@@ -8,6 +8,7 @@ use App\Orders;
 use App\CustomTask;
 use DB;
 use Auth;
+use App\User;
 use Carbon\Carbon;
 class HomeController extends Controller
 {
@@ -28,6 +29,7 @@ class HomeController extends Controller
         ->join('categories', 'products.category','=','categories.id')
         ->select('products.*','categories.category_name')
         ->orderBy('created_at','desc')
+        ->take(4)
         ->get();
         return view('home')->with('products',$products);
     }
@@ -90,7 +92,7 @@ class HomeController extends Controller
     {
         $orders = Orders::whereHas('items',function($query){
             $query->where('user_id', Auth::user()->id);
-        })->orderBy('created_at','desc')->get();        
+        })->orderBy('created_at','desc')->get();  
         return view('user.myorders',compact('orders'));
     }
 
@@ -149,6 +151,24 @@ class HomeController extends Controller
         ->where('custom_items.custom_id', $custom->id)->get();
 
        return view('user.showcustom',compact('custom','customItems'));
+    }
+
+    public function designers(){
+        $designers = User::where('usertype','designer')->get();
+
+        return view('user.designers',compact('designers'));
+    }
+
+    public function designerProduct($id){
+        $designer = User::where('id',$id)->get();
+
+        $products = Product::where('presentBy',$id)->get();
+
+        if (count($products)>0) {
+            return view('user.designerProduct',compact('designer','products'));
+        }else{
+            return redirect('/designers')->with('alert',"Sorry! This designer haven't upload any product");    
+        }
     }
     
 }

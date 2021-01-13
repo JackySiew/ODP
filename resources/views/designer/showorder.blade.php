@@ -6,7 +6,7 @@
 
 @section('content')
 
-<div class="panel col-md-6">
+<div class="panel col-md-5">
   <div class="panel-heading">
     <h3 class="panel-title">Order Details</h3>
     <a class="btn btn-info pull-right" href="{{url('orders')}}">Go Back</a>
@@ -15,16 +15,7 @@
   <div class="panel-body">
     <ul class="list-unstyled">
       <li><label for="Order Number">Order ID: </label> <p>{{$orders->order_number}}</p></li><hr>
-      <li><label for="Status">Status: </label> <p>
-        @if ($orders->status == 'completed')
-        <span class="badge bg-success">{{$orders->status}}</span>            
-        @elseif ($orders->status == 'declined')
-        <span class="badge bg-danger">{{$orders->status}}</span>            
-        @else
-        <span class="badge bg-warning">{{$orders->status}}</span>            
-        @endif
-      </p></li><hr>
-      <li><label for="Grand Total">Grand Total: </label> <p>RM {{$orders->grand_total}}</p></li><hr>
+      <li><label for="Grand Total">Grand Total: </label> <p>RM {{number_format($orders->grand_total,2)}}</p></li><hr>
       <li><label for="IsPaid">Is Paid: </label> 
         <p>         
           @if ($orders->is_paid == 0)
@@ -45,14 +36,14 @@
       @else
       {{$orders->notes}}
       @endif
-    </p>
+      </p>
       </li>
       <hr>
     </ul>     
   </div>
 </div>
 
-<div class="panel col-md-6 ">
+<div class="panel col-md-7">
   <div class="panel-heading">
     <h3 class="panel-title">Order Items</h3>
     <div class="right">
@@ -65,6 +56,7 @@
       <tr>
         <th>Product Image</th>
         <th>Description</th>
+        <th>Amount</th>
         <th>Status</th>
       </tr>
       @foreach ($orderItems as $item)
@@ -73,9 +65,19 @@
         <td>
           Product Name: {{$item->prodName}}<br>
           Qty: {{$item->quantity}}<br>
-          Price per Unit: RM {{$item->prodPrice}}
+          Price per Unit: RM {{number_format($item->prodPrice,2)}} <br>
+          {{-- Present By: {{$item->name}} --}}
         </td>
-        <td>RM {{$item->prodPrice * $item->quantity}}</td>      
+        <td>RM {{number_format($item->prodPrice * $item->quantity,2)}}</td>      
+        <td>
+          @if ($item->status == 'declined')
+          <span class="badge bg-danger">{{$item->status}}</span>
+          @elseif($item->status == 'completed')
+          <span class="badge bg-success">{{$item->status}}</span>
+          @else
+          <span class="badge bg-warning">{{$item->status}}</span>    
+          @endif
+        </td>
       </tr>
       @endforeach
 
@@ -83,4 +85,4 @@
   </div>
 </div>
 
-@endsection
+@endsection 

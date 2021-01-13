@@ -139,10 +139,9 @@ class CustomController extends Controller
     }
 
     // Designer accept the task
-    public function accept(Request $request, $id)
+    public function accept(Request $request)
     {
-        
-        $task = CustomTask::findOrFail($id);
+        $task = CustomTask::findOrFail($request->id);
         $user = User::find($task->user_id);
         $task->grand_total = $request->input('totalPrice');
         if ($request->input('deposit') == true) {
@@ -160,9 +159,9 @@ class CustomController extends Controller
     }
 
     // Designer decline the task
-    public function decline(Request $request, $id)
+    public function decline(Request $request)
     {
-        $task = CustomTask::findOrFail($id);
+        $task = CustomTask::findOrFail($request->id);
         $action = ["Action" => "Your request has been declined"];
         $user = User::find($task->user_id);
         $task->status = 'declined';
@@ -182,5 +181,24 @@ class CustomController extends Controller
         $user->notify(new Action($action));
 
         return redirect()->back()->with('status','Task Updated!');
+    }
+
+    // User reject to pay deposit
+    public function declineDeposit($id){
+        $task = CustomTask::findOrFail($id);
+        $action = ["Action" => "Your customer is declined to pay deposit!"];
+        $task->status = 'declined';
+        $task->update();
+        $items = DB::table('custom_items')
+        ->join('products', 'custom_items.product_id','=','products.id')
+        ->select('custom_items.*','products.*')
+        ->where('custom_items.custom_id', $task->id)->get();
+        foreach ($items as $item) {
+            $seller = User::find($item->presentBy);
+        }
+
+        $seller->notify(new Action($action));
+
+        return redirect()->back()->with('status','You have declined the customize task!');
     }
 }

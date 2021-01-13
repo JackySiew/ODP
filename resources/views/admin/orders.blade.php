@@ -11,20 +11,14 @@
     <h3 class="panel-title">Ordering data</h3>
   </div>
   <div class="panel-body">
-    @if (session('status'))
-    <div class="alert alert-success">
-      {{ session('status') }}
-    </div>
-    @endif
-
     <div class="table-responsive">
     @if (count($orders)>0)
     <table id="dataTable" class="table">
     <thead>
-      <th>Id</th>
-      <th>Order Description</th>
+      <th>ID</th>
+      <th>Description</th>
       <th>Shipping Address</th>
-      <th>Order Date</th>
+      <th>Total Amount</th>
       <th>Status</th>
       <th>Action</th>
     </thead>
@@ -34,13 +28,21 @@
       <tbody>
       <td>{{$no++}}</td>
       <td>
-        {{$order->order_number}}
+        Order ID: {{$order->order_number}} <br>
+        Item(s): {{$order->item_count}} <br>
+        Pay by: {{$order->payment_method}}, 
+        @if ($order->is_paid == true)
+        <span class="badge bg-success">Is Paid</span>    
+        @else
+        <span class="badge bg-danger">Not Paid</span>    
+        @endif <br>
+        Ordered at: {{date('d-M-Y', strtotime($order->created_at))}}
       </td>
       <td>
         {{$order->address1}},<br> {{$order->address2}},<br> {{$order->postcode}} {{$order->city}}, {{$order->state}}
       </td>
       <td>
-        {{$order->created_at}}
+        RM {{number_format($order->grand_total,2)}}
       </td>
       <td>
         @if ($order->status == 'completed')

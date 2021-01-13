@@ -44,9 +44,15 @@ container
             <a href="{{url('showorder/'.$order->id)}}">See more details >></a>
         </div>
         <div class="card-footer">
+            @if ($order->status == 'declined')
+                    <div class="alert alert-danger text-center">
+                        The order is cancel
+                    </div>
+            @else
             <div class="pull-right">
                 <strong>Total Price: RM{{$order->grand_total}}</strong><br>
             </div>
+            @endif
         </div>
    </div>
 @endforeach

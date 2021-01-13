@@ -1,14 +1,15 @@
 <!-- NAVBAR -->
 @if (auth()->user()->usertype == 'admin')
 <nav class="navbar navbar-default navbar-fixed-top" style="background-color: cyan;">
-
+	<div class="brand" style="background: none;">
+		<a href="{{url('admin')}}"><img src="{{asset('assets/img/odp.png')}}" alt="ODP Logo" class="img-responsive logo"></a>
+	</div>	
 @else
 <nav class="navbar navbar-default navbar-fixed-top" style="background-color: yellow;">
-
+	<div class="brand" style="background: none;">
+		<a href="{{url('designer')}}"><img src="{{asset('assets/img/odp.png')}}" alt="ODP Logo" class="img-responsive logo"></a>
+	</div>	
 @endif
-	<div class="brand">
-	<a href="{{url('designer')}}"><img src="{{asset('assets/img/odp.png')}}" alt="ODP Logo" class="img-responsive logo"></a>
-	</div>
 	<div class="container-fluid">
 		<div class="navbar-btn">
 			<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>

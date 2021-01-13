@@ -27,6 +27,10 @@
                 <option value="user">User</option>
                 </select>
             </div>
+            <div class="form-group">
+              <label for="active">Active:</label>
+              <input type="checkbox" name="active" {{$users->active == true ? 'checked' : '' }}>
+            </div>
             <div class="form-group">    
                 <button type="submit" class="btn btn-success">Update</button>
                 <a href="{{url('users')}}" class="btn btn-secondary">Cancel</a>

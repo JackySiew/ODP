@@ -112,33 +112,173 @@ class DesignerController extends Controller
                 
         ])
         ->options([]);
-        $products = Product::where('presentBy',Auth::user()->id)->count();
-        $orderSales = Orders::whereHas('items',function($query){
-            $query->where('presentBy', Auth::user()->id);
-        })->where('status','!=','declined')->sum('grand_total');
-        $taskSales = CustomTask::whereHas('items',function($query){
-            $query->where('presentBy', Auth::user()->id);
-        })->where('status','!=','declined')->sum('grand_total');    
-        $allOrder = Orders::whereHas('items',function($query){
-            $query->where('presentBy', Auth::user()->id);
-        })->count();
-        $allTask = CustomTask::whereHas('items',function($query){
-            $query->where('presentBy', Auth::user()->id);
-        })->count();    
-        $allOrderComplete = Orders::whereHas('items',function($query){
-            $query->where('presentBy', Auth::user()->id);
-        })->where('status','completed')->count();
-        $allTaskComplete = CustomTask::whereHas('items',function($query){
-            $query->where('presentBy', Auth::user()->id);
-        })->where('status','completed')->count();    
-        $totalSales = $orderSales + $taskSales;
-        $orderTrueSales = DB::table('orders')->where('status','!=','declined')->where('is_paid',true)->sum('grand_total');
-        $taskFully = DB::table('customize')->where('status','!=','declined')->where('fully_paid',true)->sum('grand_total');
-        $taskDeposit = DB::table('customize')->where('status','!=','declined')->where('deposit_paid',true)->sum('deposit');
-        $taskTrueSales = $taskFully + $taskDeposit;
-        $totalIncome = $orderTrueSales + $taskTrueSales;
 
-        return view('designer.dashboard',compact('chartjs','totalSales','totalIncome','products','allTask','allOrder','allOrderComplete','allTaskComplete'));
+        $user = Auth::user()->id;
+        //get total orders that the designer received
+        $orders = Orders::whereHas('items',function($query) use ($user){
+            $query->where('presentBy', $user);
+        })->get();
+
+        if (!empty($orders)) {
+            foreach ($orders as $order) {
+                $orderid[] = $order->id;
+            }    
+        }
+        if (!empty($orderid)) {
+            foreach ($orderid as $id) {
+                $ocompleted[] = DB::table('order_items')
+                ->join('products', 'order_items.product_id','=','products.id')
+                ->select('order_items.*')
+                ->where([
+                'order_items.order_id' => $id,
+                'products.presentBy' => $user,  
+                ])->where('status','completed')->count();
+
+                $odeclined[] = DB::table('order_items')
+                ->join('products', 'order_items.product_id','=','products.id')
+                ->select('order_items.*')
+                ->where([
+                'order_items.order_id' => $id,
+                'products.presentBy' => $user,  
+                ])->where('status','declined')->count();
+            }    
+            $ordercompleted = array_sum($ocompleted);
+            $orderdeclined = array_sum($odeclined);    
+        }else{
+            $ordercompleted = null;
+            $orderdeclined = null; 
+        }
+
+
+// <------- Calculate Total Sales, Income & Payment Pending of that designer from orders ---------->
+        $orderSales = Orders::whereHas('items',function($query) use ($user){
+            $query->where('presentBy', $user);
+        })->where('status','!=','declined')->get();
+
+        $orderIncome = Orders::whereHas('items',function($query) use ($user){
+            $query->where('presentBy', $user);
+        })->where('status','!=','declined')->where('is_paid',true)->get();
+
+        if (!empty($orderSales)) {
+            foreach ($orderSales as $sales) {
+                $salesId[] = $sales->id;
+            }
+        }
+
+        if (!empty($orderIncome)) {
+            foreach ($orderIncome as $income) {
+                $incomeId[] = $income->id;
+            }
+        }
+
+        if (!empty($salesId)) {
+            foreach ($salesId as $id) {
+                $orderItemSalesResult = DB::table('order_items')
+                ->join('products', 'order_items.product_id','=','products.id')
+                ->select('order_items.*')
+                ->where([
+                'order_items.order_id' => $id,
+                'products.presentBy' => $user,  
+                ])->where('status','!=','declined')->first();
+                if ($orderItemSalesResult == null) {
+                    $orderItemSales[] = DB::table('order_items')
+                    ->select('*')->where('id','0')
+                    ->first();
+                }else{
+                    $orderItemSales[] = $orderItemSalesResult;
+                }
+            }    
+        }
+        if (!empty($incomeId)) {
+            foreach ($incomeId as $id) {
+                $orderItemIncomeresult = DB::table('order_items')
+                ->join('products', 'order_items.product_id','=','products.id')
+                ->select('order_items.*')
+                ->where([
+                'order_items.order_id' => $id,
+                'products.presentBy' => $user,  
+                ])->where('status','!=','declined')->first();
+                if ($orderItemIncomeresult == null) {
+                    $orderItemIncome[] = DB::table('order_items')
+                    ->select('*')->where('id','0')
+                    ->first();
+                }else{
+                    $orderItemIncome[] = $orderItemIncomeresult;
+                }
+
+            }    
+        }
+
+        if (!empty($orderItemSales)) {
+            foreach ($orderItemSales as $item) {
+                $qty[] = $item->quantity;
+                $price[] = $item->price;
+            }
+        }
+
+        if (!empty($orderItemIncome)) {
+            foreach ($orderItemIncome as $item) {
+                $qty2[] = $item->quantity;
+                $price2[] = $item->price;
+            }    
+        }
+        $allOrderSales = [];
+        $allOrderIncome = [];
+
+        if (!empty($orderItemSales)) {
+            foreach ($orderItemSales as $i=>$value) { 
+                array_push($allOrderSales, $qty[$i] * $price[$i]);
+            }
+        }
+
+        if (!empty($orderItemIncome)) {
+            foreach ($orderItemIncome as $i=>$value) { 
+                array_push($allOrderIncome, $qty2[$i] * $price2[$i]);
+            }    
+        }
+
+// <---------------------------- End Calculation ------------------------------->
+
+
+        //get total tasks that the designer
+        $tasks = CustomTask::whereHas('items',function($query) use ($user){
+            $query->where('presentBy', $user);
+        })->get();
+
+        //count the tasks that the designer completed
+        $taskcompleted = CustomTask::whereHas('items',function($query) use ($user){
+            $query->where(['presentBy'=> $user, 'status' => 'completed']);
+        })->count();
+
+        //count the tasks that declined
+        $taskdeclined = CustomTask::whereHas('items',function($query) use ($user){
+            $query->where(['presentBy'=> $user, 'status' => 'declined']);
+        })->count();
+
+// <------- Calculate Total Sales, Income & Payment Pending of that designer from tasks ---------->
+
+        $taskAllSales = CustomTask::whereHas('items',function($query) use ($user){
+            $query->where('presentBy', $user);
+        })->where('status','!=','delined')->sum('grand_total');
+
+        $taskfullypaid = CustomTask::whereHas('items',function($query) use ($user){
+            $query->where('presentBy', $user);
+        })->where('fully_paid',true)->sum('grand_total');
+        
+        $taskdepositpaid = CustomTask::whereHas('items',function($query) use ($user){
+            $query->where('presentBy', $user);
+        })->where(['deposit_paid'=>true,'fully_paid'=>false])->sum('deposit');
+
+        $taskAllIncome = $taskfullypaid + $taskdepositpaid;
+// <---------------------------- End Calculation ------------------------------->
+
+        $totalSales = $taskAllSales + array_sum($allOrderSales);
+        $totalIncome = $taskAllIncome  + array_sum($allOrderIncome);
+        $paymentPending = $totalSales - $totalIncome;
+
+        $products = Product::where('presentBy',$user)->count();
+
+        return view('designer.dashboard',compact('chartjs','orders','products','tasks','totalSales','totalIncome','paymentPending','ordercompleted','orderdeclined','taskcompleted','taskdeclined'));
     }
 
 

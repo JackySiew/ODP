@@ -82,9 +82,7 @@
 <table class="table table-sm">
     <thead class="thead-light">
         <tr>
-            @if ($day == NULL)
             <th>Date</th>
-            @endif
             <th>Description</th>
             <th>Payment Remark</th>
             <th>Total Amount</th>
@@ -118,7 +116,6 @@
             Deposit:
             @if ($task->deposit_paid == 1)
             <span class="badge badge-success"> Is Paid</span><br>
-            Paid by: {{$task->payment_method}} <br>
             @else
             <span class="badge badge-danger"> Not Paid </span><br>
             @endif 
@@ -136,7 +133,6 @@
         <td colspan="4" class="text-right">
             <b>Total sum: RM{{number_format($sum2,2)}}</b> <br> 
             <b>Total Income: RM{{number_format($actual2,2)}}</b> <br>
-            <b>Payment Pending: RM{{number_format($paymentPending2,2)}}</b>
         </td>
     </tr>    
 </table>    
