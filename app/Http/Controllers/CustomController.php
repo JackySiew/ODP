@@ -199,6 +199,24 @@ class CustomController extends Controller
 
         $seller->notify(new Action($action));
 
-        return redirect()->back()->with('status','You have declined the customize task!');
+        return redirect()->back()->with('status','You has declined to pay this customize task deposit!');
+    }
+
+    public function cancel($id){
+        $task = CustomTask::findOrFail($id);
+        $action = ["Action" => "Your customer has cancel the task!"];
+        $task->status = 'declined';
+        $task->update();
+        $items = DB::table('custom_items')
+        ->join('products', 'custom_items.product_id','=','products.id')
+        ->select('custom_items.*','products.*')
+        ->where('custom_items.custom_id', $task->id)->get();
+        foreach ($items as $item) {
+            $seller = User::find($item->presentBy);
+        }
+
+        $seller->notify(new Action($action));
+        return redirect()->back()->with('status','You have cancel the customize task!');
+
     }
 }

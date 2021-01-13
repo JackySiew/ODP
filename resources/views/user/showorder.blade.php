@@ -51,7 +51,17 @@
               <td>
                   RM {{$item->quantity * $item->prodPrice}}
               </td>
-              <td>{{$item->status}}</td>
+              <td>
+                @if ($item->status == 'declined')
+                  <span class="badge badge-danger">{{$item->status}}</span>
+                @elseif($item->status == 'completed')
+                  <span class="badge badge-success">{{$item->status}}</span>
+                @else
+                  <span class="badge badge-warning">{{$item->status}}</span>
+                  <br>
+                  <a href="{{url('cancel-product/'.$item->id)}}" class="btn btn-danger">Cancel</a>
+                @endif
+              </td>
           </tr>   
           @endforeach
       </table>            
@@ -65,7 +75,7 @@
           @else
           <span class="badge bg-success text-white"> Is Paid</span><br>
           @endif
-          <label for="Payment Method"><b>Pay by:</b> </label> <span class="badge badge-primary"><i class="fa fa-{{$orders->payment_method}}"></i>{{$orders->payment_method}}</span>
+          <label for="Payment Method"><b>Pay by:</b> </label> {{$orders->payment_method}}
       </li><hr>
       <li>
         <label for="Customer Details"><b><u>Customer Details</u></b></label>
@@ -73,10 +83,7 @@
         <br>
         <li><label for="Name"><b>Name:</b> </label> {{$orders->fullname}}</li>
         <li><label for="Address"><b>Address:</b> </label> {{$orders->address1}},{{$orders->address2}}, {{$orders->postcode}} {{$orders->city}}, {{$orders->state}}</li>
-        <li><label for="Mobile"><b>Mobile No:</b> </label> {{$orders->mobile}}</li>
-        
-        
-        
+        <li><label for="Mobile"><b>Mobile No:</b> </label> {{$orders->mobile}}</li>       
       </li>
       <hr>
       <li><label for="Remark"><b>Remark*:</b> </label>

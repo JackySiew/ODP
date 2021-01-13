@@ -48,7 +48,8 @@ Route::group(['middleware' => ['auth','user']], function(){
     Route::put('/pay-deposit/{id}', 'CustomController@paydeposit');    
     Route::put('/full-pay/{id}', 'CustomController@payall');    
     Route::get('/cancel-product/{id}', 'OrdersController@decline'); 
-    Route::get('/decline-task/{id}', 'CustomController@declineDeposit');      
+    Route::get('/decline-task/{id}', 'CustomController@cancel');      
+    Route::get('/decline-deposit/{id}', 'CustomController@declineDeposit');      
     Route::get('/designers', 'HomeController@designers');     
     Route::get('/designer/{id}', 'HomeController@designerProduct');     
 });

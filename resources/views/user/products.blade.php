@@ -35,17 +35,21 @@ container
                 @endforeach
               </div>            
         </div>
+        <div class="col-12 d-flex justify-content-center pt-5">
+            {{$products->links()}}
+        </div>
+
     </div>
     <div class="col-md-9">
         <div class="panel panel-default text-center">
             <div class="panel-body">
                 <div class="row col-md-12">
                     @foreach ($products as $product)
-                    <div class="card border-warning col-md-4 mb-3">
+                    <div class="card border-warning col-md-4 mb-4">
                         
                         <a href="{{url('product/'.$product->id)}}" class="text-decoration-none">
                         <h5><b>{{$product->prodName}}</b></h5>
-                        <img src="{{url('/storage/image/'.$product->prodImage)}}" class="w-100" height="170">
+                        <img src="{{url('/storage/image/'.$product->prodImage)}}" class="w-100" height="150">
                         </a>
                         <br>
                         <div class="card-body">

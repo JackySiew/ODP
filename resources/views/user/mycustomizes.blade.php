@@ -20,7 +20,10 @@ container
 <div class="card mb-4">
        <div class="card-header text-center">
         <b>Customize Task ID:</b> {{$custom->custom_number}}<br>
-        <small>Order Date: {{$custom->created_at->format('d M, Y H:i A')}}</small>         
+        <small>Order Date: {{$custom->created_at->format('d M, Y H:i A')}}</small>     <br>
+        @if ($custom->status != 'declined' && $custom->status != 'completed')
+            <a href="{{url('decline-task/'.$custom->id)}}" class="btn btn-danger pull-right">Cancel</a>
+        @endif    
     </div>
 
         <div class="card-body">

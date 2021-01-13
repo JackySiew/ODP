@@ -156,6 +156,10 @@ class OrdersController extends Controller
     public function decline($id){
 
         $action = ["Action" => "Your product order is declined!"];
+        $order = Orders::whereHas('items',function($query) use ($id){
+            $query->where('product_id', $id);
+        })->update(['status'=>'declined']);
+
         $orderItems = DB::table('order_items')
         ->join('products', 'order_items.product_id','=','products.id')
         ->select('order_items.*')

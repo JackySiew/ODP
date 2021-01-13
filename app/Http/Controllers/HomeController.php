@@ -36,7 +36,7 @@ class HomeController extends Controller
 
     //view all products
     public function products(){
-        $products = Product::all()->sortByDesc('created_at');
+        $products = Product::orderBy('created_at','desc')->paginate(6);
         $categories = Db::table('categories')
         ->select('*')
         ->orderBy('category_name','asc')
@@ -64,7 +64,7 @@ class HomeController extends Controller
 
     //view product by category
     public function category($id){
-        $products = Product::where('category',$id)->get();
+        $products = Product::where('category',$id)->paginate(6);
 
         $cates = DB::table('products')
         ->join('categories', 'products.category','=','categories.id')

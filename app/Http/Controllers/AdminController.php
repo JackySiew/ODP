@@ -9,6 +9,7 @@ use App\Orders;
 use App\Review;
 use Carbon\Carbon;
 use App\CustomTask;
+use Auth;
 use DB;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -225,7 +226,9 @@ class AdminController extends Controller
     
     //View all users
     public function users(){
-        $users = User::all();
+        $users = DB::table('users')
+        ->select('*')
+        ->where('id','!=', Auth::user()->id)->get();
         return view('admin.users')->with('users',$users);
     }
 

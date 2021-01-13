@@ -16,7 +16,7 @@
 <body>      
     <h3 class="text-center mb-5">Sales report in {{$day}} {{date('M', strtotime($month))}}, {{$year}}</h3>
 
-<img src="{{url('storage/image/logo.png')}}" alt="Logo">
+<img src="{{asset('assets/img/logo.png')}}" alt="Logo">
 <br>
 <p>
     No. 99, Jalan Contoh 12,<br>
