@@ -115,7 +115,7 @@ class OrdersController extends Controller
             $query->where('presentBy', Auth::user()->id);
         })->orderBy('created_at','desc')->get();
         
-        return view('designer.order',compact('orders'));
+        return view('designer.order.order',compact('orders'));
     }
 
     //designer view order's details
@@ -130,7 +130,7 @@ class OrdersController extends Controller
             'products.presentBy' => Auth::user()->id
             ])->get();
 
-       return view('designer.showorder',compact('orders','orderItems'));
+       return view('designer.order.showorder',compact('orders','orderItems'));
     }
 
     // Designer deliver product

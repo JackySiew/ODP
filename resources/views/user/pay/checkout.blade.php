@@ -122,7 +122,7 @@
                     </div>
                     <div class="stripe box">
                     <div class='form-group'>
-                        <div class='col-xs-12 form-group card required'>
+                        <div class='col-xs-12 form-group card'>
                             <label class='control-label'>Card Number</label> <input
                                 autocomplete='off' class='form-control card-num' maxlength='20'
                                 type='text'>
@@ -130,17 +130,17 @@
                     </div>
 
                     <div class='form-group row'>
-                        <div class='col-xs-12 col-md-4 form-group expiration required'>
+                        <div class='col-xs-12 col-md-4 form-group expiration'>
                             <label class='control-label'>Expiration Month</label> <input
                                 class='form-control card-expiry-month' placeholder='MM' maxlength='2'
                                 type='text'>
                         </div>
-                        <div class='col-xs-12 col-md-4 form-group expiration required'>
+                        <div class='col-xs-12 col-md-4 form-group expiration'>
                             <label class='control-label'>Expiration Year</label> <input
                                 class='form-control card-expiry-year' placeholder='YYYY' maxlength='4'
                                 type='text'>
                         </div>
-                        <div class='col-xs-12 col-md-4 form-group cvc required'>
+                        <div class='col-xs-12 col-md-4 form-group cvc'>
                             <label class='control-label'>CVC</label> 
                             <input autocomplete='off' class='form-control card-cvc' placeholder='e.g 415' maxlength='4'
                                 type='text'>

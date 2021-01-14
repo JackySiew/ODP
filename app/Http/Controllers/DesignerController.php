@@ -289,13 +289,13 @@ class DesignerController extends Controller
         if (session('status')) {
             Alert::success('Update successfully!', 'You have updated your profile!!!');
         }
-        return view('designer.profile',compact('user','products'));
+        return view('designer.profile.profile',compact('user','products'));
     }
 
     public function editprofile(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        return view('designer.editprofile')->with('user',$user);
+        return view('designer.profile.editprofile')->with('user',$user);
     }
 
     public function updateprofile(Request $request, $id)
@@ -323,11 +323,4 @@ class DesignerController extends Controller
 
         return redirect('/profile')->with('status','Your Profile is updated'); 
     }
-
-    //View customize tasks
-    public function tasks()
-    {
-        return view('designer.tasks');
-    }
-
 }

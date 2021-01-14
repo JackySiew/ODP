@@ -37,6 +37,22 @@
           <a href="{{url('prodlist')}}" class="{{ 'prodlist' == request()->path() ? 'active' : ''}}"><i class="fa fa-list"></i> <span>Product Lists</span></a>
         </li>
         <li>
+          @if ('categories' == request()->path() || 'create-category' == request()->path())
+          <a href="#subPages2" data-toggle="collapse" class="active"><i class="lnr lnr-chart-bars"></i> <span>Category List</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+          <div id="subPages2" class="collapse in">
+          @else
+          <a href="#subPages2" data-toggle="collapse" class="collapsed"><i class="lnr lnr-chart-bars"></i> <span>Category List</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+          <div id="subPages2" class="collapse">
+          @endif
+            <ul class="nav">
+              <li>
+                <a href="{{url('categories')}}" class="{{ 'categories' == request()->path() ? 'active' : ''}}"><span>Manage Categories</span></a>
+              </li>      
+               <li><a href="{{route('categories.create')}}" class="{{ 'create-category' == request()->path() ? 'active' : ''}}">Create Category</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
           <a href="{{url('users')}}" class="{{ 'users' == request()->path() ? 'active' : ''}}"><i class="fa fa-users"></i> <span>User Lists</span></a>
         </li>
       </ul>

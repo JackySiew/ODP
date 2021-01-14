@@ -98,6 +98,8 @@ Route::group(['middleware' => ['auth','admin']], function(){
     Route::get('/report/atask/{id}', 'AdminController@getTask'); 
     Route::get('/report/aorder/{id}', 'AdminController@getOrder');
     Route::get('/user-sales-pdf/{id}','PDFController@designerSalesReport');
+    Route::resource('categories','CategoryController');
+    Route::get('categories/delete/{id}','CategoryController@destroy');
 });
 
 Auth::routes();

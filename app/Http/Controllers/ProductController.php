@@ -17,14 +17,14 @@ class ProductController extends Controller
     {
         $user_id = auth()->user()->id;
         $products = Product::all()->where('presentBy',$user_id)->sortByDesc('created_at');
-        return view('designer.myprod',compact('products'));
+        return view('designer.product.myprod',compact('products'));
     }
 
     //designer create product
     public function create()
     {
         $category = Category::orderBy('category_name','asc')->get();
-        return view('designer.create')->with('category',$category);
+        return view('designer.product.create')->with('category',$category);
     }
     public function show($id)
     {
@@ -38,7 +38,7 @@ class ProductController extends Controller
         ->select('reviews.*','users.name')
         ->where('reviews.product_id',$id)
         ->get();
-        return view('designer.show',compact('products','reviews'));
+        return view('designer.product.show',compact('products','reviews'));
     }
 
    //designer save product
@@ -102,7 +102,7 @@ class ProductController extends Controller
         ->where('id','!=',$cat_id)
         ->orderBy('category_name','asc')
         ->get();
-        return view('designer.edit',compact('products','category'));
+        return view('designer.product.edit',compact('products','category'));
     }
 
 

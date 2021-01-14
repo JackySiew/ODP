@@ -28,9 +28,7 @@
 <table class="table table-sm">
     <thead class="thead-light">
         <tr>
-            @if ($day == NULL)
             <th>Date</th>
-            @endif
             <th>Description</th>
             <th>Payment Remark</th>
             <th>Total Amount</th>

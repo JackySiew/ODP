@@ -28,7 +28,7 @@ class CustomController extends Controller
             Alert::success('Update successfully!', 'You have rejected this task!');            
         }
         $day = new Carbon();
-        return view('designer.tasks',compact('customs','day'));
+        return view('designer.customize.tasks',compact('customs','day'));
     }
     
     // Designer View Customize task details
@@ -43,7 +43,7 @@ class CustomController extends Controller
             'products.presentBy' => Auth::user()->id
             ])->get();
         $dt = new Carbon();
-       return view('designer.showtask',compact('task','taskItems','dt'));
+       return view('designer.customize.showtask',compact('task','taskItems','dt'));
     }
 
     // User Save & send customize request to designer
@@ -94,7 +94,7 @@ class CustomController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
-        return view('user.customize',compact('product'));
+        return view('user.customize.customize',compact('product'));
     }
 
     //User go to pay deposit
@@ -135,7 +135,7 @@ class CustomController extends Controller
 
         $action = ["Action" => 'Your customer has paid the deposit'];
         $seller->notify(new Action($action));
-        return view('thankyou');
+        return redirect('')->with('status','You have paid the deposit! Now your customize product is processing');
     }
 
     // Designer accept the task

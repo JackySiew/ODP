@@ -41,7 +41,7 @@ class HomeController extends Controller
         ->select('*')
         ->orderBy('category_name','asc')
         ->get();
-        return view('user.products',compact('products','categories'))->with('reviews');    
+        return view('user.product.products',compact('products','categories'))->with('reviews');    
     }
 
     //view product details
@@ -59,7 +59,7 @@ class HomeController extends Controller
         ->where('reviews.product_id',$id)
         ->get();
         $dt = new Carbon();
-        return view('user.showprod',compact('products','reviews','cates','dt'));
+        return view('user.product.showprod',compact('products','reviews','cates','dt'));
     }
 
     //view product by category
@@ -81,7 +81,7 @@ class HomeController extends Controller
         ->get();
 
         if (count($products)>0) {
-            return view('user.showcate',compact('products','categories','cateName'))->with('reviews');    
+            return view('user.product.showcate',compact('products','categories','cateName'))->with('reviews');    
         }else{
             return redirect('/all-products')->with('alert','Sorry! No such product in this category. =="');    
         }
@@ -93,7 +93,7 @@ class HomeController extends Controller
         $orders = Orders::whereHas('items',function($query){
             $query->where('user_id', Auth::user()->id);
         })->orderBy('created_at','desc')->get();  
-        return view('user.myorders',compact('orders'));
+        return view('user.order.myorders',compact('orders'));
     }
 
     //ajax get order items
@@ -105,7 +105,7 @@ class HomeController extends Controller
         ->join('products', 'order_items.product_id','=','products.id')
         ->select('order_items.*','products.*')
         ->where('order_items.order_id', $orders->id)->get();
-        return view('user.showitem',['orderItems'=>$orderItems]);
+        return view('user.order.showitem',['orderItems'=>$orderItems]);
     }
 
     //view customize request status
@@ -114,7 +114,7 @@ class HomeController extends Controller
         $customs = CustomTask::whereHas('items',function($query){
             $query->where('user_id', Auth::user()->id);
         })->orderBy('created_at','desc')->get();        
-        return view('user.mycustomizes',compact('customs'));
+        return view('user.customize.mycustomizes',compact('customs'));
     }
 
     //ajax get customize items
@@ -127,7 +127,7 @@ class HomeController extends Controller
         ->select('custom_items.*','products.*')
         ->where('custom_items.custom_id', $custom->id)->get();
 
-        return view('user.showtaskitem',['customItems'=>$customItems]);
+        return view('user.customize.showtaskitem',['customItems'=>$customItems]);
     }
 
     //user view more ordering details
@@ -139,7 +139,7 @@ class HomeController extends Controller
         ->select('order_items.*','products.*')
         ->where('order_items.order_id', $orders->id)->get();
 
-       return view('user.showorder',compact('orders','orderItems'));
+       return view('user.order.showorder',compact('orders','orderItems'));
     }
     //user view more customize task details
     public function getCustomize($id){
@@ -150,13 +150,13 @@ class HomeController extends Controller
         ->select('custom_items.*','products.*')
         ->where('custom_items.custom_id', $custom->id)->get();
 
-       return view('user.showcustom',compact('custom','customItems'));
+       return view('user.customize.showcustom',compact('custom','customItems'));
     }
 
     public function designers(){
         $designers = User::where('usertype','designer')->get();
 
-        return view('user.designers',compact('designers'));
+        return view('user.designer.designers',compact('designers'));
     }
 
     public function designerProduct($id){
@@ -165,7 +165,7 @@ class HomeController extends Controller
         $products = Product::where('presentBy',$id)->get();
 
         if (count($products)>0) {
-            return view('user.designerProduct',compact('designer','products'));
+            return view('user.designer.designerProduct',compact('designer','products'));
         }else{
             return redirect('/designers')->with('alert',"Sorry! This designer haven't upload any product");    
         }

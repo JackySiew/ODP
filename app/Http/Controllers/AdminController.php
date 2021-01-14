@@ -176,14 +176,14 @@ class AdminController extends Controller
         if (session('status')) {
             Alert::success('Update successfully!', 'You have updated your profile!!!');
         }
-        return view('admin.profile',compact('user'));
+        return view('admin.profile.profile',compact('user'));
     }
 
     //Edit Admin Profile
     public function editprofile(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        return view('admin.editprofile')->with('user',$user);
+        return view('admin.profile.editprofile')->with('user',$user);
     }
 
     //Update Admin Profile
@@ -220,7 +220,7 @@ class AdminController extends Controller
     // View all products
     public function prodlist(){
         $products = Product::all()->sortByDesc('created_at');
-        return view('admin.prodlist')->with('products',$products);
+        return view('admin.product.prodlist')->with('products',$products);
     }
 
     
@@ -229,7 +229,7 @@ class AdminController extends Controller
         $users = DB::table('users')
         ->select('*')
         ->where('id','!=', Auth::user()->id)->get();
-        return view('admin.users')->with('users',$users);
+        return view('admin.user.users')->with('users',$users);
     }
 
     
@@ -237,7 +237,7 @@ class AdminController extends Controller
     public function edituser(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        return view('admin.edituser')->with('users',$user);
+        return view('admin.user.edituser')->with('users',$user);
     }
     
     //Update user details
@@ -274,7 +274,7 @@ class AdminController extends Controller
     // View all orders
     public function orders(){
         $orders = Orders::all()->sortByDesc('created_at');
-        return view('admin.orders',compact('orders'));
+        return view('admin.order.orders',compact('orders'));
     }
 
     //admin view order's details
@@ -288,13 +288,13 @@ class AdminController extends Controller
         ->where([
             'order_items.order_id' => $orders->id
             ])->get();
-       return view('admin.showorder',compact('orders','orderItems'));
+       return view('admin.order.showorder',compact('orders','orderItems'));
     }
 
     //View all customize request tasks
     public function customizeTask(){
         $customs = CustomTask::all()->sortByDesc('created_at');
-        return view('admin.tasks',compact('customs'));
+        return view('admin.task.tasks',compact('customs'));
     }
 
     // Admin View Customize task details
@@ -309,7 +309,7 @@ class AdminController extends Controller
             'custom_items.custom_id' => $task->id
             ])->get();
         $dt = new Carbon();
-        return view('admin.showtask',compact('task','taskItems','dt'));
+        return view('admin.task.showtask',compact('task','taskItems','dt'));
     }
     
     // View product's details
@@ -325,10 +325,6 @@ class AdminController extends Controller
         ->select('reviews.*','users.name')
         ->where('reviews.product_id',$id)
         ->get();
-        return view('admin.show',compact('products','reviews'));
+        return view('admin.product.show',compact('products','reviews'));
     }
-    public function report(){
-        return view('admin.report');
-    }
-
 }
