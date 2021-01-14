@@ -56,10 +56,9 @@ container
             <div class="row col-md-12">
                 @foreach ($designers as $designer)
                 <div class="card border-warning col-md-4 mb-3 ">
-                    <a href="{{url('designer/'.$designer->id)}}" class="text-decoration-none">
-                    <img src="{{url('/storage/image/'.$designer->profile)}}" class="img-thumbnail rounded-circle">
-                    </a>
-                    <br>
+                    <div class="text-center">
+                        <img src="{{url('/storage/image/'.$designer->profile)}}" class="img-thumbnail rounded-circle">
+                        <br>
                     <div class="card-body">
                         <p><b>Name:</b> {{$designer->name}}</p>
                         <p><b>Email:</b> {{$designer->email}}</p>
@@ -88,6 +87,7 @@ container
                               </div>
                             </div>
                           </div>
+                    </div>
                     </div>
                 </div>  
                 @endforeach

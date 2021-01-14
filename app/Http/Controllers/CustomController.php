@@ -135,7 +135,7 @@ class CustomController extends Controller
 
         $action = ["Action" => 'Your customer has paid the deposit'];
         $seller->notify(new Action($action));
-        return redirect('')->with('status','You have paid the deposit! Now your customize product is processing');
+        return redirect('/my-customize')->with('status','You have paid the deposit! Now your customize product is processing');
     }
 
     // Designer accept the task
@@ -168,7 +168,7 @@ class CustomController extends Controller
         $task->notes = $request->input('notes');
         $task->update();
         $user->notify(new Action($action));
-        return redirect()->back()->with('status','Task Updated!');
+        return redirect()->back()->with('status','Task Declined!');
     }
 
     // Designer deliver customized product

@@ -51,7 +51,11 @@ Route::group(['middleware' => ['auth','user']], function(){
     Route::get('/decline-task/{id}', 'CustomController@cancel');      
     Route::get('/decline-deposit/{id}', 'CustomController@declineDeposit');      
     Route::get('/designers', 'HomeController@designers');     
-    Route::get('/designer/{id}', 'HomeController@designerProduct');     
+    Route::get('/designer/{id}', 'HomeController@designerProduct');
+    Route::get('/my-profile', 'HomeController@profile');
+    Route::get('/my-profile-edit/{id}', 'HomeController@editprofile');
+    Route::put('/my-profile-update/{id}', 'HomeController@updateprofile');
+ 
 });
 
 Route::group(['middleware' => ['auth','designer']], function(){

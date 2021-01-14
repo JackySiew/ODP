@@ -35,10 +35,9 @@ container
                 <img src="/storage/image/{{$user->profile}}" class="img-thumbnail img-circle" alt="Avatar">
                 <br>
                 <h3 class="name mb-3">{{$user->name}}</h3>
-                <h3>Basic Info</h3>
                 <p><b>Email:</b> {{$user->email}}</p>
                 <p><b>Mobile:</b> {{$user->mobile}}</p>
-                <div class="profile-info">
+                <div class="profile-info mt-5">
                   <h4 class="heading">About</h4>
                   <p>Interactively fashion excellent information after distinctive outsourcing.</p>
                 </div>

@@ -50,7 +50,7 @@ container
                             <b>Pay Deposit: </b><a href="{{url('deposit/'.$custom->id)}}" class="btn btn-success"><i class="fa fa-cc-stripe"></i>Pay</a> | <a href="{{url('decline-task/'.$custom->id)}}" class="btn btn-danger"><i class="fa fa-times"></i></a>
                         @elseif($custom->status == 'declined' && $custom->notes == null)  
                             <b>Pay Deposit: </b> <span class="badge badge-danger">{{$custom->status}} to pay</span>
-                        @elseif($custom->status == 'declined' && $custom->notes == null)  
+                        @else 
                             <b>Pay Deposit: </b> <span class="badge badge-success">Is paid</span>
                         @endif
     
@@ -68,14 +68,16 @@ container
             <a href="{{url('showcustom/'.$custom->id)}}">See more details >></a>
         </div>
         <div class="card-footer">
-            <div class="pull-right">
+            <div class="float-right text-right">
                 @if ($custom->grand_total != NULL)
-                <strong>Total Price: RM{{$custom->grand_total}}</strong><br>
+                <strong>Total Price: RM {{number_format($custom->grand_total,2)}}</strong><br>
+                @else
+                <strong>The price haven't set yet</strong><br>
                 @endif
 
-                @if ($custom->status == 'accepted')
-                <strong>Deposit: RM{{$custom->deposit}}</strong><br>
-                <strong>Subtotal: RM{{$custom->grand_total - $custom->deposit}}</strong><br>  
+                @if ($custom->status == 'accepted' || $custom->status == 'processing')
+                <strong>Deposit: RM {{number_format($custom->deposit,2)}}</strong><br>
+                <strong>Subtotal: RM {{number_format($custom->grand_total - $custom->deposit,2)}}</strong><br>  
                 @endif                
             </div>
         </div>

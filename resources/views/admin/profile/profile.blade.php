@@ -5,6 +5,13 @@
 @endsection
 
 @section('content')
+@if (session('status'))
+<div class="alert alert-success">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+  <p>{{session('status')}}    
+</p>
+</div>
+@endif
 <div class="panel panel-profile">
   <div class="clearfix">
     <!-- LEFT COLUMN -->

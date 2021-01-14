@@ -17,7 +17,7 @@
               {{ method_field('PUT') }}
             <div class="form-group">    
                 <label for="name">Name</label>
-                <input class="form-control" name="name" type="text" value="{{$users->name}}">
+                <input class="form-control" name="name" value="{{$users->name}}" disabled>
             </div>                
             <div class="form-group">
                 <label for="role">Role</label>

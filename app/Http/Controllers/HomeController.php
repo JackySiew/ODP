@@ -10,6 +10,7 @@ use DB;
 use Auth;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 class HomeController extends Controller
 {
     /**
@@ -170,5 +171,40 @@ class HomeController extends Controller
             return redirect('/designers')->with('alert',"Sorry! This designer haven't upload any product");    
         }
     }
-    
+    public function profile(){
+        $user = User::where('id',Auth::user()->id)->first();
+        return view('user.profile.profile',compact('user'));
+    }
+
+    public function editprofile($id)
+    {
+        $user = User::findOrFail($id);
+        return view('user.profile.editprofile')->with('user',$user);
+    }
+
+    public function updateprofile(Request $request, $id)
+    {
+        if ($request->hasFile('profile')) {
+            $fileNameWithExt = $request->file('profile')->getClientOriginalName();
+            $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('profile')->getClientOriginalExtension();
+            $fileNameToStore = $filename.'_'.time().'_'.$extension;
+            $path  =$request->file('profile')->storeAs('public/image', $fileNameToStore);
+        }
+
+        $user = User::find($id);
+        $user->name =$request->input('name');
+        $user->email =$request->input('email');
+        $user->mobile =$request->input('mobile');
+        if ($request->hasFile('profile')) {
+            if ($user->profile != "noimage.png") {
+                Storage::delete('public/image/'.$user->profile);          
+                $user->profile = $fileNameToStore;
+            }  
+        }
+
+        $user->update();
+
+        return redirect('/my-profile')->with('status','Your Profile is updated'); 
+    }
 }

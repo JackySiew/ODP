@@ -32,7 +32,7 @@
           @if ($task->fully_paid == 0)
           <span class="badge bg-danger"> Not paid
           @else
-          <span class="badge bg-success">  Paid
+          <span class="badge bg-success"> Is Paid
           @endif
         </span>
       </p>
@@ -42,7 +42,7 @@
           @if ($task->deposit_paid == 0)
           <span class="badge bg-danger"> Not paid
           @else
-          <span class="badge bg-success">  Paid
+          <span class="badge bg-success"> Is Paid
           @endif
         </span>
       </p>
@@ -69,16 +69,16 @@
       <tr>
         <th>Image</th>
         <th>Description</th>
+        <th>Qty</th>
         <th>Request</th>
       </tr>
       @foreach ($taskItems as $item)
       <tr>
         <td><img src="/storage/image/{{$item->prodImage}}" alt="Product Image" width="100"></td>
         <td>
-          Product Name: {{$item->prodName}}<br>
-          Qty: {{$item->quantity}}<br>
-          Price per Unit: RM {{$item->prodPrice}}
+          Product: <b>{{$item->prodName}}</b><br>
         </td>
+        <td>{{$item->quantity}}</td>
         <td>{!!$item->request!!}</td>
       </tr>
       @endforeach

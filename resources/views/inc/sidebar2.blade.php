@@ -37,7 +37,7 @@
           <a href="{{url('prodlist')}}" class="{{ 'prodlist' == request()->path() ? 'active' : ''}}"><i class="fa fa-list"></i> <span>Product Lists</span></a>
         </li>
         <li>
-          @if ('categories' == request()->path() || 'create-category' == request()->path())
+          @if ('categories' == request()->path() || 'categories/create' == request()->path())
           <a href="#subPages2" data-toggle="collapse" class="active"><i class="lnr lnr-chart-bars"></i> <span>Category List</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
           <div id="subPages2" class="collapse in">
           @else
@@ -48,7 +48,7 @@
               <li>
                 <a href="{{url('categories')}}" class="{{ 'categories' == request()->path() ? 'active' : ''}}"><span>Manage Categories</span></a>
               </li>      
-               <li><a href="{{route('categories.create')}}" class="{{ 'create-category' == request()->path() ? 'active' : ''}}">Create Category</a></li>
+               <li><a href="{{route('categories.create')}}" class="{{ 'categories/create' == request()->path() ? 'active' : ''}}">Create Category</a></li>
             </ul>
           </div>
         </li>
