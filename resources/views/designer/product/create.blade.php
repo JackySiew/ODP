@@ -37,6 +37,9 @@
     <input type="file" name="prodImage" class="form-control-file">  
   </div>
   <div class="form-group">
+    <img id="output" width="250" height="200">
+  </div>
+  <div class="form-group">
     <button type="submit" class="btn btn-primary">Submit</button>
     <a href="{{url('products')}}" class="btn btn-secondary">Cancel</a>
   </div>
@@ -52,5 +55,11 @@
   $(document).ready(function () {
       $('.ckeditor').ckeditor();
   });
+
+  var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+  };
+
 </script>
 @endsection

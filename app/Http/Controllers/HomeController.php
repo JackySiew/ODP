@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Orders;
+use App\Sliders;
 use App\CustomTask;
 use DB;
 use Auth;
@@ -32,7 +33,8 @@ class HomeController extends Controller
         ->orderBy('created_at','desc')
         ->take(4)
         ->get();
-        return view('home')->with('products',$products);
+        $sliders = Sliders::where('status','0')->get();
+        return view('home',compact('products','sliders'));
     }
 
     //view all products

@@ -6,26 +6,20 @@
     fixed-top
 @endsection
 @section('content')
- <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
+ <div id="carouselExampleInterval" class="carousel slide carousel-fade" data-ride="carousel">
   <div class="carousel-inner">
-    <div class="carousel-item active" data-interval="3000">
-      <img src="storage/image/commercial1.jpg" class="d-block w-100" >
+    @php $i = 1; @endphp
+    @foreach ($sliders as $slider)
+    <div class="carousel-item {{$i == '1' ? 'active':''}}" data-interval="3000">
+      @php $i++;  @endphp
+      <img src="{{url('storage/slide/'.$slider->image)}}" class="d-block" width="100%" height="600" alt="Slider Image">
       <div class="carousel-caption d-none d-md-block bg-dark mb-5">
-        <h1>Welcome to Online Designer Platform</h1>
+        <h1>{{$slider->heading}}</h1>
+        <p>{!!$slider->description!!}</p>
+        <a href="{{$slider->link}}" >{{$slider->link_name}}</a>
       </div>
     </div>
-    <div class="carousel-item" data-interval="3000">
-      <img src="storage/image/commercial2.jpg" class="d-block w-100" >
-      <div class="carousel-caption d-none d-md-block bg-dark mb-5">
-        <h1>New package for Office Area</h1>
-      </div>
-    </div>
-    <div class="carousel-item" data-interval="3000">
-      <img src="storage/image/commercial3.jpg" class="d-block w-100" >
-      <div class="carousel-caption d-none d-md-block bg-dark mb-5">
-        <h1>Special promotion for Bedroom Design</h1>
-      </div>
-    </div>
+    @endforeach
   </div>
   <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -37,6 +31,8 @@
   </a>
 </div>
 <br>
+
+
 <div class="container-fluid">
   <div class="card">
     <div class="row no-gutters">

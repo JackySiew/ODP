@@ -138,7 +138,7 @@ class OrdersController extends Controller
         $order = Orders::findOrFail($id);
         $order->status = 'processing';
         $order->update();
-        $action = ["Action" => "Your product is on delivering!"];
+        $action = ["Action" => "Your ordering product is processing!"];
         $orderItems = DB::table('order_items')
         ->join('products', 'order_items.product_id','=','products.id')
         ->select('order_items.*','products.*')

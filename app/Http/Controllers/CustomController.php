@@ -124,7 +124,7 @@ class CustomController extends Controller
                     "amount" => $deposit->deposit * 100,
                     "currency" => "myr",
                     "source" => $request->input ( 'stripeToken' ), // obtained with Stripe.js
-                    "description" => "Test payment." 
+                    "description" => "Deposit Payment." 
             ));
             $deposit->paydeposit_id = $charge->id;
         }

@@ -44,13 +44,16 @@
           <a href="#subPages2" data-toggle="collapse" class="collapsed"><i class="lnr lnr-chart-bars"></i> <span>Category List</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
           <div id="subPages2" class="collapse">
           @endif
-            <ul class="nav">
-              <li>
-                <a href="{{url('categories')}}" class="{{ 'categories' == request()->path() ? 'active' : ''}}"><span>Manage Categories</span></a>
-              </li>      
-               <li><a href="{{route('categories.create')}}" class="{{ 'categories/create' == request()->path() ? 'active' : ''}}">Create Category</a></li>
-            </ul>
+          <ul class="nav">
+            <li>
+              <a href="{{url('categories')}}" class="{{ 'categories' == request()->path() ? 'active' : ''}}"><span>Manage Categories</span></a>
+            </li>      
+             <li><a href="{{route('categories.create')}}" class="{{ 'categories/create' == request()->path() ? 'active' : ''}}">Create Category</a></li>
+          </ul>
           </div>
+        </li>
+        <li>
+          <a href="{{url('slider')}}" class="{{ 'slider' == request()->path() ? 'active' : ''}}"><i class="fa fa-clone"></i> <span>Sliders</span></a>
         </li>
         <li>
           <a href="{{url('users')}}" class="{{ 'users' == request()->path() ? 'active' : ''}}"><i class="fa fa-users"></i> <span>User Lists</span></a>

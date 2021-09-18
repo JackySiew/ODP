@@ -9,7 +9,7 @@
   <div class="panel-body">
     <div class="table-responsive">
     @if (count($products)>0)
-    <table id="dataTable" class="table">
+    <table id="dataTable" class="table table-bordered">
     <thead>
       <th>Id</th>
       <th>Product Image</th>

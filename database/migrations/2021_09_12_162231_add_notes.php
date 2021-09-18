@@ -14,9 +14,8 @@ class AddNotes extends Migration
     public function up()
     {
         Schema::table('customize', function (Blueprint $table) {
-            $table->string('notes')->nullable();
+            $table->string('notes');
         });
-
     }
 
     /**

@@ -12,8 +12,7 @@
   </div>
   <div class="panel-body">
   <div class="table-responsive">
-    @if (count($customs)>0)
-    <table id="dataTable" class="table">
+    <table id="dataTable" class="table table-bordered">
     <thead>
       <th>Id</th>
       <th>Description</th>
@@ -23,9 +22,12 @@
       <th>Action</th>
     </thead>
     
+     
+      <tbody>
+      @if (count($customs)>0)
+
       @php $no = 1; @endphp
       @foreach ($customs as $custom)
-      <tbody>
       <td>{{$no++}}</td>
       <td>
         Task ID: {{$custom->custom_number}} <br>
@@ -70,16 +72,16 @@
         <p><a href="{{url('atask/'.$custom->id)}}" class="btn btn-primary">View</a></p>
       </div>
       </td>
-    </tbody>
       @endforeach
+      @else
+      <div class="text-center">
+        <h1>No customize task received. </h1>
+      </div>  
+    @endif
+    </tbody>
     </table>
     </div>
 
-    @else
-    <div class="text-center">
-      <h1>No customize task received. </h1>
-      </div>  
-    @endif
   </div>
 </div>
 

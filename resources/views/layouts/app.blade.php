@@ -18,7 +18,11 @@
 </head>
 <body>
     <div id="app">
-      @include('inc.navbar')
+      @guest
+        @include('inc.homenav')
+      @else
+        @include('inc.navbar')        
+      @endguest
         <main class="py-4 mb-5">
             <div class="@yield('class')">
                 @yield('content')
@@ -26,8 +30,8 @@
         </main>
     </div>
     @if ('chat' != request()->path())
-    <script src="https://apps.elfsight.com/p/platform.js" defer></script>
-    <div class="elfsight-app-b4b770df-5c1b-4038-9084-068e42445acc"></div>
+    {{-- <script src="https://apps.elfsight.com/p/platform.js" defer></script>
+    <div class="elfsight-app-b4b770df-5c1b-4038-9084-068e42445acc"></div> --}}
     <div id="fb-root"></div>
     <script>
       window.fbAsyncInit = function() {

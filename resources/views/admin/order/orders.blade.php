@@ -13,7 +13,7 @@
   <div class="panel-body">
     <div class="table-responsive">
     @if (count($orders)>0)
-    <table id="dataTable" class="table">
+    <table id="dataTable" class="table table-bordered">
     <thead>
       <th>ID</th>
       <th>Description</th>

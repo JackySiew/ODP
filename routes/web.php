@@ -104,6 +104,7 @@ Route::group(['middleware' => ['auth','admin']], function(){
     Route::get('/user-sales-pdf/{id}','PDFController@designerSalesReport');
     Route::resource('categories','CategoryController');
     Route::get('categories/delete/{id}','CategoryController@destroy');
+    Route::resource('slider','SliderController');
 });
 
 Auth::routes();
