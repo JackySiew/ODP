@@ -1,5 +1,6 @@
-<nav class="navbar navbar-expand-md navbar-light @yield('top') bg-warning shadow-sm">
-	<div class="container">
+{{-- <header id="header" class="fixed-top"> --}}
+<nav class="navbar navbar-expand-md navbar-light bg-warning shadow-sm @yield('top')">
+	<div class="container d-flex align-items-center">
 		<a class="navbar-brand" href="#">
 			Online Designer Platform
 		</a>
@@ -11,17 +12,17 @@
 			<!-- Left Side Of Navbar -->
 			<ul class="navbar-nav mr-auto">
 			  <li class="nav-item">
-				<a class="nav-link active" href="{{url('new-arrrival')}}">
+				<a class="nav-link active" href="#new-arrival">
 					New Arrival
 				</a>
 			  </li> 
 			  <li class="nav-item">
-					<a class="nav-link" href="{{url('about')}}">
+					<a class="nav-link" href="#about">
 						About Us
 					</a>
 			  </li>
 			  <li class="nav-item">
-				<a class="nav-link" href="{{url('contact')}}">
+				<a class="nav-link" href="#contact">
 					Contact us
 				</a>
 			  </li>

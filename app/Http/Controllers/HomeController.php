@@ -34,7 +34,8 @@ class HomeController extends Controller
         ->take(4)
         ->get();
         $sliders = Sliders::where('status','0')->get();
-        return view('home',compact('products','sliders'));
+        $designers = User::where('usertype','designer');
+        return view('home',compact('products','sliders','designers'));
     }
 
     //view all products

@@ -13,7 +13,15 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">    
+    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+    {{-- Home page vendors  --}}
+    <link href="{{ asset('homepage_assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('homepage_assets/vendor/icofont/icofont.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('homepage_assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('homepage_assets/vendor/animate.css/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('homepage_assets/vendor/owl.carousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('homepage_assets/vendor/venobox/venobox.css') }}" rel="stylesheet">
+    <link href="{{ asset('homepage_assets/vendor/aos/aos.css') }}" rel="stylesheet">
     @yield('extra-css')
 </head>
 <body>
